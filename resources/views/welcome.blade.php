@@ -20,7 +20,7 @@
         </style>
     </head>
     <body class="antialiased" style='background: url("images/Elefant1.jpg") no-repeat'>
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0 "  style='background: url("images/Elefant1.jpg") no-repeat center/cover'>
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 items-center sm:pt-0 "  style='background: url("images/Elefant1.jpg") no-repeat center/cover'>
             @if (Route::has('login'))
                 <div class=" fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
@@ -34,10 +34,16 @@
                     @endauth
                 </div>
             @endif
-           <div id="app">
-               <example-component></example-component>
+            <div id="app">
+                <div class="md:h-32 md:w-32 p-4 border-4 rounded-lg bg-gray-200 transform md:-translate-y-12 -translate-y-20">
+                    <p class="font-bold">
+                        Afrikkalainen elefantti tulee Afrikasta.
+                    </p>
+                </div>
+
+        
     
-             </div>
+            </div>
 
         </div>
     <script src="/js/app.js"></script>

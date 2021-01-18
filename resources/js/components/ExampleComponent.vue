@@ -3,21 +3,23 @@
         <font-awesome-icon icon="chevron-left" />
             <div class="month_box">
                 {{ date | diffForHumans }}
-                {{ months }}
-                <div class="month_pic">
-                    <ul>
-                        <li v-for="val in alldays" :key="val.id">{{ val.format('MMMM') }}</li>
-                    </ul> 
+                <div v-for="(month, index) in months" :key="index" v-bind="{ id:index+1 }">
+                    <div class="imag" v-bind="{ id:index+1 }">
+                        {{ month }}
+                    </div>
+                    <div class="days">
+                         <div class="calendar__day">M</div>
+                         <div class="calendar__day">T</div>
+                         <div class="calendar__day">W</div>
+                         <div class="calendar__day">T</div>
+                         <div class="calendar__day">F</div>
+                         <div class="calendar__day">S</div>
+                         <div class="calendar__day">S</div>
+                         <div v-for="day in alldays" v-if="day.format('M')==index+1">{{ day.format('D') }}
+                         </div>
+                    </div>
                 </div>
-                <div class="month">
-                     <div class="calendar__day">M</div>
-                     <div class="calendar__day">T</div>
-                     <div class="calendar__day">W</div>
-                     <div class="calendar__day">T</div>
-                     <div class="calendar__day">F</div>
-                     <div class="calendar__day">S</div>
-                     <div class="calendar__day">S</div>
-                </div>
+
 
 
             </div>
@@ -48,26 +50,34 @@
             this.months = dayjs().localeData().months()
         },
 
-        computed: {
-            alldays() {
+        computed:
+        {
+            alldays()
+            {
                 const start = new Date('2021-01-01')
                 const end = new Date('2021-12-31')
-                //this.getDatesBetweenDates(start,end)
-                return [dayjs(start), dayjs( end )] 
+                const between = this.getDatesBetweenDates(start, end)
+                return between
+                //return [dayjs(start), ...between, dayjs(end)]
             }
 
         },
 
-        methods: {
-            getDatesBetweenDates(start, end) {
+        methods:
+        {
+            getDatesBetweenDates(start, end)
+            {
                 let dates = []
-                const theDate = new Date(start)
-                while (theDate < end) {
-                    dates = [...dates, new Date(theDate)]
-                    theDate.setDate(theDate.getDate() + 1)
+                start = dayjs(start)
+                end = dayjs(end)
+                const tot_days = end.diff(start, 'd')
+                var i;
+                for (i = 0; i < tot_days; i++)
+                {
+                    dates = [...dates, start.add(i, 'd')]
                 }
-                console.log(dates)
-
+                dates = [...dates, end]
+                return dates
             }
         },
 
