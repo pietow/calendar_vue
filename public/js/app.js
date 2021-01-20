@@ -13903,6 +13903,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13918,21 +13925,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_4___default()));
     dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_6___default()));
     dayjs__WEBPACK_IMPORTED_MODULE_0___default().locale('de');
-    this.months = dayjs__WEBPACK_IMPORTED_MODULE_0___default()().localeData().months();
-  },
-  computed: {
-    alldays: function alldays() {
-      var start = new Date('2021-01-01');
-      var end = new Date('2021-12-31');
-      var between = this.getDatesBetweenDates(start, end);
-      return between; //return [dayjs(start), ...between, dayjs(end)]
-    }
+    this.now = dayjs__WEBPACK_IMPORTED_MODULE_0___default()();
+    this.months = dayjs__WEBPACK_IMPORTED_MODULE_0___default()().localeData().months().map(function (val, index) {
+      if (index.toString().length == 1) {
+        return ['0' + (index + 1).toString(), val];
+      } else {
+        return [index, val];
+      }
+    });
   },
   methods: {
-    getDatesBetweenDates: function getDatesBetweenDates(start, end) {
+    getDatesBetweenDates: function getDatesBetweenDates(start) {
       var dates = [];
       start = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(start);
-      end = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(end);
+      var end = start.add(1, 'M').subtract(1, 'd');
       var tot_days = end.diff(start, 'd');
       var i;
 
@@ -13942,6 +13948,32 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       dates = [].concat(_toConsumableArray(dates), [end]);
       return dates;
+    },
+    filterMonth: function filterMonth(month) {
+      var start = new Date('2021-' + month + '-01');
+      var between = this.getDatesBetweenDates(start);
+      var weekday = between[0].format('dddd');
+      between = between.map(function (val, index) {
+        return val.format('D');
+      });
+
+      if (weekday == 'Dienstag') {
+        return [''].concat(_toConsumableArray(between));
+      } else if (weekday == '') {
+        return [''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Mittwoch') {
+        return ['', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Donnerstag') {
+        return ['', '', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Freitag') {
+        return ['', '', '', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Samstag') {
+        return ['', '', '', '', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Sonntag') {
+        return ['', '', '', '', '', ''].concat(_toConsumableArray(between));
+      } else {
+        return between;
+      }
     }
   },
   filters: {
@@ -13956,7 +13988,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   data: function data() {
     return {
       date: "2019-05-13 13:52:15",
-      months: []
+      months: [],
+      now: ""
     };
   },
   mounted: function mounted() {
@@ -31568,76 +31601,111 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "flex items-center justify-center h-full" },
     [
       _c("font-awesome-icon", { attrs: { icon: "chevron-left" } }),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "month_box" },
-        [
-          _vm._v(
-            "\n            " +
-              _vm._s(_vm._f("diffForHumans")(_vm.date)) +
-              "\n            "
-          ),
-          _vm._l(_vm.months, function(month, index) {
-            return _c(
+        {
+          staticClass:
+            "month_box flex overflow-hidden w-1/2 sm:h-full sm:w-full"
+        },
+        _vm._l(_vm.months, function(month, index) {
+          return _c(
+            "div",
+            _vm._b(
+              { key: index, staticClass: "border-2 rounded-3xl flex-full " },
               "div",
-              _vm._b({ key: index }, "div", { id: index + 1 }, false),
-              [
-                _c(
+              { id: index + 1 },
+              false
+            ),
+            [
+              _c(
+                "div",
+                _vm._b(
+                  {
+                    staticClass:
+                      "bg-jan bg-cover rounded-t-2xl h-80 sm:h-2/3 bg-no-repeat bg-center"
+                  },
                   "div",
-                  _vm._b(
-                    { staticClass: "imag" },
-                    "div",
-                    { id: index + 1 },
-                    false
-                  ),
-                  [
+                  { id: index + 1 },
+                  false
+                ),
+                [
+                  _c("p", { staticClass: "pt-3 pl-1 font-semibold" }, [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(month) +
-                        "\n                "
+                        _vm._s(month[1]) +
+                        "\n                    "
                     )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "days" },
-                  [
-                    _c("div", { staticClass: "calendar__day" }, [_vm._v("M")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "calendar__day" }, [_vm._v("T")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "calendar__day" }, [_vm._v("W")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "calendar__day" }, [_vm._v("T")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "calendar__day" }, [_vm._v("F")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "calendar__day" }, [_vm._v("S")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "calendar__day" }, [_vm._v("S")]),
-                    _vm._v(" "),
-                    _vm._l(_vm.alldays, function(day) {
-                      return day.format("M") == index + 1
-                        ? _c("div", [
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "pt-2 pl-1 font-semibold" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.now.format("DD.MMMM YYYY")) +
+                        "\n                    "
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n                    gap-4"
+                },
+                [
+                  _c("div", { staticClass: "calendar__day text-red-500" }, [
+                    _vm._v("M")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "calendar__day text-red-500" }, [
+                    _vm._v("T")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "calendar__day text-red-500" }, [
+                    _vm._v("W")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "calendar__day text-red-500" }, [
+                    _vm._v("T")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "calendar__day text-red-500" }, [
+                    _vm._v("F")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "calendar__day text-red-500" }, [
+                    _vm._v("S")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "calendar__day text-red-500" }, [
+                    _vm._v("S")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.filterMonth(month[0]), function(day) {
+                    return _c("div", { staticClass: "hover:text-green-500" }, [
+                      day != 20
+                        ? _c("span", { staticClass: "text-grid-500" }, [
                             _vm._v(
-                              _vm._s(day.format("D")) +
-                                "\n                     "
+                              "\n                         " +
+                                _vm._s(day) +
+                                "\n                         "
                             )
                           ])
                         : _vm._e()
-                    })
-                  ],
-                  2
-                )
-              ]
-            )
-          })
-        ],
-        2
+                    ])
+                  })
+                ],
+                2
+              )
+            ]
+          )
+        }),
+        0
       ),
       _vm._v(" "),
       _c("font-awesome-icon", { attrs: { icon: "chevron-right" } })
