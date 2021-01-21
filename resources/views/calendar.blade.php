@@ -22,11 +22,12 @@
     </style>
 </head>
 
-<body class="antialiased">
-    <div id='app' class="bg-gray-100 dark:bg-gray-900 h-screen">
-        <example-component></example-component>
-
+<body class="antialiased flex items-center justify-center">
+    <div id='app' class="calendar w-1/2">
+        <example-component>
+        </example-component>
     </div>
+    <script src="https://kit.fontawesome.com/a4b21b2923.js" crossorigin="anonymous"></script>
     <script src="/js/app.js"></script>
 </body>
 

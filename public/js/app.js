@@ -13910,6 +13910,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13935,6 +13946,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     });
   },
   methods: {
+    shift: function shift() {
+      var direc = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'l';
+
+      if (direc == 'r') {
+        this.translate -= 100;
+      } else {
+        this.translate += 100;
+      }
+    },
     getDatesBetweenDates: function getDatesBetweenDates(start) {
       var dates = [];
       start = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(start);
@@ -13989,7 +14009,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     return {
       date: "2019-05-13 13:52:15",
       months: [],
-      now: ""
+      now: "",
+      translate: 0
     };
   },
   mounted: function mounted() {
@@ -31599,119 +31620,158 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "flex items-center justify-center h-full" },
-    [
-      _c("font-awesome-icon", { attrs: { icon: "chevron-left" } }),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "month_box flex overflow-hidden w-1/2 sm:h-full sm:w-full"
-        },
-        _vm._l(_vm.months, function(month, index) {
-          return _c(
+  return _c("div", { staticClass: "flex items-center" }, [
+    _c(
+      "div",
+      {
+        staticClass:
+          "rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer",
+        on: {
+          click: function($event) {
+            return _vm.shift("r")
+          }
+        }
+      },
+      [_c("font-awesome-icon", { attrs: { icon: "chevron-left" } })],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass:
+          "month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2"
+      },
+      _vm._l(_vm.months, function(month, index) {
+        return _c(
+          "div",
+          _vm._b(
+            {
+              key: index,
+              staticClass: "border-2 rounded-3xl flex-full transform ",
+              style: { transform: "translateX(" + _vm.translate + "%" }
+            },
             "div",
-            _vm._b(
-              { key: index, staticClass: "border-2 rounded-3xl flex-full " },
+            { id: index + 1 },
+            false
+          ),
+          [
+            _c(
               "div",
-              { id: index + 1 },
-              false
-            ),
-            [
-              _c(
-                "div",
-                _vm._b(
-                  {
-                    staticClass:
-                      "bg-jan bg-cover rounded-t-2xl h-80 sm:h-2/3 bg-no-repeat bg-center"
-                  },
-                  "div",
-                  { id: index + 1 },
-                  false
-                ),
-                [
-                  _c("p", { staticClass: "pt-3 pl-1 font-semibold" }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(month[1]) +
-                        "\n                    "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "pt-2 pl-1 font-semibold" }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.now.format("DD.MMMM YYYY")) +
-                        "\n                    "
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
+              _vm._b(
                 {
                   staticClass:
-                    "days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n                    gap-4"
+                    "bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center"
                 },
-                [
-                  _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("M")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("T")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("W")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("T")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("F")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("S")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("S")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.filterMonth(month[0]), function(day) {
-                    return _c("div", { staticClass: "hover:text-green-500" }, [
-                      day != 20
-                        ? _c("span", { staticClass: "text-grid-500" }, [
-                            _vm._v(
-                              "\n                         " +
-                                _vm._s(day) +
-                                "\n                         "
-                            )
-                          ])
-                        : _vm._e()
-                    ])
-                  })
-                ],
-                2
-              )
-            ]
-          )
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("font-awesome-icon", { attrs: { icon: "chevron-right" } })
-    ],
-    1
-  )
+                "div",
+                { id: index + 1 },
+                false
+              ),
+              [
+                _c(
+                  "p",
+                  { staticClass: "pt-3 pl-1 font-semibold text-red-500" },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(month[1]) +
+                        "\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "pt-2 pl-1 font-semibold text-red-500" },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.now.format("DD.MMMM YYYY")) +
+                        "\n                "
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n                gap-4"
+              },
+              [
+                _c("div", { staticClass: "calendar__day text-red-500" }, [
+                  _vm._v("M")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "calendar__day text-red-500" }, [
+                  _vm._v("T")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "calendar__day text-red-500" }, [
+                  _vm._v("W")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "calendar__day text-red-500" }, [
+                  _vm._v("T")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "calendar__day text-red-500" }, [
+                  _vm._v("F")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "calendar__day text-red-500" }, [
+                  _vm._v("S")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "calendar__day text-red-500" }, [
+                  _vm._v("S")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.filterMonth(month[0]), function(day) {
+                  return _c("div", { staticClass: "hover:text-green-500" }, [
+                    day == 20
+                      ? _c("span", { staticClass: "text-green-500" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(day) +
+                              "\n                    "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    day != 20
+                      ? _c("span", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(day) +
+                              "\n                    "
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                })
+              ],
+              2
+            )
+          ]
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass:
+          "rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer",
+        on: { click: _vm.shift }
+      },
+      [_c("font-awesome-icon", { attrs: { icon: "chevron-right" } })],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

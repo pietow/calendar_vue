@@ -1,36 +1,47 @@
 <template>
-    <div class="flex items-center justify-center h-full">
-        <font-awesome-icon icon="chevron-left" />
-            <div class="month_box flex overflow-hidden w-1/2 sm:h-full sm:w-full">
-                <div  class="border-2 rounded-3xl flex-full "v-for="(month, index) in months" :key="index" v-bind="{ id:index+1 }">
-                    <div class="bg-jan bg-cover rounded-t-2xl h-80 sm:h-2/3 bg-no-repeat bg-center" v-bind="{ id:index+1 }">
-                        <p class="pt-3 pl-1 font-semibold">
-                        {{ month[1] }}
-                        </p>
-                        <p class="pt-2 pl-1 font-semibold">
-                        {{ now.format('DD.MMMM YYYY') }}
-                        </p>
-                    </div>
-                    <div class="days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3
-                        gap-4">
-                         <div class="calendar__day text-red-500">M</div>
-                         <div class="calendar__day text-red-500">T</div>
-                         <div class="calendar__day text-red-500">W</div>
-                         <div class="calendar__day text-red-500">T</div>
-                         <div class="calendar__day text-red-500">F</div>
-                         <div class="calendar__day text-red-500">S</div>
-                         <div class="calendar__day text-red-500">S</div>
+    <div class="flex items-center">
 
-                         <div class="hover:text-green-500" v-for="day in filterMonth(month[0])" >
-                             <span class="text-grid-500"  v-if="day != 20">
-                             {{day}}
-                             </span>
+        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('r')">
+            <font-awesome-icon icon="chevron-left" />        
+        </div>
 
-                         </div v-bind:class>
+        <div class="month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2">
+            <div  class="border-2 rounded-3xl flex-full transform " v-for="(month, index) in months" :key="index" v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'%'}">
+
+                <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center" v-bind="{ id:index+1 }">
+                    <p class="pt-3 pl-1 font-semibold text-red-500">
+                    {{ month[1] }}
+                    </p>
+                    <p class="pt-2 pl-1 font-semibold text-red-500">
+                    {{ now.format('DD.MMMM YYYY') }}
+                    </p>
+                </div>
+                <div class="days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3
+                    gap-4">
+                    <div class="calendar__day text-red-500">M</div>
+                    <div class="calendar__day text-red-500">T</div>
+                    <div class="calendar__day text-red-500">W</div>
+                    <div class="calendar__day text-red-500">T</div>
+                    <div class="calendar__day text-red-500">F</div>
+                    <div class="calendar__day text-red-500">S</div>
+                    <div class="calendar__day text-red-500">S</div>
+
+                    <div class="hover:text-green-500" v-for="day in filterMonth(month[0])" >
+                        <span class="text-green-500"  v-if="day == 20">
+                            {{day}}
+                        </span>
+                        <span v-if="day != 20">
+                            {{day}}
+                        </span>
+
                     </div>
                 </div>
+
             </div>
-        <font-awesome-icon icon="chevron-right" />
+        </div>
+        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift">
+            <font-awesome-icon icon="chevron-right" />        
+        </div>
     </div>
 </template>
 
@@ -60,11 +71,11 @@
                 {
                     if (index.toString().length == 1)
                     {
-                        return [ '0' + (index + 1).toString(), val ]
+                        return ['0' + (index + 1).toString(), val]
                     }
                     else
                     {
-                        return [ index, val ]
+                        return [index, val]
                     }
                 }
             )
@@ -72,6 +83,16 @@
 
         methods:
         {
+            shift(direc='l')
+            {
+                if( direc=='r' ){
+                    this.translate -= 100
+                } else {
+                    this.translate += 100
+                }   
+                
+
+            },
             getDatesBetweenDates(start)
             {
                 let dates = []
@@ -92,7 +113,8 @@
                 let between = this.getDatesBetweenDates(start)
                 let weekday = between[0].format('dddd')
                 between = between.map(
-                    ( val, index  ) => {
+                    (val, index) =>
+                    {
                         return val.format('D')
                     }
                 )
@@ -134,11 +156,7 @@
                 {
                     return between
                 }
-
-
-
-
-            }
+            },
         },
 
         filters:
@@ -160,6 +178,7 @@
                 date: "2019-05-13 13:52:15",
                 months: [],
                 now: "",
+                translate: 0,
             }
         },
 
