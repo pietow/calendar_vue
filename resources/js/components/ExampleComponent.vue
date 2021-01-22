@@ -1,19 +1,17 @@
 <template>
     <div class="flex items-center">
-
         <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('r')">
             <font-awesome-icon icon="chevron-left" />        
         </div>
-
         <div class="month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2">
-            <div  class="border-2 rounded-3xl flex-full transform " v-for="(month, index) in months" :key="index" v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'%'}">
+            <div  class="border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000" v-for="(month, index) in months" :key="index"  v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'px'}" v-bind:ref="index+1">
 
                 <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center" v-bind="{ id:index+1 }">
                     <p class="pt-3 pl-1 font-semibold text-red-500">
-                    {{ month[1] }}
+                    {{ho_day}}.&nbsp;{{ month[1] }}
                     </p>
                     <p class="pt-2 pl-1 font-semibold text-red-500">
-                    {{ now.format('DD.MMMM YYYY') }}
+                    {{ now.format('DD. MMMM YYYY') }}
                     </p>
                 </div>
                 <div class="days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3
@@ -25,21 +23,18 @@
                     <div class="calendar__day text-red-500">F</div>
                     <div class="calendar__day text-red-500">S</div>
                     <div class="calendar__day text-red-500">S</div>
-
-                    <div class="hover:text-green-500" v-for="day in filterMonth(month[0])" >
-                        <span class="text-green-500"  v-if="day == 20">
+                    <div class="hover:text-green-500" v-for="day in filterMonth(month[0])" @mouseover="hover_date(day)">
+                        <span class="text-green-500"  v-if="day == now.format('DD')" >
                             {{day}}
                         </span>
-                        <span v-if="day != 20">
+                        <span v-if="day != now.format('DD')">
                             {{day}}
                         </span>
-
                     </div>
                 </div>
-
             </div>
         </div>
-        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift">
+        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('l')">
             <font-awesome-icon icon="chevron-right" />        
         </div>
     </div>
@@ -83,15 +78,34 @@
 
         methods:
         {
-            shift(direc='l')
+            hover_date(day)
             {
-                if( direc=='r' ){
-                    this.translate -= 100
-                } else {
-                    this.translate += 100
-                }   
+                if( day ){
+                    this.ho_day = day
+                }    
                 
-
+            },
+            shift(direc)
+            {
+                let elem = this.$refs[1][0]
+                let flex_basis = window.getComputedStyle(elem,null).getPropertyValue("width")
+                flex_basis = parseFloat(flex_basis)
+                if (direc == 'r' && this.translate > -11*flex_basis)
+                {
+                    this.translate -= (flex_basis)
+                }
+                else if(direc == 'r') 
+                {
+                    this.translate = 0
+                }
+                else if (direc == 'l' && this.translate == 0) 
+                {
+                    this.translate += -11*flex_basis 
+                }
+                else if(direc == 'l') 
+                {
+                    this.translate += flex_basis
+                }
             },
             getDatesBetweenDates(start)
             {
@@ -159,19 +173,6 @@
             },
         },
 
-        filters:
-        {
-            diffForHumans: (date) =>
-            {
-                if (!date)
-                {
-                    return null;
-                }
-
-                return dayjs(date).fromNow();
-            },
-        },
-
         data()
         {
             return {
@@ -179,13 +180,8 @@
                 months: [],
                 now: "",
                 translate: 0,
+                ho_day: "1",
             }
         },
-
-        mounted()
-        {
-            console.log('Component mounted.')
-        }
-
     }
 </script>

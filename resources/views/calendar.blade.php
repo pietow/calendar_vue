@@ -22,8 +22,8 @@
     </style>
 </head>
 
-<body class="antialiased flex items-center justify-center">
-    <div id='app' class="calendar w-1/2">
+<body class="h-screen antialiased flex items-center justify-center">
+    <div id='app' class="calendar m-auto w-1/2">
         <example-component>
         </example-component>
     </div>

@@ -13916,11 +13916,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -13946,13 +13941,24 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     });
   },
   methods: {
-    shift: function shift() {
-      var direc = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'l';
+    hover_date: function hover_date(day) {
+      if (day) {
+        this.ho_day = day;
+      }
+    },
+    shift: function shift(direc) {
+      var elem = this.$refs[1][0];
+      var flex_basis = window.getComputedStyle(elem, null).getPropertyValue("width");
+      flex_basis = parseFloat(flex_basis);
 
-      if (direc == 'r') {
-        this.translate -= 100;
-      } else {
-        this.translate += 100;
+      if (direc == 'r' && this.translate > -11 * flex_basis) {
+        this.translate -= flex_basis;
+      } else if (direc == 'r') {
+        this.translate = 0;
+      } else if (direc == 'l' && this.translate == 0) {
+        this.translate += -11 * flex_basis;
+      } else if (direc == 'l') {
+        this.translate += flex_basis;
       }
     },
     getDatesBetweenDates: function getDatesBetweenDates(start) {
@@ -13996,25 +14002,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     }
   },
-  filters: {
-    diffForHumans: function diffForHumans(date) {
-      if (!date) {
-        return null;
-      }
-
-      return dayjs__WEBPACK_IMPORTED_MODULE_0___default()(date).fromNow();
-    }
-  },
   data: function data() {
     return {
       date: "2019-05-13 13:52:15",
       months: [],
       now: "",
-      translate: 0
+      translate: 0,
+      ho_day: "1"
     };
-  },
-  mounted: function mounted() {
-    console.log('Component mounted.');
   }
 });
 
@@ -31648,8 +31643,11 @@ var render = function() {
           _vm._b(
             {
               key: index,
-              staticClass: "border-2 rounded-3xl flex-full transform ",
-              style: { transform: "translateX(" + _vm.translate + "%" }
+              ref: index + 1,
+              refInFor: true,
+              staticClass:
+                "border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000",
+              style: { transform: "translateX(" + _vm.translate + "px" }
             },
             "div",
             { id: index + 1 },
@@ -31674,6 +31672,8 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                " +
+                        _vm._s(_vm.ho_day) +
+                        ". " +
                         _vm._s(month[1]) +
                         "\n                "
                     )
@@ -31686,7 +31686,7 @@ var render = function() {
                   [
                     _vm._v(
                       "\n                " +
-                        _vm._s(_vm.now.format("DD.MMMM YYYY")) +
+                        _vm._s(_vm.now.format("DD. MMMM YYYY")) +
                         "\n                "
                     )
                   ]
@@ -31730,27 +31730,38 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _vm._l(_vm.filterMonth(month[0]), function(day) {
-                  return _c("div", { staticClass: "hover:text-green-500" }, [
-                    day == 20
-                      ? _c("span", { staticClass: "text-green-500" }, [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(day) +
-                              "\n                    "
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    day != 20
-                      ? _c("span", [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(day) +
-                              "\n                    "
-                          )
-                        ])
-                      : _vm._e()
-                  ])
+                  return _c(
+                    "div",
+                    {
+                      staticClass: "hover:text-green-500",
+                      on: {
+                        mouseover: function($event) {
+                          return _vm.hover_date(day)
+                        }
+                      }
+                    },
+                    [
+                      day == _vm.now.format("DD")
+                        ? _c("span", { staticClass: "text-green-500" }, [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(day) +
+                                "\n                    "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      day != _vm.now.format("DD")
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(day) +
+                                "\n                    "
+                            )
+                          ])
+                        : _vm._e()
+                    ]
+                  )
                 })
               ],
               2
@@ -31766,7 +31777,11 @@ var render = function() {
       {
         staticClass:
           "rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer",
-        on: { click: _vm.shift }
+        on: {
+          click: function($event) {
+            return _vm.shift("l")
+          }
+        }
       },
       [_c("font-awesome-icon", { attrs: { icon: "chevron-right" } })],
       1
