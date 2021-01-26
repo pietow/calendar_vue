@@ -23,11 +23,11 @@
                     <div class="calendar__day text-red-500">F</div>
                     <div class="calendar__day text-red-500">S</div>
                     <div class="calendar__day text-red-500">S</div>
-                    <div class="hover:text-green-500" v-for="day in filterMonth(month[0])" @mouseover="hover_date(day)">
-                        <span class="text-green-500"  v-if="day == now.format('DD')" >
+                    <div class="hover:text-green-500" v-for="day in filterMonth(month[0])" @mouseover="hover_date(day)" @click="showModal">
+                        <span class="text-green-500 cursor-pointer"  v-if="day == now.format('DD')" >
                             {{day}}
                         </span>
-                        <span v-if="day != now.format('DD')">
+                        <span class="cursor-pointer" v-if="day != now.format('DD')">
                             {{day}}
                         </span>
                     </div>
@@ -43,6 +43,8 @@
     <modal
       v-show="isModalVisible"
       @close="closeModal"
+      :day="ho_day"
+      :month="ho_month"
     />
     </div>
 </template>
@@ -69,7 +71,7 @@
                 translate: 0,
                 ho_day: "1",
                 ho_month: "",
-                isModalVisible: "true",
+                isModalVisible: false,
             }
         },
 
