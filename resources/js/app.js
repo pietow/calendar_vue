@@ -16,7 +16,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
+Vue.component('popup-component', require('./components/PopupComponent.vue').default);
+Vue.component('modal', require('./components/modal.vue').default);
 
 const app = new Vue({
     el: '#app',

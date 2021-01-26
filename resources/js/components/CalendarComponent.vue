@@ -4,7 +4,7 @@
             <font-awesome-icon icon="chevron-left" />        
         </div>
         <div class="month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2">
-            <div  class="border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000" v-for="(month, index) in months" :key="index"  v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'px'}" v-bind:ref="index+1">
+            <div  class="border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000" v-for="(month, index) in months" :key="index"  v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'px'}" v-bind:ref="index+1" @mouseover="hover_month(month)">
 
                 <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center" v-bind="{ id:index+1 }">
                     <p class="pt-3 pl-1 font-semibold text-red-500">
@@ -37,10 +37,18 @@
         <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('l')">
             <font-awesome-icon icon="chevron-right" />        
         </div>
+        <!--
+            <popup-component :day="ho_day" :month="ho_month"></popup-component>
+            -->
+    <modal
+      v-show="isModalVisible"
+      @close="closeModal"
+    />
     </div>
 </template>
 
 <script>
+    import modal from '../components/modal.vue';
     import dayjs from 'dayjs';
     import relativeTime from 'dayjs/plugin/relativeTime';
     import utc from 'dayjs/plugin/utc';
@@ -51,6 +59,19 @@
 
     export default
     {
+
+        data()
+        {
+            return {
+                date: "2019-05-13 13:52:15",
+                months: [],
+                now: "",
+                translate: 0,
+                ho_day: "1",
+                ho_month: "",
+                isModalVisible: "true",
+            }
+        },
 
         created()
         {
@@ -78,6 +99,23 @@
 
         methods:
         {
+            showModal() {
+            this.isModalVisible = true;
+            },
+            closeModal() {
+            this.isModalVisible = false;
+            },
+            test()
+            {
+                console.log('test')
+            },
+
+            hover_month(month)
+            {
+                console.log(month[0])
+                this.ho_month = month[0]
+                
+            },
             hover_date(day)
             {
                 if( day ){
@@ -173,15 +211,5 @@
             },
         },
 
-        data()
-        {
-            return {
-                date: "2019-05-13 13:52:15",
-                months: [],
-                now: "",
-                translate: 0,
-                ho_day: "1",
-            }
-        },
     }
 </script>
