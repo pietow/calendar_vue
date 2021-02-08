@@ -14,12 +14,12 @@
 <template>
   <div class="bg-gray-100 fixed bottom-0 top-0 right-0 left-0 bg-opacity-50 flex justify-center items-center" @click.self="close">
     <div class="shadow-2xl bg-white flex-col rounded-lg">
-        <div class="flex p-5 w-80 justify-between relative">
+        <div class="flex p-5 relative">
             <h1 class="font-bold">
                 Termin:
                 {{ day }}.{{month}} 2021
             </h1>
-            <div class="top-0 absolute right-5 cursor-pointer" @click="close">
+            <div class="top-5 absolute right-5 cursor-pointer" @click="close">
                 &#120;
             </div>
         </div>

@@ -13863,6 +13863,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dayjs_locale_de__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs_locale_de__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! dayjs/plugin/localeData */ "./node_modules/dayjs/plugin/localeData.js");
 /* harmony import */ var dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_8__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -13934,17 +13936,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       date: "2019-05-13 13:52:15",
       months: [],
       now: "",
+      width: "",
       translate: 0,
-      ho_day: "1",
+      ho_day: "",
       ho_month: "",
       isModalVisible: false
     };
+  },
+  mounted: function mounted() {
+    this.set_init();
   },
   created: function created() {
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_2___default()));
@@ -13954,6 +13961,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_7___default()));
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().locale('de');
     this.now = dayjs__WEBPACK_IMPORTED_MODULE_1___default()();
+    this.ho_day = this.now.format('DD');
+    window.addEventListener("resize", this.set_trans);
     this.months = dayjs__WEBPACK_IMPORTED_MODULE_1___default()().localeData().months().map(function (val, index) {
       if (index.toString().length == 1) {
         return ['0' + (index + 1).toString(), val];
@@ -13962,15 +13971,27 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     });
   },
+  destroyed: function destroyed() {
+    window.removeEventListener("resize", this.set_trans);
+  },
   methods: {
+    set_init: function set_init() {
+      var elem = this.$refs[1][0];
+      var flex_basis = window.getComputedStyle(elem, null).getPropertyValue("width");
+      this.width = parseFloat(flex_basis);
+      var month = this.now.format('M');
+      console.log(month);
+      this.translate = 0;
+      this.translate -= this.width * (month - 1);
+    },
+    set_trans: lodash__WEBPACK_IMPORTED_MODULE_8___default().debounce(function () {
+      this.set_init();
+    }, 400),
     showModal: function showModal() {
       this.isModalVisible = true;
     },
     closeModal: function closeModal() {
       this.isModalVisible = false;
-    },
-    test: function test() {
-      console.log('test');
     },
     hover_month: function hover_month(month) {
       console.log(month[0]);
@@ -14015,7 +14036,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var between = this.getDatesBetweenDates(start);
       var weekday = between[0].format('dddd');
       between = between.map(function (val, index) {
-        return val.format('D');
+        return val.format('DD');
       });
 
       if (weekday == 'Dienstag') {
@@ -31855,7 +31876,7 @@ var render = function() {
             "rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer",
           on: {
             click: function($event) {
-              return _vm.shift("r")
+              return _vm.shift("l")
             }
           }
         },
@@ -31912,7 +31933,7 @@ var render = function() {
                           _vm._s(_vm.ho_day) +
                           ". " +
                           _vm._s(month[1]) +
-                          "\n                "
+                          " 2021\n                "
                       )
                     ]
                   ),
@@ -32021,7 +32042,7 @@ var render = function() {
             "rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer",
           on: {
             click: function($event) {
-              return _vm.shift("l")
+              return _vm.shift("r")
             }
           }
         },
@@ -32130,7 +32151,7 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "shadow-2xl bg-white flex-col rounded-lg" }, [
-        _c("div", { staticClass: "flex p-5 w-80 justify-between relative" }, [
+        _c("div", { staticClass: "flex p-5 relative" }, [
           _c("h1", { staticClass: "font-bold" }, [
             _vm._v(
               "\n              Termin:\n              " +
@@ -32144,7 +32165,7 @@ var render = function() {
           _c(
             "div",
             {
-              staticClass: "top-0 absolute right-5 cursor-pointer",
+              staticClass: "top-5 absolute right-5 cursor-pointer",
               on: { click: _vm.close }
             },
             [_vm._v("\n              x\n          ")]

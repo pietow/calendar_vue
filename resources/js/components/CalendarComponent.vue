@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center">
-        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('r')">
+        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('l')">
             <font-awesome-icon icon="chevron-left" />        
         </div>
         <div class="month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2">
@@ -8,7 +8,7 @@
 
                 <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center" v-bind="{ id:index+1 }">
                     <p class="pt-3 pl-1 font-semibold text-red-500">
-                    {{ho_day}}.&nbsp;{{ month[1] }}
+                    {{ho_day}}.&nbsp;{{ month[1] }}&nbsp;2021
                     </p>
                     <p class="pt-2 pl-1 font-semibold text-red-500">
                     {{ now.format('DD. MMMM YYYY') }}
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('l')">
+        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('r')">
             <font-awesome-icon icon="chevron-right" />        
         </div>
         <!--
@@ -58,6 +58,7 @@
     import advancedFormat from 'dayjs/plugin/advancedFormat';
     import locale_de from 'dayjs/locale/de';
     import localeData from 'dayjs/plugin/localeData';
+    import _ from 'lodash'
 
     export default
     {
@@ -68,11 +69,16 @@
                 date: "2019-05-13 13:52:15",
                 months: [],
                 now: "",
+                width: "",
                 translate: 0,
-                ho_day: "1",
+                ho_day: "",
                 ho_month: "",
                 isModalVisible: false,
             }
+        },
+
+        mounted: function() {
+            this.set_init()
         },
 
         created()
@@ -84,6 +90,10 @@
             dayjs.extend(localeData);
             dayjs.locale('de');
             this.now = dayjs()
+            this.ho_day = this.now.format('DD')
+            window.addEventListener("resize", this.set_trans);
+            
+
             this.months = dayjs().localeData().months().map(
                 (val, index) =>
                 {
@@ -99,19 +109,30 @@
             )
         },
 
+        destroyed() {
+            window.removeEventListener("resize", this.set_trans);
+        },
+
         methods:
         {
+            set_init: function() { 
+                let elem = this.$refs[1][0]
+                let flex_basis = window.getComputedStyle(elem,null).getPropertyValue("width")
+                this.width = parseFloat(flex_basis)
+                let month = this.now.format('M')
+                console.log(month)
+                this.translate = 0
+                this.translate -= (this.width)*(month-1)
+            },
+            set_trans: _.debounce(function() {
+                this.set_init()
+            }, 400),
             showModal() {
             this.isModalVisible = true;
             },
             closeModal() {
             this.isModalVisible = false;
             },
-            test()
-            {
-                console.log('test')
-            },
-
             hover_month(month)
             {
                 console.log(month[0])
@@ -169,7 +190,7 @@
                 between = between.map(
                     (val, index) =>
                     {
-                        return val.format('D')
+                        return val.format('DD')
                     }
                 )
                 if (weekday == 'Dienstag')
