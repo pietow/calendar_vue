@@ -15,10 +15,14 @@ use App\Http\Controllers\Api\EventController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
-});
+})->middleware('auth:api');
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('events', EventController::class);
+});
+
+Route::get('/test', function (Request $request) {
+    return $request;
 });

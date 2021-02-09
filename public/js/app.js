@@ -13952,6 +13952,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   mounted: function mounted() {
     this.set_init();
+    axios.get('/api/user').then(function (response) {
+      console.log(response.data);
+    });
   },
   created: function created() {
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_2___default()));
@@ -13979,8 +13982,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var elem = this.$refs[1][0];
       var flex_basis = window.getComputedStyle(elem, null).getPropertyValue("width");
       this.width = parseFloat(flex_basis);
-      var month = this.now.format('M');
-      console.log(month);
+      var month = this.now.format('M'); //console.log(month)
+
       this.translate = 0;
       this.translate -= this.width * (month - 1);
     },
@@ -13994,7 +13997,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.isModalVisible = false;
     },
     hover_month: function hover_month(month) {
-      console.log(month[0]);
       this.ho_month = month[0];
     },
     hover_date: function hover_date(day) {

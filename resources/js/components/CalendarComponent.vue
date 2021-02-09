@@ -79,6 +79,10 @@
 
         mounted: function() {
             this.set_init()
+            axios.get('/api/user')
+                .then(response => {
+                    console.log(response.data);
+                });
         },
 
         created()
@@ -120,7 +124,7 @@
                 let flex_basis = window.getComputedStyle(elem,null).getPropertyValue("width")
                 this.width = parseFloat(flex_basis)
                 let month = this.now.format('M')
-                console.log(month)
+                //console.log(month)
                 this.translate = 0
                 this.translate -= (this.width)*(month-1)
             },
@@ -135,7 +139,6 @@
             },
             hover_month(month)
             {
-                console.log(month[0])
                 this.ho_month = month[0]
                 
             },
