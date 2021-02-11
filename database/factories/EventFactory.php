@@ -23,8 +23,7 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
-            'date' => $this->faker->date(),
-            'time' => $this->faker->time(),            
+            'dateTime' => $this->faker->dateTimeThisYear(),            
             'description' => $this->faker->sentence(),
             'user_id' => 1,
             //'user_id' => function() {

@@ -74,19 +74,26 @@
                 ho_day: "",
                 ho_month: "",
                 isModalVisible: false,
+                events: [],
             }
         },
 
         mounted: function() {
             this.set_init()
-            axios.get('/api/user')
-                .then(response => {
-                    console.log(response.data);
-                });
         },
 
         created()
         {
+            axios.get('/api/event')
+                .then(response => {
+                    this.events = response.data.map(
+                        (val, index) => 
+                        {
+                            val.dateTime = dayjs(new Date(val.dateTime))                            
+                            return val
+                        }
+                    )
+                })
             dayjs.extend(relativeTime);
             dayjs.extend(timezone);
             dayjs.extend(utc);
@@ -175,6 +182,9 @@
             {
                 let dates = []
                 start = dayjs(start)
+                console.log(start.format('D.M.YYYY'))
+                console.log(this.events[1])
+//                console.log(start.isSame(this.events.dateTime, 'day'))
                 let end = start.add(1, 'M').subtract(1, 'd')
                 const tot_days = end.diff(start, 'd')
                 var i;
@@ -189,6 +199,7 @@
             {
                 const start = new Date('2021-' + month + '-01')
                 let between = this.getDatesBetweenDates(start)
+
                 let weekday = between[0].format('dddd')
                 between = between.map(
                     (val, index) =>

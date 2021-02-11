@@ -13947,16 +13947,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       translate: 0,
       ho_day: "",
       ho_month: "",
-      isModalVisible: false
+      isModalVisible: false,
+      events: []
     };
   },
   mounted: function mounted() {
     this.set_init();
-    axios.get('/api/user').then(function (response) {
-      console.log(response.data);
-    });
   },
   created: function created() {
+    var _this = this;
+
+    axios.get('/api/event').then(function (response) {
+      _this.events = response.data.map(function (val, index) {
+        val.dateTime = dayjs__WEBPACK_IMPORTED_MODULE_1___default()(new Date(val.dateTime));
+        return val;
+      });
+    });
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_2___default()));
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_timezone__WEBPACK_IMPORTED_MODULE_4___default()));
     dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_3___default()));
@@ -14022,6 +14028,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     getDatesBetweenDates: function getDatesBetweenDates(start) {
       var dates = [];
       start = dayjs__WEBPACK_IMPORTED_MODULE_1___default()(start);
+      console.log(start.format('D.M.YYYY'));
+      console.log(this.events[1]); //                console.log(start.isSame(this.events.dateTime, 'day'))
+
       var end = start.add(1, 'M').subtract(1, 'd');
       var tot_days = end.diff(start, 'd');
       var i;

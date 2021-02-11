@@ -20,7 +20,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::middleware('auth:api')->group(function () {
-    Route::apiResource('events', EventController::class);
+    Route::apiResource('event', EventController::class);
 });
 
 Route::get('/test', function (Request $request) {
