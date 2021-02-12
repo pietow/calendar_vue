@@ -4,7 +4,7 @@
             <font-awesome-icon icon="chevron-left" />        
         </div>
         <div class="month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2">
-            <div  class="border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000" v-for="(month, index) in months" :key="index"  v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'px'}" v-bind:ref="index+1" @mouseover="hover_month(month)">
+            <div  class="border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000" v-for="(month, index) in months" :key="index"  v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'px'}" v-bind:ref="month[1]" @mouseover="hover_month(month)">
 
                 <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center" v-bind="{ id:index+1 }">
                     <p class="pt-3 pl-1 font-semibold text-red-500">
@@ -75,16 +75,17 @@
                 ho_month: "",
                 isModalVisible: false,
                 events: [],
+                eventLoaded: false,
             }
         },
 
         mounted: function() {
-            this.set_init()
+            //this.set_init()
         },
 
-        created()
+        async created()
         {
-            axios.get('/api/event')
+            await axios.get('/api/event')
                 .then(response => {
                     this.events = response.data.map(
                         (val, index) => 
@@ -93,7 +94,12 @@
                             return val
                         }
                     )
-                })
+                    this.eventLoaded = true
+            })
+            this.$nextTick(() => {
+                 console.log(this.$refs)
+            })
+            console.log(this.eventLoaded)
             dayjs.extend(relativeTime);
             dayjs.extend(timezone);
             dayjs.extend(utc);
@@ -103,7 +109,6 @@
             this.now = dayjs()
             this.ho_day = this.now.format('DD')
             window.addEventListener("resize", this.set_trans);
-            
 
             this.months = dayjs().localeData().months().map(
                 (val, index) =>
@@ -182,8 +187,8 @@
             {
                 let dates = []
                 start = dayjs(start)
-                console.log(start.format('D.M.YYYY'))
-                console.log(this.events[1])
+                //console.log(start.format('D.M.YYYY'))
+//                console.log(this.events[1])
 //                console.log(start.isSame(this.events.dateTime, 'day'))
                 let end = start.add(1, 'M').subtract(1, 'd')
                 const tot_days = end.diff(start, 'd')
