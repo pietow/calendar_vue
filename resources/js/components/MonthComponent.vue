@@ -18,8 +18,8 @@
             <div class="calendar__day text-red-500">S</div>
             <div class="calendar__day text-red-500">S</div>
 
-            <div v-for="day in filterItems(month[0])">
-                {{day}}
+            <div v-for="day in filterMonth()">
+                 {{day}}
             </div>
 
         </div>
@@ -43,39 +43,93 @@
         {
           return {
               date: "2019-05-13 13:52:15",
-              month: ['01', 1],
               now: "",
               width: "",
               ho_day: "",
               ho_month: "",
               isModalVisible: false,
               eventLoaded: false,
-              day: [],
+              days: [],
           }
         },
+      props:{
+        month: {
+          type:String
+        }
+      },
       created: function () {
-            dayjs.extend(relativeTime)
-            dayjs.extend(timezone)
-            dayjs.extend(utc)
-            dayjs.extend(advancedFormat)
-            dayjs.extend(localeData)
+            // dayjs.extend(relativeTime)
+            // dayjs.extend(timezone)
+            // dayjs.extend(utc)
+            // dayjs.extend(advancedFormat)
+            // dayjs.extend(localeData)
+            console.log(this.month)
             dayjs.locale('de')
             this.now = dayjs()
             this.ho_day = this.now.format('DD')
+
+            let start = new Date('2021-' + this.month + '-01')
+            start = dayjs(start)
+            let end = start.add(1, 'M').subtract(1, 'd')
+            let dates = []
+            const tot_days = end.diff(start, 'd')
+            for (var i = 0; i < tot_days; i++)
+            {
+                dates = [...dates, start.add(i, 'd')]
+            }
+            this.days = [...dates, end]
       },
       methods: {
-            filterItems: function(month) {
-                let start = new Date('2021-' + '01'+ '-01')
-                start = dayjs(start)
-                let end = start.add(1, 'M').subtract(1, 'd')
-                const tot_days = end.diff(start, 'd')
-                var i;
-                for (i = 0; i < tot_days; i++)
+            filterMonth()
+            {
+                let between = this.days
+
+                let weekday = between[0].format('dddd')
+                between = between.map(
+                    (val, index) =>
+                    {
+                        return val.format('DD')
+                    }
+                )
+                if (weekday == 'Dienstag')
                 {
-                    this.day = [...this.day, start.add(i, 'd')]
+                    return ['', ...between]
                 }
-                return [...this.day, end]
-            }
-        }
+                else if (weekday == '')
+                {
+                    return ['', ...between]
+                }
+                else if (weekday == 'Mittwoch')
+                {
+                    return ['', '', ...between]
+                }
+                else if (weekday == 'Donnerstag')
+                {
+                    return ['', '', '', ...between]
+                }
+                else if (weekday == 'Freitag')
+                {
+                    return ['', '', '', '',
+                        ...between
+                    ]
+                }
+                else if (weekday == 'Samstag')
+                {
+                    return ['', '', '', '',
+                        '', ...between
+                    ]
+                }
+                else if (weekday == 'Sonntag')
+                {
+                    return ['', '', '', '',
+                        '', '', ...between
+                    ]
+                }
+                else
+                {
+                    return between
+                }
+            },
+      }
     }
 </script>

@@ -27,7 +27,7 @@
     <div id='app' class="calendar m-auto w-1/2">
         {{-- <calendar-component ref="calendar"> --}}
         {{-- </calendar-component> --}}
-      <month-component> </month-component>
+      <month-component :month="'02'"> </month-component>
     <!--
         <button id="external-button" @click="$refs.calendar.test()">External Button</button>
     --!>

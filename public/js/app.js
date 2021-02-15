@@ -14191,39 +14191,67 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   data: function data() {
     return {
       date: "2019-05-13 13:52:15",
-      month: ['01', 1],
       now: "",
       width: "",
       ho_day: "",
       ho_month: "",
       isModalVisible: false,
       eventLoaded: false,
-      day: []
+      days: []
     };
   },
+  props: {
+    month: {
+      type: String
+    }
+  },
   created: function created() {
-    dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_1___default()));
-    dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_timezone__WEBPACK_IMPORTED_MODULE_3___default()));
-    dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_2___default()));
-    dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_4___default()));
-    dayjs__WEBPACK_IMPORTED_MODULE_0___default().extend((dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_6___default()));
+    // dayjs.extend(relativeTime)
+    // dayjs.extend(timezone)
+    // dayjs.extend(utc)
+    // dayjs.extend(advancedFormat)
+    // dayjs.extend(localeData)
+    console.log(this.month);
     dayjs__WEBPACK_IMPORTED_MODULE_0___default().locale('de');
     this.now = dayjs__WEBPACK_IMPORTED_MODULE_0___default()();
     this.ho_day = this.now.format('DD');
+    var start = new Date('2021-' + this.month + '-01');
+    start = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(start);
+    var end = start.add(1, 'M').subtract(1, 'd');
+    var dates = [];
+    var tot_days = end.diff(start, 'd');
+
+    for (var i = 0; i < tot_days; i++) {
+      dates = [].concat(_toConsumableArray(dates), [start.add(i, 'd')]);
+    }
+
+    this.days = [].concat(_toConsumableArray(dates), [end]);
   },
   methods: {
-    filterItems: function filterItems(month) {
-      var start = new Date('2021-' + '01' + '-01');
-      start = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(start);
-      var end = start.add(1, 'M').subtract(1, 'd');
-      var tot_days = end.diff(start, 'd');
-      var i;
+    filterMonth: function filterMonth() {
+      var between = this.days;
+      var weekday = between[0].format('dddd');
+      between = between.map(function (val, index) {
+        return val.format('DD');
+      });
 
-      for (i = 0; i < tot_days; i++) {
-        this.day = [].concat(_toConsumableArray(this.day), [start.add(i, 'd')]);
+      if (weekday == 'Dienstag') {
+        return [''].concat(_toConsumableArray(between));
+      } else if (weekday == '') {
+        return [''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Mittwoch') {
+        return ['', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Donnerstag') {
+        return ['', '', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Freitag') {
+        return ['', '', '', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Samstag') {
+        return ['', '', '', '', ''].concat(_toConsumableArray(between));
+      } else if (weekday == 'Sonntag') {
+        return ['', '', '', '', '', ''].concat(_toConsumableArray(between));
+      } else {
+        return between;
       }
-
-      return [].concat(_toConsumableArray(this.day), [end]);
     }
   }
 });
@@ -33137,9 +33165,9 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("S")]),
         _vm._v(" "),
-        _vm._l(_vm.filterItems(_vm.month[0]), function(day) {
+        _vm._l(_vm.filterMonth(), function(day) {
           return _c("div", [
-            _vm._v("\n            " + _vm._s(day) + "\n        ")
+            _vm._v("\n             " + _vm._s(day) + "\n        ")
           ])
         })
       ],
