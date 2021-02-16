@@ -25,9 +25,10 @@
 
 <body class="h-screen antialiased flex items-center justify-center">
     <div id='app' class="calendar m-auto w-1/2">
+        <month-container></month-container>
         {{-- <calendar-component ref="calendar"> --}}
         {{-- </calendar-component> --}}
-      <month-component :month="'02'"> </month-component>
+      {{-- <month-component :month="'02'"> </month-component> --}}
     <!--
         <button id="external-button" @click="$refs.calendar.test()">External Button</button>
     --!>

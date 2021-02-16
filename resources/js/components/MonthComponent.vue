@@ -68,6 +68,19 @@
             this.now = dayjs()
             this.ho_day = this.now.format('DD')
 
+            // let start = new Date('2021-' + this.month + '-01')
+            // start = dayjs(start)
+            // let end = start.add(1, 'M').subtract(1, 'd')
+            // let dates = []
+            // const tot_days = end.diff(start, 'd')
+            // for (var i = 0; i < tot_days; i++)
+            // {
+            //     dates = [...dates, start.add(i, 'd')]
+            // }
+            // this.days = [...dates, end]
+      },
+      computed:{
+        newMonth: function(){
             let start = new Date('2021-' + this.month + '-01')
             start = dayjs(start)
             let end = start.add(1, 'M').subtract(1, 'd')
@@ -78,6 +91,7 @@
                 dates = [...dates, start.add(i, 'd')]
             }
             this.days = [...dates, end]
+        }
       },
       methods: {
             filterMonth()
