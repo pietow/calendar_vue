@@ -14180,6 +14180,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 
 
@@ -14197,11 +14198,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       ho_month: "",
       isModalVisible: false,
       eventLoaded: false,
-      days: []
+      days: [],
+      month: this.propMonth
     };
   },
   props: {
-    month: {
+    propMonth: {
       type: String
     }
   },
@@ -14224,23 +14226,27 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     //     dates = [...dates, start.add(i, 'd')]
     // }
     // this.days = [...dates, end]
+
+    this.between();
   },
-  computed: {
-    newMonth: function newMonth() {
+  methods: {
+    between: function between(month) {
+      if (month) {
+        this.month = month;
+      }
+
       var start = new Date('2021-' + this.month + '-01');
       start = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(start);
       var end = start.add(1, 'M').subtract(1, 'd');
-      var dates = [];
+      this.days = [];
       var tot_days = end.diff(start, 'd');
 
       for (var i = 0; i < tot_days; i++) {
-        dates = [].concat(_toConsumableArray(dates), [start.add(i, 'd')]);
+        this.days.push(start.add(i, 'd'));
       }
 
-      this.days = [].concat(_toConsumableArray(dates), [end]);
-    }
-  },
-  methods: {
+      this.days.push(end);
+    },
     filterMonth: function filterMonth() {
       var between = this.days;
       var weekday = between[0].format('dddd');
@@ -14304,6 +14310,10 @@ __webpack_require__.r(__webpack_exports__);
     next: function next() {
       if (this.month.length - 1 > this.index) {
         this.index++;
+        console.log();
+        var month = this.month[this.index];
+        console.log(this.$refs.child.days);
+        this.$refs.child.between(month);
       }
     }
   }
@@ -33255,18 +33265,12 @@ var render = function() {
             "\n        " +
               _vm._s(_vm.ho_day) +
               ". " +
-              _vm._s(_vm.month[0]) +
+              _vm._s(_vm.month) +
               " 2021\n        "
           )
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "pt-2 pl-1 font-semibold text-red-500" }, [
-          _vm._v(
-            "\n        " +
-              _vm._s(_vm.now.format("DD. MMMM YYYY")) +
-              "\n        "
-          )
-        ])
+        _c("p", { staticClass: "pt-2 pl-1 font-semibold text-red-500" })
       ]
     ),
     _vm._v(" "),
@@ -33329,9 +33333,12 @@ var render = function() {
     [
       _c("p", [_vm._v(_vm._s(_vm.month[_vm.index]) + " ")]),
       _vm._v(" "),
-      _c("month-component", { attrs: { month: _vm.month[_vm.index] } }),
+      _c("month-component", {
+        ref: "child",
+        attrs: { propMonth: _vm.month[_vm.index] }
+      }),
       _vm._v(" "),
-      _c("div", { on: { click: _vm.next } }, [_vm._v("add")])
+      _c("button", { on: { click: _vm.next } }, [_vm._v("add")])
     ],
     1
   )

@@ -2,8 +2,8 @@
   <div>
 
     <p>{{ month[index] }} </p>
-    <month-component :month="month[index]"></month-component>
-    <div @click="next">add</div>
+    <month-component :propMonth="month[index]" ref="child"></month-component>
+    <button @click="next">add</button>
   </div>
 </template>
 
@@ -22,6 +22,11 @@ export default {
     next: function(){
       if (this.month.length-1 > this.index) {
         this.index ++
+        console.log()
+        let month = (this.month[this.index])
+        console.log(this.$refs.child.days)
+        this.$refs.child.between(month)
+
       }
     }
   }

@@ -2,10 +2,10 @@
     <div>
         <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center">
             <p class="pt-3 pl-1 font-semibold text-red-500">
-            {{ho_day}}.&nbsp;{{ month[0] }}&nbsp;2021
+            {{ho_day}}.&nbsp;{{ month }}&nbsp;2021
             </p>
             <p class="pt-2 pl-1 font-semibold text-red-500">
-            {{ now.format('DD. MMMM YYYY') }}
+            <!-- {{ now.format('DD. MMMM YYYY') }} -->
             </p>
         </div>
         <div class="days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3
@@ -21,6 +21,7 @@
             <div v-for="day in filterMonth()">
                  {{day}}
             </div>
+            <!-- <button @click="between">child</button> -->
 
         </div>
     </div>
@@ -50,10 +51,11 @@
               isModalVisible: false,
               eventLoaded: false,
               days: [],
+              month: this.propMonth,
           }
         },
       props:{
-        month: {
+        propMonth: {
           type:String
         }
       },
@@ -78,22 +80,25 @@
             //     dates = [...dates, start.add(i, 'd')]
             // }
             // this.days = [...dates, end]
+            this.between()
       },
-      computed:{
-        newMonth: function(){
+      methods: {
+        between(month){
+          if (month) {
+            this.month = month
+          }
             let start = new Date('2021-' + this.month + '-01')
             start = dayjs(start)
             let end = start.add(1, 'M').subtract(1, 'd')
-            let dates = []
+            this.days = []
             const tot_days = end.diff(start, 'd')
             for (var i = 0; i < tot_days; i++)
             {
-                dates = [...dates, start.add(i, 'd')]
+                this.days.push(start.add(i, 'd'))
             }
-            this.days = [...dates, end]
-        }
-      },
-      methods: {
+            this.days.push(end)
+
+        },
             filterMonth()
             {
                 let between = this.days
