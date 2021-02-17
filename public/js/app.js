@@ -14127,18 +14127,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs/plugin/relativeTime */ "./node_modules/dayjs/plugin/relativeTime.js");
-/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/utc */ "./node_modules/dayjs/plugin/utc.js");
-/* harmony import */ var dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var dayjs_plugin_timezone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dayjs/plugin/timezone */ "./node_modules/dayjs/plugin/timezone.js");
-/* harmony import */ var dayjs_plugin_timezone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_timezone__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dayjs/plugin/advancedFormat */ "./node_modules/dayjs/plugin/advancedFormat.js");
-/* harmony import */ var dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var dayjs_locale_de__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dayjs/locale/de */ "./node_modules/dayjs/locale/de.js");
-/* harmony import */ var dayjs_locale_de__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dayjs_locale_de__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dayjs/plugin/localeData */ "./node_modules/dayjs/plugin/localeData.js");
-/* harmony import */ var dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_localeData__WEBPACK_IMPORTED_MODULE_6__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -14179,21 +14167,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
-
-
-
-
-
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       date: "2019-05-13 13:52:15",
       now: "",
-      width: "",
       ho_day: "",
       ho_month: "",
       isModalVisible: false,
@@ -14208,25 +14187,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   created: function created() {
-    // dayjs.extend(relativeTime)
-    // dayjs.extend(timezone)
-    // dayjs.extend(utc)
-    // dayjs.extend(advancedFormat)
-    // dayjs.extend(localeData)
     console.log(this.month);
     dayjs__WEBPACK_IMPORTED_MODULE_0___default().locale('de');
     this.now = dayjs__WEBPACK_IMPORTED_MODULE_0___default()();
-    this.ho_day = this.now.format('DD'); // let start = new Date('2021-' + this.month + '-01')
-    // start = dayjs(start)
-    // let end = start.add(1, 'M').subtract(1, 'd')
-    // let dates = []
-    // const tot_days = end.diff(start, 'd')
-    // for (var i = 0; i < tot_days; i++)
-    // {
-    //     dates = [...dates, start.add(i, 'd')]
-    // }
-    // this.days = [...dates, end]
-
+    this.ho_day = this.now.format('DD');
     this.between();
   },
   methods: {
@@ -14297,12 +14261,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// import month-container from '../components/MonthContainer.vue';
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      greeting: "Hello",
-      month: ['01', '02', '03'],
+      month: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       index: 0
     };
   },
@@ -14310,11 +14275,24 @@ __webpack_require__.r(__webpack_exports__);
     next: function next() {
       if (this.month.length - 1 > this.index) {
         this.index++;
-        console.log();
-        var month = this.month[this.index];
-        console.log(this.$refs.child.days);
-        this.$refs.child.between(month);
+        this.rerenderDay();
+      } else {
+        this.index = 0;
+        this.rerenderDay();
       }
+    },
+    prev: function prev() {
+      if (0 < this.index) {
+        this.index--;
+        this.rerenderDay();
+      } else {
+        this.index = this.month.length - 1;
+        this.rerenderDay();
+      }
+    },
+    rerenderDay: function rerenderDay() {
+      var month = this.month[this.index];
+      this.$refs.child.between(month);
     }
   }
 });
@@ -33252,7 +33230,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "w-full border-2 rounded-3xl" }, [
     _c(
       "div",
       {
@@ -33266,11 +33244,17 @@ var render = function() {
               _vm._s(_vm.ho_day) +
               ". " +
               _vm._s(_vm.month) +
-              " 2021\n        "
+              ". 2021\n        "
           )
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "pt-2 pl-1 font-semibold text-red-500" })
+        _c("p", { staticClass: "pt-2 pl-1 font-semibold text-red-500" }, [
+          _vm._v(
+            "\n        " +
+              _vm._s(_vm.now.format("DD. MMMM YYYY")) +
+              "\n        "
+          )
+        ])
       ]
     ),
     _vm._v(" "),
@@ -33278,7 +33262,7 @@ var render = function() {
       "div",
       {
         staticClass:
-          "days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n        gap-4"
+          "days x-2 h-80 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n        gap-4"
       },
       [
         _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("M")]),
@@ -33330,15 +33314,34 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "flex items-center" },
     [
-      _c("p", [_vm._v(_vm._s(_vm.month[_vm.index]) + " ")]),
+      _c(
+        "div",
+        {
+          staticClass:
+            "rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer",
+          on: { click: _vm.prev }
+        },
+        [_c("font-awesome-icon", { attrs: { icon: "chevron-left" } })],
+        1
+      ),
       _vm._v(" "),
       _c("month-component", {
         ref: "child",
         attrs: { propMonth: _vm.month[_vm.index] }
       }),
       _vm._v(" "),
-      _c("button", { on: { click: _vm.next } }, [_vm._v("add")])
+      _c(
+        "div",
+        {
+          staticClass:
+            "rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer",
+          on: { click: _vm.next }
+        },
+        [_c("font-awesome-icon", { attrs: { icon: "chevron-right" } })],
+        1
+      )
     ],
     1
   )

@@ -1,20 +1,20 @@
 <template>
-  <div>
-
-    <p>{{ month[index] }} </p>
+  <div class="flex items-center">
+        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="prev">
+            <font-awesome-icon icon="chevron-left" />        
+        </div>
     <month-component :propMonth="month[index]" ref="child"></month-component>
-    <button @click="next">add</button>
+        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="next">
+            <font-awesome-icon icon="chevron-right" />        
+        </div>
   </div>
 </template>
 
 <script>
-// import month-container from '../components/MonthContainer.vue';
-
 export default {
   data: function() {
     return {
-      greeting: "Hello",
-      month: ['01', '02','03'],
+      month: ['01', '02','03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       index: 0
     };
   },
@@ -22,12 +22,24 @@ export default {
     next: function(){
       if (this.month.length-1 > this.index) {
         this.index ++
-        console.log()
-        let month = (this.month[this.index])
-        console.log(this.$refs.child.days)
-        this.$refs.child.between(month)
-
+        this.rerenderDay()
+      } else {
+        this.index = 0
+        this.rerenderDay()
       }
+    },
+    prev: function(){
+      if (0 < this.index){
+        this.index --
+        this.rerenderDay()
+      } else {
+        this.index = this.month.length-1
+        this.rerenderDay()
+      }
+    },
+    rerenderDay: function(){
+        let month = this.month[this.index]
+        this.$refs.child.between(month)
     }
   }
 };

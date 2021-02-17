@@ -8,7 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "pretest": "eslint --ignore-path .gitignore ."
+        "pretest": "eslint --ext .vue --ignore-path .gitignore ."
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.2.1",
@@ -17,6 +17,7 @@
         "axios": "^0.21",
         "eslint": "^7.20.0",
         "eslint-config-strongloop": "^2.1.0",
+        "eslint-plugin-vue": "^7.6.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.20",
         "postcss": "^8.2.1",
