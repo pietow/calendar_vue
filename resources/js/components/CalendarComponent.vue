@@ -1,52 +1,93 @@
 <template>
-    <div class="flex items-center">
-        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('l')">
-            <font-awesome-icon icon="chevron-left" />        
+  <div class="flex items-center">
+    <div
+      class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer"
+      @click="shift('l')"
+    >
+      <font-awesome-icon icon="chevron-left" />        
+    </div>
+    <div class="month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2">
+      <div
+        v-for="(month, index) in months"
+        :key="index"
+        v-bind="{ id:index+1 }"
+        :ref="month[1]"
+        class="border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000"
+        :style="{transform: 'translateX('+translate+'px'}"
+        @mouseover="hover_month(month)"
+      >
+        <div
+          class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center"
+          v-bind="{ id:index+1 }"
+        >
+          <p class="pt-3 pl-1 font-semibold text-red-500">
+            {{ ho_day }}.&nbsp;{{ month[1] }}&nbsp;2021
+          </p>
+          <p class="pt-2 pl-1 font-semibold text-red-500">
+            {{ now.format('DD. MMMM YYYY') }}
+          </p>
         </div>
-        <div class="month_box flex overflow-hidden w-full sm:h-full sm:w-full w-1/2">
-            <div  class="border-2 rounded-3xl flex-full transform transition-transform ease-in-out duration-1000" v-for="(month, index) in months" :key="index"  v-bind="{ id:index+1 }" :style="{transform: 'translateX('+translate+'px'}" v-bind:ref="month[1]" @mouseover="hover_month(month)">
+        <div
+          class="days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3
+                    gap-4"
+        >
+          <div class="calendar__day text-red-500">
+            M
+          </div>
+          <div class="calendar__day text-red-500">
+            T
+          </div>
+          <div class="calendar__day text-red-500">
+            W
+          </div>
+          <div class="calendar__day text-red-500">
+            T
+          </div>
+          <div class="calendar__day text-red-500">
+            F
+          </div>
+          <div class="calendar__day text-red-500">
+            S
+          </div>
+          <div class="calendar__day text-red-500">
+            S
+          </div>
+          <div
+            v-for="day in filterMonth(month[0])"
+            class="hover:text-green-500"
+            @mouseover="hover_date(day)"
+            @click="showModal"
+          >
+            <span
+              v-if="day == now.format('DD')"
+              class="text-green-500 cursor-pointer"
+            >
+              {{ day }}
+            </span>
+            <span
+              v-if="day != now.format('DD')"
+              class="cursor-pointer"
+            >
+              {{ day }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer"
+      @click="shift('r')"
+    >
+      <font-awesome-icon icon="chevron-right" />        
+    </div>
 
-                <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center" v-bind="{ id:index+1 }">
-                    <p class="pt-3 pl-1 font-semibold text-red-500">
-                    {{ho_day}}.&nbsp;{{ month[1] }}&nbsp;2021
-                    </p>
-                    <p class="pt-2 pl-1 font-semibold text-red-500">
-                    {{ now.format('DD. MMMM YYYY') }}
-                    </p>
-                </div>
-                <div class="days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3
-                    gap-4">
-                    <div class="calendar__day text-red-500">M</div>
-                    <div class="calendar__day text-red-500">T</div>
-                    <div class="calendar__day text-red-500">W</div>
-                    <div class="calendar__day text-red-500">T</div>
-                    <div class="calendar__day text-red-500">F</div>
-                    <div class="calendar__day text-red-500">S</div>
-                    <div class="calendar__day text-red-500">S</div>
-                    <div class="hover:text-green-500" v-for="day in filterMonth(month[0])" @mouseover="hover_date(day)" @click="showModal">
-                        <span class="text-green-500 cursor-pointer"  v-if="day == now.format('DD')" >
-                            {{day}}
-                        </span>
-                        <span class="cursor-pointer" v-if="day != now.format('DD')">
-                            {{day}}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="rounded-full h-6 w-6 flex items-center justify-center bg-blue-100 hover:bg-red-100 cursor-pointer" @click="shift('r')">
-            <font-awesome-icon icon="chevron-right" />        
-        </div>
-        <!--
-            <popup-component :day="ho_day" :month="ho_month"></popup-component>
-            -->
     <modal
       v-show="isModalVisible"
-      @close="closeModal"
       :day="ho_day"
       :month="ho_month"
+      @close="closeModal"
     />
-    </div>
+  </div>
 </template>
 
 <script>

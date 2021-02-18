@@ -1,28 +1,55 @@
 <template>
-    <div class="w-full border-2 rounded-3xl">
-        <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center">
-            <p class="pt-3 pl-1 font-semibold text-red-500">
-            {{ho_day}}.&nbsp;{{ month }}.&nbsp;2021
-            </p>
-            <p class="pt-2 pl-1 font-semibold text-red-500">
-            {{ now.format('DD. MMMM YYYY') }}
-            </p>
-        </div>
-        <div class="days x-2 h-80 grid grid-cols-7 pl-2 pt-2 sm:pl-3
-            gap-4">
-            <div class="calendar__day text-red-500">M</div>
-            <div class="calendar__day text-red-500">T</div>
-            <div class="calendar__day text-red-500">W</div>
-            <div class="calendar__day text-red-500">T</div>
-            <div class="calendar__day text-red-500">F</div>
-            <div class="calendar__day text-red-500">S</div>
-            <div class="calendar__day text-red-500">S</div>
-
-            <div v-for="day in filterMonth()">
-                 {{day}}
-            </div>
-        </div>
+  <div class="w-4/6 border-2 rounded-3xl">
+    <div class="bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center">
+      <p class="pt-3 pl-1 font-semibold text-red-500">
+        {{ ho_day }}.&nbsp;{{ month }}.&nbsp;2021
+      </p>
+      <p class="pt-2 pl-1 font-semibold text-red-500">
+        {{ now.format('DD. MMMM YYYY') }}
+      </p>
     </div>
+    <div
+      class="days x-2 h-80 grid grid-cols-7 pl-12 pt-2 sm:pl-3 "
+    >
+      <div class="calendar__day text-red-500">
+        M
+      </div>
+      <div class="calendar__day text-red-500">
+        T
+      </div>
+      <div class="calendar__day text-red-500">
+        W
+      </div>
+      <div class="calendar__day text-red-500">
+        T
+      </div>
+      <div class="calendar__day text-red-500">
+        F
+      </div>
+      <div class="calendar__day text-red-500">
+        S
+      </div>
+      <div class="calendar__day text-red-500">
+        S
+      </div>
+
+      <div 
+        v-for="day in filterMonth()"
+        :key="day"
+        @mouseover="mark(day)"
+      >
+        <span
+          v-if="day != 20"
+          class="hover:text-green-500"
+        >{{ day }}</span>
+
+        <span
+          v-if="day == 20"
+          class="text-green-500"
+        >{{ day }}</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 
@@ -31,56 +58,65 @@
 
     export default
     {
+        props:
+        {
+            propMonth:
+            {
+              type: String,
+              default: '01'
+            }
+        },
 
         data()
         {
-          return {
-              date: "2019-05-13 13:52:15",
-              now: "",
-              ho_day: "",
-              ho_month: "",
-              isModalVisible: false,
-              eventLoaded: false,
-              days: [],
-              month: this.propMonth,
-          }
+            return {
+                date: "2019-05-13 13:52:15",
+                now: "",
+                ho_day: "",
+                ho_month: "",
+                isModalVisible: false,
+                eventLoaded: false,
+                days: [],
+                month: this.propMonth,
+            }
         },
-      props:{
-        propMonth: {
-          type:String
-        }
-      },
-      created: function () {
-            console.log(this.month)
+        created: function()
+        {
             dayjs.locale('de')
             this.now = dayjs()
             this.ho_day = this.now.format('DD')
             this.between()
-      },
-      methods: {
-        between(month){
-          if (month) {
-            this.month = month
-            }
-            let start = new Date('2021-' + this.month + '-01')
-            start = dayjs(start)
-            let end = start.add(1, 'M').subtract(1, 'd')
-            this.days = []
-            const tot_days = end.diff(start, 'd')
-            for (var i = 0; i < tot_days; i++)
-            {
-                this.days.push(start.add(i, 'd'))
-            }
-            this.days.push(end)
-
         },
-            filterMonth()
+        methods:
+        {
+          mark: function(day){
+            if (day) this.ho_day = day
+          },
+            between: function(month)
+            {
+                if (month)
+                {
+                    this.month = month
+                }
+                let start = new Date('2021-' + this.month + '-01')
+                start = dayjs(start)
+                let end = start.add(1, 'M').subtract(1, 'd')
+                this.days = []
+                const tot_days = end.diff(start, 'd')
+                for (var i = 0; i < tot_days; i++)
+                {
+                    this.days.push(start.add(i, 'd'))
+                }
+                this.days.push(end)
+
+            },
+            filterMonth: function()
             {
                 let between = this.days
 
                 let weekday = between[0].format('dddd')
                 between = between.map(
-                    (val, index) =>
+                    (val) =>
                     {
                         return val.format('DD')
                     }
@@ -124,6 +160,6 @@
                     return between
                 }
             },
-      }
+        }
     }
 </script>

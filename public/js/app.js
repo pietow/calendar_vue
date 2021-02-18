@@ -13947,6 +13947,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14167,8 +14208,41 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    propMonth: {
+      type: String,
+      "default": '01'
+    }
+  },
   data: function data() {
     return {
       date: "2019-05-13 13:52:15",
@@ -14181,19 +14255,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       month: this.propMonth
     };
   },
-  props: {
-    propMonth: {
-      type: String
-    }
-  },
   created: function created() {
-    console.log(this.month);
     dayjs__WEBPACK_IMPORTED_MODULE_0___default().locale('de');
     this.now = dayjs__WEBPACK_IMPORTED_MODULE_0___default()();
     this.ho_day = this.now.format('DD');
     this.between();
   },
   methods: {
+    mark: function mark(day) {
+      if (day) this.ho_day = day;
+    },
     between: function between(month) {
       if (month) {
         this.month = month;
@@ -14214,7 +14285,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     filterMonth: function filterMonth() {
       var between = this.days;
       var weekday = between[0].format('dddd');
-      between = between.map(function (val, index) {
+      between = between.map(function (val) {
         return val.format('DD');
       });
 
@@ -14252,6 +14323,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -14264,12 +14337,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       month: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-      index: 0
+      index: 0,
+      now: ''
     };
+  },
+  created: function created() {
+    this.now = dayjs__WEBPACK_IMPORTED_MODULE_0___default()();
   },
   methods: {
     next: function next() {
@@ -14317,13 +14404,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['day', 'month'],
   data: function data() {
     return {
       modal: true
     };
   },
-  props: ['day', 'month'],
   method: {
     toggleModal: function toggleModal() {
       this.modal != this.modal;
@@ -14345,7 +14435,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'modal',
+  name: 'Modal',
   props: ['day', 'month'],
   methods: {
     close: function close() {
@@ -33070,11 +33160,11 @@ var render = function() {
                     { staticClass: "pt-3 pl-1 font-semibold text-red-500" },
                     [
                       _vm._v(
-                        "\n                " +
+                        "\n          " +
                           _vm._s(_vm.ho_day) +
                           ". " +
                           _vm._s(month[1]) +
-                          " 2021\n                "
+                          " 2021\n        "
                       )
                     ]
                   ),
@@ -33084,9 +33174,9 @@ var render = function() {
                     { staticClass: "pt-2 pl-1 font-semibold text-red-500" },
                     [
                       _vm._v(
-                        "\n                " +
+                        "\n          " +
                           _vm._s(_vm.now.format("DD. MMMM YYYY")) +
-                          "\n                "
+                          "\n        "
                       )
                     ]
                   )
@@ -33097,35 +33187,35 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n                gap-4"
+                    "days x-2 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n                  gap-4"
                 },
                 [
                   _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("M")
+                    _vm._v("\n          M\n        ")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("T")
+                    _vm._v("\n          T\n        ")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("W")
+                    _vm._v("\n          W\n        ")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("T")
+                    _vm._v("\n          T\n        ")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("F")
+                    _vm._v("\n          F\n        ")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("S")
+                    _vm._v("\n          S\n        ")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "calendar__day text-red-500" }, [
-                    _vm._v("S")
+                    _vm._v("\n          S\n        ")
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.filterMonth(month[0]), function(day) {
@@ -33147,9 +33237,9 @@ var render = function() {
                               { staticClass: "text-green-500 cursor-pointer" },
                               [
                                 _vm._v(
-                                  "\n                        " +
+                                  "\n            " +
                                     _vm._s(day) +
-                                    "\n                    "
+                                    "\n          "
                                 )
                               ]
                             )
@@ -33158,9 +33248,7 @@ var render = function() {
                         day != _vm.now.format("DD")
                           ? _c("span", { staticClass: "cursor-pointer" }, [
                               _vm._v(
-                                "\n                        " +
-                                  _vm._s(day) +
-                                  "\n                    "
+                                "\n            " + _vm._s(day) + "\n          "
                               )
                             ])
                           : _vm._e()
@@ -33230,7 +33318,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w-full border-2 rounded-3xl" }, [
+  return _c("div", { staticClass: "w-4/6 border-2 rounded-3xl" }, [
     _c(
       "div",
       {
@@ -33240,19 +33328,17 @@ var render = function() {
       [
         _c("p", { staticClass: "pt-3 pl-1 font-semibold text-red-500" }, [
           _vm._v(
-            "\n        " +
+            "\n      " +
               _vm._s(_vm.ho_day) +
               ". " +
               _vm._s(_vm.month) +
-              ". 2021\n        "
+              ". 2021\n    "
           )
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "pt-2 pl-1 font-semibold text-red-500" }, [
           _vm._v(
-            "\n        " +
-              _vm._s(_vm.now.format("DD. MMMM YYYY")) +
-              "\n        "
+            "\n      " + _vm._s(_vm.now.format("DD. MMMM YYYY")) + "\n    "
           )
         ])
       ]
@@ -33260,29 +33346,61 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      {
-        staticClass:
-          "days x-2 h-80 grid grid-cols-7 pl-2 pt-2 sm:pl-3\n        gap-4"
-      },
+      { staticClass: "days x-2 h-80 grid grid-cols-7 pl-12 pt-2 sm:pl-3 " },
       [
-        _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("M")]),
+        _c("div", { staticClass: "calendar__day text-red-500" }, [
+          _vm._v("\n      M\n    ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("T")]),
+        _c("div", { staticClass: "calendar__day text-red-500" }, [
+          _vm._v("\n      T\n    ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("W")]),
+        _c("div", { staticClass: "calendar__day text-red-500" }, [
+          _vm._v("\n      W\n    ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("T")]),
+        _c("div", { staticClass: "calendar__day text-red-500" }, [
+          _vm._v("\n      T\n    ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("F")]),
+        _c("div", { staticClass: "calendar__day text-red-500" }, [
+          _vm._v("\n      F\n    ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("S")]),
+        _c("div", { staticClass: "calendar__day text-red-500" }, [
+          _vm._v("\n      S\n    ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [_vm._v("S")]),
+        _c("div", { staticClass: "calendar__day text-red-500" }, [
+          _vm._v("\n      S\n    ")
+        ]),
         _vm._v(" "),
         _vm._l(_vm.filterMonth(), function(day) {
-          return _c("div", [
-            _vm._v("\n             " + _vm._s(day) + "\n        ")
-          ])
+          return _c(
+            "div",
+            {
+              key: day,
+              on: {
+                mouseover: function($event) {
+                  return _vm.mark(day)
+                }
+              }
+            },
+            [
+              day != 20
+                ? _c("span", { staticClass: "hover:text-green-500" }, [
+                    _vm._v(_vm._s(day))
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              day == 20
+                ? _c("span", { staticClass: "text-green-500" }, [
+                    _vm._v(_vm._s(day))
+                  ])
+                : _vm._e()
+            ]
+          )
         })
       ],
       2
@@ -33329,7 +33447,7 @@ var render = function() {
       _vm._v(" "),
       _c("month-component", {
         ref: "child",
-        attrs: { propMonth: _vm.month[_vm.index] }
+        attrs: { "prop-month": _vm.now.format("MM") }
       }),
       _vm._v(" "),
       _c(
@@ -33386,7 +33504,7 @@ var render = function() {
     [
       _c("p", [
         _vm._v(
-          "\n    " + _vm._s(_vm.day) + "." + _vm._s(_vm.month) + " 2021\n    "
+          "\n    " + _vm._s(_vm.day) + "." + _vm._s(_vm.month) + " 2021\n  "
         )
       ])
     ]
@@ -33434,11 +33552,11 @@ var render = function() {
         _c("div", { staticClass: "flex p-5 relative" }, [
           _c("h1", { staticClass: "font-bold" }, [
             _vm._v(
-              "\n              Termin:\n              " +
+              "\n        Termin:\n        " +
                 _vm._s(_vm.day) +
                 "." +
                 _vm._s(_vm.month) +
-                " 2021\n          "
+                " 2021\n      "
             )
           ]),
           _vm._v(" "),
@@ -33448,7 +33566,7 @@ var render = function() {
               staticClass: "top-5 absolute right-5 cursor-pointer",
               on: { click: _vm.close }
             },
-            [_vm._v("\n              x\n          ")]
+            [_vm._v("\n        x\n      ")]
           )
         ]),
         _vm._v(" "),
