@@ -38,6 +38,7 @@
         :key="index"
         @mouseover="mark(day)"
         @click="showModal"
+        class="cursor-pointer"
       >
         <span
           v-if="day != 20" 
@@ -53,7 +54,7 @@
           v-else-if="day == 20" 
           class="hover:text-green-500"
         >{{ day }}</span>
-
+        <span class="text-xs align-top">Charly</span>
       </div>
     </div>
 
@@ -78,7 +79,12 @@
             {
               type: String,
               default: '02'
-            }
+            },
+            propEvent:
+          {
+            type: Array,
+            default: []
+          }
         },
 
         data()
@@ -93,6 +99,7 @@
                 days: [],
                 month: this.propMonth,
                 isModalVisible: false,
+                eventApi: [],
             }
         },
         created: function()
@@ -115,6 +122,7 @@
           },
             between: function(month)
             {
+                console.log(this.propEvent)
                 if (month)
                 {
                     this.month = month

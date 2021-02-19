@@ -33,6 +33,7 @@
         "@fortawesome/vue-fontawesome": "^2.0.2",
         "dayjs": "^1.10.3",
         "vue": "^2.6.12",
+        "vue-force-next-tick": "^1.1.0",
         "vue-template-compiler": "^2.6.10"
     }
 }
