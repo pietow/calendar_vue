@@ -20,7 +20,7 @@
       <div class="flex p-5 relative">
         <h1 class="font-bold">
           Termin:
-          {{ day }}.{{ month }} 2021
+          {{ day }}.{{ month }}.2021
         </h1>
         <div
           class="top-5 absolute right-5 cursor-pointer"

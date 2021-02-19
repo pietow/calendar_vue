@@ -34,21 +34,35 @@
       </div>
 
       <div 
-        v-for="day in filterMonth()"
-        :key="day"
+        v-for="(day, index) in filterMonth()"
+        :key="index"
         @mouseover="mark(day)"
+        @click="showModal"
       >
         <span
-          v-if="day != 20"
+          v-if="day != 20" 
           class="hover:text-green-500"
         >{{ day }}</span>
 
         <span
-          v-if="day == 20"
+          v-if="day == 20 && propMonth == month"
           class="text-green-500"
         >{{ day }}</span>
+
+        <span
+          v-else-if="day == 20" 
+          class="hover:text-green-500"
+        >{{ day }}</span>
+
       </div>
     </div>
+
+    <modal
+      v-show="isModalVisible"
+      :day="ho_day"
+      :month="month"
+      @close="closeModal"
+    />
   </div>
 </template>
 
@@ -63,7 +77,7 @@
             propMonth:
             {
               type: String,
-              default: '01'
+              default: '02'
             }
         },
 
@@ -78,6 +92,7 @@
                 eventLoaded: false,
                 days: [],
                 month: this.propMonth,
+                isModalVisible: false,
             }
         },
         created: function()
@@ -89,6 +104,12 @@
         },
         methods:
         {
+          showModal() {
+            this.isModalVisible = true;
+          },
+          closeModal: function() {
+            this.isModalVisible = false;
+          },
           mark: function(day){
             if (day) this.ho_day = day
           },

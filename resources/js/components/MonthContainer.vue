@@ -31,6 +31,8 @@ export default {
   },
   created: function() {
     this.now = dayjs()
+    this.index = dayjs().format('M')-1
+    console.log(this.index)
   },
   methods: {
     next: function(){
