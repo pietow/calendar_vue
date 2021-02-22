@@ -43,18 +43,20 @@
         <span
           v-if="day != 20" 
           class="hover:text-green-500"
-        >{{ day }}</span>
+        >{{ day[0] }}</span>
 
         <span
           v-if="day == 20 && propMonth == month"
           class="text-green-500"
-        >{{ day }}</span>
+        >{{ day[0] }}</span>
 
         <span
           v-else-if="day == 20" 
           class="hover:text-green-500"
-        >{{ day }}</span>
-        <span class="text-xs align-top">Charly</span>
+        >{{ day[0] }}</span>
+        <span 
+          v-if="day[1]"
+          class="text-xs align-top">Charly</span>
       </div>
     </div>
 
@@ -120,13 +122,14 @@
           mark: function(day){
             if (day) this.ho_day = day
           },
+            
             between: function(month)
             {
-                console.log(this.propEvent)
                 if (month)
                 {
                     this.month = month
                 }
+                // console.log(this.propEvent[5].dateTime.format('DD'))
                 let start = new Date('2021-' + this.month + '-01')
                 start = dayjs(start)
                 let end = start.add(1, 'M').subtract(1, 'd')
@@ -134,60 +137,54 @@
                 const tot_days = end.diff(start, 'd')
                 for (var i = 0; i < tot_days; i++)
                 {
-                    this.days.push(start.add(i, 'd'))
+                    this.days.push([start.add(i, 'd'), false])
                 }
-                this.days.push(end)
+                this.days.push([end, false])
 
+            },
+            betweenAug: function() {
+              this.days.forEach((val, index)=>{
+                this.propEvent.forEach((evend) => 
+                  {
+                    let eveBoo = evend.dateTime.isSame(val[0], 'day')
+                    if (eveBoo) {
+                      this.days[index][1] = true
+                      // this.days[index].push('') infinite update bug
+                      console.log(evend.description)
+                    }
+                  })
+              }) 
+
+            },
+            emptyField: function(wday, days){
+              let dummy = []
+              wday--
+              while (wday > 0) {
+                  wday--
+                  dummy.push('')
+              }
+
+              return [...dummy, ...days]
             },
             filterMonth: function()
             {
+                // this.days[3][1]=true
                 let between = this.days
-
-                let weekday = between[0].format('dddd')
+                this.betweenAug()
+                let weekday = between[0][0].format('dddd')
                 between = between.map(
                     (val) =>
                     {
-                        return val.format('DD')
+                        return [val[0].format('DD'), val[1]]
                     }
                 )
-                if (weekday == 'Dienstag')
-                {
-                    return ['', ...between]
-                }
-                else if (weekday == '')
-                {
-                    return ['', ...between]
-                }
-                else if (weekday == 'Mittwoch')
-                {
-                    return ['', '', ...between]
-                }
-                else if (weekday == 'Donnerstag')
-                {
-                    return ['', '', '', ...between]
-                }
-                else if (weekday == 'Freitag')
-                {
-                    return ['', '', '', '',
-                        ...between
-                    ]
-                }
-                else if (weekday == 'Samstag')
-                {
-                    return ['', '', '', '',
-                        '', ...between
-                    ]
-                }
-                else if (weekday == 'Sonntag')
-                {
-                    return ['', '', '', '',
-                        '', '', ...between
-                    ]
-                }
-                else
-                {
-                    return between
-                }
+                if (weekday == 'Dienstag') return this.emptyField(2, between)
+                else if (weekday == 'Mittwoch') return this.emptyField(3, between)
+                else if (weekday == 'Donnerstag') return this.emptyField(4, between)
+                else if (weekday == 'Freitag') return this.emptyField(5, between)
+                else if (weekday == 'Samstag') return this.emptyField(6, between)
+                else if (weekday == 'Sonntag') return this.emptyField(7, between)
+                else return between
             },
         }
     }

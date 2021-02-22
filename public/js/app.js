@@ -14180,6 +14180,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -14240,11 +14259,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   props: {
     propMonth: {
       type: String,
-      "default": '01'
+      "default": '02'
+    },
+    propEvent: {
+      type: Array,
+      "default": []
     }
   },
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       date: "2019-05-13 13:52:15",
       now: "",
       ho_day: "",
@@ -14253,7 +14278,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       eventLoaded: false,
       days: [],
       month: this.propMonth
-    };
+    }, _defineProperty(_ref, "isModalVisible", false), _defineProperty(_ref, "eventApi", []), _ref;
   },
   created: function created() {
     dayjs__WEBPACK_IMPORTED_MODULE_0___default().locale('de');
@@ -14262,13 +14287,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     this.between();
   },
   methods: {
+    showModal: function showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal: function closeModal() {
+      this.isModalVisible = false;
+    },
     mark: function mark(day) {
       if (day) this.ho_day = day;
     },
     between: function between(month) {
       if (month) {
         this.month = month;
-      }
+      } // console.log(this.propEvent[5].dateTime.format('DD'))
+
 
       var start = new Date('2021-' + this.month + '-01');
       start = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(start);
@@ -14277,35 +14309,46 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var tot_days = end.diff(start, 'd');
 
       for (var i = 0; i < tot_days; i++) {
-        this.days.push(start.add(i, 'd'));
+        this.days.push([start.add(i, 'd'), false]);
       }
 
-      this.days.push(end);
+      this.days.push([end, false]);
+    },
+    betweenAug: function betweenAug() {
+      var _this = this;
+
+      this.days.forEach(function (val, index) {
+        _this.propEvent.forEach(function (evend) {
+          var eveBoo = evend.dateTime.isSame(val[0], 'day');
+
+          if (eveBoo) {
+            _this.days[index][1] = true; // this.days[index].push('') infinite update bug
+
+            console.log(evend.description);
+          }
+        });
+      });
+    },
+    emptyField: function emptyField(wday, days) {
+      var dummy = [];
+      wday--;
+
+      while (wday > 0) {
+        wday--;
+        dummy.push('');
+      }
+
+      return [].concat(dummy, _toConsumableArray(days));
     },
     filterMonth: function filterMonth() {
+      // this.days[3][1]=true
       var between = this.days;
-      var weekday = between[0].format('dddd');
+      this.betweenAug();
+      var weekday = between[0][0].format('dddd');
       between = between.map(function (val) {
-        return val.format('DD');
+        return [val[0].format('DD'), val[1]];
       });
-
-      if (weekday == 'Dienstag') {
-        return [''].concat(_toConsumableArray(between));
-      } else if (weekday == '') {
-        return [''].concat(_toConsumableArray(between));
-      } else if (weekday == 'Mittwoch') {
-        return ['', ''].concat(_toConsumableArray(between));
-      } else if (weekday == 'Donnerstag') {
-        return ['', '', ''].concat(_toConsumableArray(between));
-      } else if (weekday == 'Freitag') {
-        return ['', '', '', ''].concat(_toConsumableArray(between));
-      } else if (weekday == 'Samstag') {
-        return ['', '', '', '', ''].concat(_toConsumableArray(between));
-      } else if (weekday == 'Sonntag') {
-        return ['', '', '', '', '', ''].concat(_toConsumableArray(between));
-      } else {
-        return between;
-      }
+      if (weekday == 'Dienstag') return this.emptyField(2, between);else if (weekday == 'Mittwoch') return this.emptyField(3, between);else if (weekday == 'Donnerstag') return this.emptyField(4, between);else if (weekday == 'Freitag') return this.emptyField(5, between);else if (weekday == 'Samstag') return this.emptyField(6, between);else if (weekday == 'Sonntag') return this.emptyField(7, between);else return between;
     }
   }
 });
@@ -14325,6 +14368,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_force_next_tick__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-force-next-tick */ "./node_modules/vue-force-next-tick/src/index.js");
+//
+//
 //
 //
 //
@@ -14347,16 +14393,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       month: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       index: 0,
-      now: ''
+      now: '',
+      eventApi: [],
+      isLoading: false
     };
   },
   created: function created() {
+    var _this = this;
+
     this.now = dayjs__WEBPACK_IMPORTED_MODULE_0___default()();
+    this.index = dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format('M') - 1; // console.log(!this.isLoading)
+    // this.$nextTick(() =>
+    //   {
+
+    this.isLoading = true;
+    axios.get('api/event').then(function (response) {
+      _this.eventApi = response.data.map(function (val) {
+        // val.dateTime = dayjs(new Date(val.dateTime))                            
+        var datTi = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(new Date(val.dateTime));
+        val.dateTime = datTi;
+        return val;
+      });
+      _this.isLoading = false;
+    }); // })
   },
   methods: {
     next: function next() {
@@ -32720,6 +32785,45 @@ try {
 
 /***/ }),
 
+/***/ "./node_modules/vue-force-next-tick/src/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/vue-force-next-tick/src/index.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+const doubleRequestAnimationFrame = (callback) => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(callback)
+  })
+}
+
+const forceNextTick = (callback) => {
+  if (callback && typeof callback === 'function') {
+    doubleRequestAnimationFrame(callback)
+  } else {
+    return new Promise(resolve => {
+      doubleRequestAnimationFrame(resolve)
+    })
+  }
+}
+
+const VueForceNextTick = {
+  install (Vue) {
+    Vue.$forceNextTick = forceNextTick
+    Vue.prototype.$forceNextTick = forceNextTick
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VueForceNextTick);
+
+
+/***/ }),
+
 /***/ "./resources/js/components/CalendarComponent.vue":
 /*!*******************************************************!*\
   !*** ./resources/js/components/CalendarComponent.vue ***!
@@ -33318,94 +33422,124 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w-4/6 border-2 rounded-3xl" }, [
-    _c(
-      "div",
-      {
-        staticClass:
-          "bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center"
-      },
-      [
-        _c("p", { staticClass: "pt-3 pl-1 font-semibold text-red-500" }, [
-          _vm._v(
-            "\n      " +
-              _vm._s(_vm.ho_day) +
-              ". " +
-              _vm._s(_vm.month) +
-              ". 2021\n    "
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "pt-2 pl-1 font-semibold text-red-500" }, [
-          _vm._v(
-            "\n      " + _vm._s(_vm.now.format("DD. MMMM YYYY")) + "\n    "
-          )
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "days x-2 h-80 grid grid-cols-7 pl-12 pt-2 sm:pl-3 " },
-      [
-        _c("div", { staticClass: "calendar__day text-red-500" }, [
-          _vm._v("\n      M\n    ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [
-          _vm._v("\n      T\n    ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [
-          _vm._v("\n      W\n    ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [
-          _vm._v("\n      T\n    ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [
-          _vm._v("\n      F\n    ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [
-          _vm._v("\n      S\n    ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "calendar__day text-red-500" }, [
-          _vm._v("\n      S\n    ")
-        ]),
-        _vm._v(" "),
-        _vm._l(_vm.filterMonth(), function(day) {
-          return _c(
-            "div",
-            {
-              key: day,
-              on: {
-                mouseover: function($event) {
-                  return _vm.mark(day)
+  return _c(
+    "div",
+    { staticClass: "w-4/6 border-2 rounded-3xl" },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "bg-jan bg-cover rounded-t-2xl bg-gray-100 dark:bg-gray-900 h-80 sm:h-2/3 bg-no-repeat bg-center"
+        },
+        [
+          _c("p", { staticClass: "pt-3 pl-1 font-semibold text-red-500" }, [
+            _vm._v(
+              "\n      " +
+                _vm._s(_vm.ho_day) +
+                ". " +
+                _vm._s(_vm.month) +
+                ". 2021\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "pt-2 pl-1 font-semibold text-red-500" }, [
+            _vm._v(
+              "\n      " + _vm._s(_vm.now.format("DD. MMMM YYYY")) + "\n    "
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "days x-2 h-80 grid grid-cols-7 pl-12 pt-2 sm:pl-3 " },
+        [
+          _c("div", { staticClass: "calendar__day text-red-500" }, [
+            _vm._v("\n      M\n    ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "calendar__day text-red-500" }, [
+            _vm._v("\n      T\n    ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "calendar__day text-red-500" }, [
+            _vm._v("\n      W\n    ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "calendar__day text-red-500" }, [
+            _vm._v("\n      T\n    ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "calendar__day text-red-500" }, [
+            _vm._v("\n      F\n    ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "calendar__day text-red-500" }, [
+            _vm._v("\n      S\n    ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "calendar__day text-red-500" }, [
+            _vm._v("\n      S\n    ")
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.filterMonth(), function(day, index) {
+            return _c(
+              "div",
+              {
+                key: index,
+                staticClass: "cursor-pointer",
+                on: {
+                  mouseover: function($event) {
+                    return _vm.mark(day)
+                  },
+                  click: _vm.showModal
                 }
-              }
-            },
-            [
-              day != 20
-                ? _c("span", { staticClass: "hover:text-green-500" }, [
-                    _vm._v(_vm._s(day))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              day == 20
-                ? _c("span", { staticClass: "text-green-500" }, [
-                    _vm._v(_vm._s(day))
-                  ])
-                : _vm._e()
-            ]
-          )
-        })
-      ],
-      2
-    )
-  ])
+              },
+              [
+                day != 20
+                  ? _c("span", { staticClass: "hover:text-green-500" }, [
+                      _vm._v(_vm._s(day[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                day == 20 && _vm.propMonth == _vm.month
+                  ? _c("span", { staticClass: "text-green-500" }, [
+                      _vm._v(_vm._s(day[0]))
+                    ])
+                  : day == 20
+                  ? _c("span", { staticClass: "hover:text-green-500" }, [
+                      _vm._v(_vm._s(day[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                day[1]
+                  ? _c("span", { staticClass: "text-xs align-top" }, [
+                      _vm._v("Charly")
+                    ])
+                  : _vm._e()
+              ]
+            )
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c("modal", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.isModalVisible,
+            expression: "isModalVisible"
+          }
+        ],
+        attrs: { day: _vm.ho_day, month: _vm.month },
+        on: { close: _vm.closeModal }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -33445,10 +33579,15 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("month-component", {
-        ref: "child",
-        attrs: { "prop-month": _vm.now.format("MM") }
-      }),
+      !_vm.isLoading
+        ? _c("month-component", {
+            ref: "child",
+            attrs: {
+              "prop-month": _vm.now.format("MM"),
+              "prop-event": this.eventApi
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
@@ -33556,7 +33695,7 @@ var render = function() {
                 _vm._s(_vm.day) +
                 "." +
                 _vm._s(_vm.month) +
-                " 2021\n      "
+                ".2021\n      "
             )
           ]),
           _vm._v(" "),

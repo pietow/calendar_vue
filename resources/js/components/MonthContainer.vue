@@ -38,8 +38,8 @@ export default {
     this.now = dayjs()
     this.index = dayjs().format('M')-1
     // console.log(!this.isLoading)
-    this.$nextTick(() =>
-      {
+    // this.$nextTick(() =>
+    //   {
         this.isLoading=true
         axios.get('api/event')
         .then(
@@ -55,7 +55,7 @@ export default {
             this.isLoading = false
           }
         )
-      })
+      // })
   },
   methods: {
     next: function(){
