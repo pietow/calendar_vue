@@ -25,15 +25,9 @@
 
 <body class="h-screen antialiased flex items-center justify-center">
     <div id='app' class="calendar m-auto w-1/2">
-        <month-container></month-container>
-        {{-- <calendar-component ref="calendar"> --}}
-        {{-- </calendar-component> --}}
-      {{-- <month-component :month="'02'"> </month-component> --}}
-    <!--
-        <button id="external-button" @click="$refs.calendar.test()">External Button</button>
-    --!>
+        <calendar-parent/>
     </div>
-    <script src="https://kit.fontawesome.com/a4b21b2923.js" crossorigin="anonymous"></script>
+    {{-- <script src="https://kit.fontawesome.com/a4b21b2923.js" crossorigin="anonymous"></script> --}}
     <script src="/js/app.js"></script>
 </body>
 

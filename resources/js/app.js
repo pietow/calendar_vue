@@ -1,7 +1,8 @@
 require('./bootstrap');
 require('alpinejs');
 import Vue from 'vue';
-
+import Vuex from 'vuex';
+import storeData from "./store/index.js";
 window.Vue = require('vue');
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -16,12 +17,14 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 
-Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
-Vue.component('month-component', require('./components/MonthComponent.vue').default);
-Vue.component('month-container', require('./components/MonthContainer.vue').default);
-Vue.component('popup-component', require('./components/PopupComponent.vue').default);
-Vue.component('modal', require('./components/modal.vue').default);
+Vue.use(Vuex);
+const store = new Vuex.Store(storeData)
+
+Vue.component('CalendarParent', require('./CalendarParent.vue').default);
+// Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
+
 
 const app = new Vue({
     el: '#app',
+    store,
 });
