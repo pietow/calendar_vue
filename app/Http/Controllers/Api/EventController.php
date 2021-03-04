@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
@@ -17,8 +18,33 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Auth::user()->events;
-        //return Event::all();
+        
+        /* return Auth::user()->events; */
+
+        $start= new Carbon('first day of February 2021');
+        $end = new Carbon('last day of February 2021');
+        $period = CarbonPeriod::create($start, '1 day', $end);
+        $dummy = [];
+        /* $events = Event::all(); */
+        $events = Auth::user()->events;
+        foreach ($period as $key => $date) {
+            $date->locale('de');
+            array_push($dummy, [
+                "id"=> $date->isoFormat('D'),
+                "abbvTitle" => $date->isoFormat('dd'),
+                "fullTitle" => $date->isoFormat('dddd'),
+                "events" => null,
+            ]);
+            foreach ($events as $key => $event) {
+                $event->dateTime = new Carbon($event->dateTime);
+                if ($date->is($event->dateTime->isoFormat('YYYY-MM-DD'))) {
+                    end($dummy);
+                    $last_key = key($dummy);
+                    $dummy[$last_key]['events'] = Event::whereDate('dateTime', $date->toDateString())->get()->toArray(); 
+                };
+            };
+        }
+        return $dummy;
     }
 
     /**
