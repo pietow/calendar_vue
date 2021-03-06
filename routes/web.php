@@ -16,6 +16,9 @@ use App\Models\User;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/blog', function () {
+    return view('blog');
+});
 Route::get('/test', function () {
     dd(User::first()->events);
     return User::all();
