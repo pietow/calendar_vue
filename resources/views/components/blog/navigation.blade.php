@@ -26,6 +26,11 @@
                         {{ __('Galerie') }}
                     </x-blog.nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-blog.nav-link :href="route('impressum')" :active="request()->routeIs('impressum')">
+                        {{ __('Impressum') }}
+                    </x-blog.nav-link>
+                </div>
                 {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"> --}}
                 {{--     <x-nav-link :href="route('calendar')" :active="request()->routeIs('calendar')"> --}}
                 {{--         {{ __('Calendar') }} --}}
@@ -58,6 +63,16 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-blog.responsive-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
                 {{ __('Blog') }}
+            </x-blog.responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-blog.responsive-nav-link :href="route('galerie')" :active="request()->routeIs('galerie')">
+                {{ __('Galerie') }}
+            </x-blog.responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-blog.responsive-nav-link :href="route('impressum')" :active="request()->routeIs('impressum')">
+                {{ __('Impressum') }}
             </x-blog.responsive-nav-link>
         </div>
 

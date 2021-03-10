@@ -1,11 +1,14 @@
 <x-blog.app>
     <x-slot name="link">
-        {{ asset("storage/images/water_wave.jpeg") }}
+        {{ asset("storage/images/about.jpg") }}
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-white text-5xl leading-tight after:empty-content inline-block">
             {{ __('About') }}
         </h2>
+        <span class="text-white block text-2xl pt-0.5">
+            Yoga & Privat
+        </span>
     </x-slot>
 
     {{-- <div class="absolute top-0 w-full h-11 opacity-40" --}}

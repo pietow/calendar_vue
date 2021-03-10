@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
     purge: ['./storage/framework/views/*.php', './resources/views/**/*.blade.php'],
@@ -23,5 +24,21 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+            require('@tailwindcss/forms'),
+            require('tailwindcss-pseudo-elements'),
+            plugin(({addUtilities}) => {
+                const newUtilities = {
+                    ".empty-content": {
+                        content: "''",
+                        background: "white",
+                        display: "block",
+                        height: "1px",
+                    },
+                    }
+                    addUtilities(newUtilities, {
+                        variants: ["before", "after"],
+                    });
+                })
+    ],
 };

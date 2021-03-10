@@ -29,6 +29,9 @@ Route::get('/blog', function () {
 Route::get('/galerie', function () {
     return view('galerie');
 })->name('galerie');
+Route::get('/impressum', function () {
+    return view('impressum');
+})->name('impressum');
 
 
 Route::get('/test', function () {
