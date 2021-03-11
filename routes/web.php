@@ -14,7 +14,7 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard.welcome');
 });
 
 Route::get('/main', function () {
@@ -40,11 +40,11 @@ Route::get('/test', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/calendar', function () {
-    return view('calendar');
+    return view('dashboard.calendar');
 })->middleware(['auth'])->name('calendar');
 
 require __DIR__.'/auth.php';

@@ -5,6 +5,7 @@ use Illuminate\Support\Arr;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\Event;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * obj will hold all days of a given month and year
@@ -34,7 +35,7 @@ class Calendar{
     public function addEvents()
     {
         foreach ($this->calendarData as $key => $day) {
-            $events = Event::whereDate('dateTime', $day['fullDate'])->get()->toArray();
+            $events = Auth::user()->events()->whereDate('dateTime', $day['fullDate'])->get()->toArray();
             if($events) {
                 $this->calendarData[$key]['events'] = $events;
             }

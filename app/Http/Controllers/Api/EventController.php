@@ -13,42 +13,19 @@ use App\Classes\Calendar;
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource + date without an event.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         
-        /* return Auth::user()->events; */
-
         $start= new Carbon('first day of February 2021');
         $end = new Carbon('last day of February 2021');
         $period = CarbonPeriod::create($start, '1 day', $end);
-        $dummy = [];
-        $events = Event::all();
-        /* $events = Auth::user()->events; */
-        foreach ($period as $key => $date) {
-            $date->locale('de');
-            array_push($dummy, [
-                "id"=> $date->isoFormat('D'),
-                "abbvTitle" => $date->isoFormat('dd'),
-                "fullTitle" => $date->isoFormat('dddd'),
-            ]);
-            foreach ($events as $key => $event) {
-                $event->dateTime = new Carbon($event->dateTime);
-                if ($date->isSameDay($event->dateTime)) {
-                    end($dummy);
-                    $last_key = key($dummy);
-                    $dummy[$last_key]['events'] = Event::whereDate('dateTime', $date->toDateString())->get()->toArray(); 
-                };
-            };
-        }
-        /* return $dummy; */
         $calendar = new Calendar(2021, 'February');
-        $calendar->addEvents();
+        $calendar->addEvents(); //uses eloquent event model
         return $calendar->get();
-        /* return $calendar->get(); */
     }
 
     /**
@@ -61,9 +38,6 @@ class EventController extends Controller
     {
         $request->only(['description']);
         //return Event::create();
-        dd(
-            Carbon::now()
-        );
     }
 
     /**

@@ -19,10 +19,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
+    /* Route::apiResource('event', EventController::class); */
+Route::middleware('auth:api')->group(function () {
     Route::apiResource('event', EventController::class);
-/* Route::middleware('auth:api')->group(function () { */
-/*     Route::apiResource('event', EventController::class); */
-/* }); */
+});
 
 Route::get('/test', function (Request $request) {
     return $request;
