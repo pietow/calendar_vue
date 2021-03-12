@@ -35,7 +35,8 @@ class Calendar{
     public function addEvents()
     {
         foreach ($this->calendarData as $key => $day) {
-            $events = Auth::user()->events()->whereDate('dateTime', $day['fullDate'])->get()->toArray();
+            /* $events = Auth::user()->events()->whereDate('dateTime', $day['fullDate'])->get()->toArray(); */
+            $events = Event::whereDate('dateTime', $day['fullDate'])->get()->toArray();
             if($events) {
                 $this->calendarData[$key]['events'] = $events;
             }

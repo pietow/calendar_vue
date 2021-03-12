@@ -18,7 +18,7 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { //uses eloquent event model
         
         $start= new Carbon('first day of February 2021');
         $end = new Carbon('last day of February 2021');

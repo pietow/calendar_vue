@@ -25,10 +25,9 @@ class EventFactory extends Factory
         return [
             'dateTime' => $this->faker->dateTimeThisYear(),            
             'description' => $this->faker->sentence(),
-            'user_id' => 1,
-            //'user_id' => function() {
-                //return User::factory()->create()->id;
-            //},
+            'user_id' => function() {
+                return User::first()->id;
+            },
         ];
     }
 }
