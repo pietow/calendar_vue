@@ -39,6 +39,12 @@
         <main>
             {{ $slot }}
         </main>
+        <div class="bg-black fixed right-0 left-0 bottom-0">
+            <div class="max-w-7xl mx-auto p-6 text-sm uppercase"> 
+                    <span class="float-left text-gray-400 tracking-wide">© Copyright Charly J. – Theater Lifestyle</span>
+                    <span class="float-right text-gray-300 pr-10"><a href="{{ route('impressum') }}" class="hover:underline">Impressum </a></span>
+            </div>
+        </div>
     </body>
 </html>
 
