@@ -16,6 +16,12 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
+    <style>
+        td {
+            padding-right: 60px;
+            vertical-align: baseline;
+        }
+    </style>
     <body class="font-sans antialiased">
         <div class="bg-gray-100 h-96 bg-cover {{ $pos ?? '' }}"
             style="background-image:url({{ $link ?? '' }});">

@@ -14,7 +14,7 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
-    return view('dashboard.welcome');
+    return view('welcome');
 });
 
 Route::get('/main', function () {

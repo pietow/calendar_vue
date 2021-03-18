@@ -21,13 +21,36 @@
                 <div class="p-6 bg-white border-b border-gray-200:">
                     <div class="w-2/3 block m-auto">
                         <img src='{{ asset("storage/images/blog.jpg") }}'>
+                        <div class="pt-10">
+                            <p>
+                                Geboren im Saarland, 1988<br>
+                                Lebt und arbeitet in Bielefeld
+                            </p>
+                        </div>                
+                        <div class="pt-10 pb-10">
+                            <table>
+                                <tbody>
+                                <tr>
+                                <td>2010 – 2018</td>
+                                <td>FH Bielefeld</td>
+                                </tr>
+                                <tr>
+                                <td>1980 – 1987</td>
+                                <td> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </td>
+                                </tr>
+                                <tr>
+                                <td>1977 – 1980</td>
+                                <td> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <p>
-                    About
-                    </p>
                 </div>
             </div>
         </div>
     </div>
 </x-blog.app>
+
+

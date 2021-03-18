@@ -13,7 +13,7 @@ module.exports = {
          'jan': "url('https://images.unsplash.com/photo-1558980971-97f50d0fed00?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=992&q=80')",
         }),
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Archivo Narrow', ...defaultTheme.fontFamily.sans],
             },
         },
     },
