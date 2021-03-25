@@ -16,14 +16,8 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
-    <style>
-        td {
-            padding-right: 60px;
-            vertical-align: baseline;
-        }
-    </style>
-    <body class="font-sans antialiased">
-        <div class="bg-gray-100 h-96 bg-cover {{ $pos ?? '' }}"
+    <body class="font-sans bg-gray-100 antialiased">
+        <div class="h-96 bg-cover {{ $pos ?? '' }}"
             style="background-image:url({{ $link ?? '' }});">
             <x-blog.navigation />
 
@@ -39,10 +33,10 @@
         <main>
             {{ $slot }}
         </main>
-        <div class="bg-black fixed right-0 left-0 bottom-0">
-            <div class="max-w-7xl mx-auto p-6 text-sm uppercase"> 
-                    <span class="float-left text-gray-400 tracking-wide">© Copyright Charly J. – Theater Lifestyle</span>
-                    <span class="float-right text-gray-300 pr-10"><a href="{{ route('impressum') }}" class="hover:underline">Impressum </a></span>
+        <div class="bg-black sm:h-12"> 
+            <div class="max-w-7xl mx-auto text-center p-6 text-xs uppercase "> 
+                    <span class=" inline-block pb-1.5 sm:float-left text-gray-400 tracking-wide pr-10">© Copyright Charly J. – Theater Lifestyle</span>
+                    <span class="inline-block sm:float-right text-gray-300 pr-10"><a href="{{ route('impressum') }}" class="hover:underline">Impressum</a> / Datenschutzerklärung</span>
             </div>
         </div>
     </body>
