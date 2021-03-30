@@ -17,14 +17,9 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans bg-gray-100 antialiased">
-        @if (!empty($link))
-        <div x-data="{ open: false }" class="h-96 bg-cover {{ $pos ?? '' }}"
+        <div x-data="{ open: false }" class="h-screen bg-cover {{ $pos ?? '' }}"
             style="background-image:url({{ $link ?? '' }});">
             <x-blog.navigation />
-        @else
-        <div x-data="{ open: false }" class="h-20 bg-black"
-            <x-blog.navigation />
-        @endif
 
             <!-- Page Heading -->
             <header x-show="! open">
@@ -38,12 +33,6 @@
         <main>
             {{ $slot }}
         </main>
-        <div class="bg-black sm:h-12"> 
-            <div class="max-w-7xl mx-auto text-center p-6 text-xs uppercase "> 
-                    <span class=" inline-block pb-1.5 sm:float-left text-gray-400 tracking-wide pr-10">© Copyright Charly J. – Theater Lifestyle</span>
-                    <span class="inline-block sm:float-right text-gray-300 pr-10"><a href="{{ route('impressum') }}" class="hover:underline">Impressum</a> / Datenschutzerklärung</span>
-            </div>
-        </div>
     </body>
 </html>
 

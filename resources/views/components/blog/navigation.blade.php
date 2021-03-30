@@ -4,9 +4,11 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
+                <div class="flex-shrink-0 flex items-center sm:pt-2.5">
                     <a href="{{ route('main') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-white" />
+                        {{-- <x-application-logo class="block h-10 w-auto fill-current text-white" /> --}}
+                            <img class="h-10 w-10 rounded-full" src='{{ asset("storage/images/avatar.jpg") }}'>
+        
                     </a>
                 </div>
 
