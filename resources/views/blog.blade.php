@@ -14,7 +14,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden">
-                <div class="flex flex-col sm:flex-row p-6 -gray-100"> 
+                <div class="flex flex-col md:flex-row p-6"> 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div class="bg-white" style="height:30rem;">
                             <img class="cursor-pointer h-1/2 object-cover object-top w-full" src='{{ asset("storage/images/blog.jpg") }}'>
@@ -90,48 +90,7 @@
                         </div>
 
                     </div> 
-
-                    <aside class="sm:flex-shrink-0 w-60 sm:pl-5 mx-auto sm:pt-0 pt-10">
-                        <div>
-                            <ul class="text-gray-400 uppercase text-sm ">
-                                <li class=""><span class="cursor-pointer">Theater </span><hr class="my-2"></li>
-                                <li class=""><span class="cursor-pointer">Photography </span><hr class="my-2"></li>
-                                <li class=""><span class="cursor-pointer">Yoga </span><hr class="my-2"></li>
-                            </ul>
-                        </div>
-                        <div class="pt-5">
-                            <ul>
-                                <li class="pb-10">
-                                    <div class="flex">
-                                        <img class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20" src='{{ asset("storage/images/blog.jpg") }}'>
-                                        <span class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</span>
-                                    </div>
-                                
-                                </li>
-                                <li class="pb-10">
-                                    <div class="flex">
-                                        <img class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20" src='{{ asset("storage/images/blog.jpg") }}'>
-                                        <span class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</span>
-                                    </div>
-                                
-                                </li>
-                                <li class="pb-10">
-                                    <div class="flex">
-                                        <img class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20" src='{{ asset("storage/images/blog.jpg") }}'>
-                                        <span class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</span>
-                                    </div>
-                                
-                                </li>
-                                <li class="pb-10">
-                                    <div class="flex">
-                                        <img class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20" src='{{ asset("storage/images/blog.jpg") }}'>
-                                        <span class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</span>
-                                    </div>
-                                
-                                </li>
-                            </ul>
-                        </div>
-                    </aside>
+                    <x-blog.aside />
                 </div>
             </div>
         </div>
