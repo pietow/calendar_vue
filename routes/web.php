@@ -26,6 +26,9 @@ Route::get('/about', function () {
 Route::get('/blog', function () {
     return view('blog');
 })->name('blog');
+Route::get('/article', function () {
+    return view('article');
+})->name('article');
 Route::get('/galerie', function () {
     return view('galerie');
 })->name('galerie');

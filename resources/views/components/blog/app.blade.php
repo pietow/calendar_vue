@@ -17,14 +17,19 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans bg-gray-100 antialiased">
-        <div x-data="{ open: false }"class="h-96 bg-cover {{ $pos ?? '' }}"
+        @if (!empty($link))
+        <div x-data="{ open: false }" class="h-96 bg-cover {{ $pos ?? '' }}"
             style="background-image:url({{ $link ?? '' }});">
             <x-blog.navigation />
+        @else
+        <div x-data="{ open: false }" class="h-16 bg-black"
+            <x-blog.navigation />
+        @endif
 
             <!-- Page Heading -->
             <header x-show="! open">
                 <div class="text-center max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
+                    {{ $header ?? '' }}
                 </div>
             </header>
 
