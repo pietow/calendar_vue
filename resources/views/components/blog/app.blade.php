@@ -12,9 +12,14 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        {{ $fancybox_css ?? '' }}
 
         <!-- Scripts -->
+        {{ $fancybox_scripts ?? '' }}
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <!--custom fancybox Style-->
+        {{ $fancybox_style?? '' }}
+
     </head>
     <body class="font-sans bg-gray-100 antialiased">
         @if (!empty($link))
@@ -44,6 +49,7 @@
                     <span class="inline-block sm:float-right text-gray-300 pr-10"><a href="{{ route('impressum') }}" class="hover:underline">Impressum</a> / Datenschutzerklärung</span>
             </div>
         </div>
+    {{ $script ?? '' }}
     </body>
 </html>
 
