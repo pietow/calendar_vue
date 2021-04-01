@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Event;
+use App\Models\Gallery;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         /* User::factory(1)->create(); */
-        Event::factory(10)->create();
+        Gallery::factory(1)->create();
 #        $this->call(UserSeeder::class);
     }
 }

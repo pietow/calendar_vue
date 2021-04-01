@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Models\Gallery;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,8 +34,11 @@ Route::get('/galerie', function () {
     return view('galerie');
 })->name('galerie');
 Route::get('/galerie/theater', function () {
-    return view('theater');
 })->name('theater');
+Route::get('/galerie/carousel', function () {
+    $gallery = Gallery::all();
+    return view('carousel')->with("gals", $gallery);
+})->name('carousel');
 Route::get('/impressum', function () {
     return view('impressum');
 })->name('impressum');
