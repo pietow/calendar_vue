@@ -15,7 +15,7 @@ class CreateGalleryItemsTable extends Migration
     {
         Schema::create('gallery_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('gallery_id')->constrained();
             $table->text('image');
             $table->timestamps();
         });

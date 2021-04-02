@@ -24,7 +24,7 @@
                     </x-blog.nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-blog.nav-link :href="route('galerie')" :active="request()->routeIs('galerie')">
+                    <x-blog.nav-link :href="route('galleries')" :active="request()->routeIs('galleries')">
                         {{ __('Galerie') }}
                     </x-blog.nav-link>
                 </div>
@@ -68,7 +68,7 @@
             </x-blog.responsive-nav-link>
         </div>
         <div class="pt-2 pb-3 space-y-1">
-            <x-blog.responsive-nav-link :href="route('galerie')" :active="request()->routeIs('galerie')">
+            <x-blog.responsive-nav-link :href="route('galleries')" :active="request()->routeIs('galleries')">
                 {{ __('Galerie') }}
             </x-blog.responsive-nav-link>
         </div>

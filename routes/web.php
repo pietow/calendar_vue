@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Gallery;
+/* use App\Http\Controllers\GalleryController; */
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,14 +31,13 @@ Route::get('/blog', function () {
 Route::get('/article', function () {
     return view('article');
 })->name('article');
-Route::get('/galerie', function () {
-    return view('galerie');
-})->name('galerie');
-Route::get('/galerie/theater', function () {
-})->name('theater');
+
+Route::get('/galerien', 'App\Http\Controllers\GalleryController@index')->name('galleries');
+
+Route::get('/galerie/{id}', 'App\Http\Controllers\GalleryController@show')->name('gallery');
+
 Route::get('/galerie/carousel', function () {
-    $gallery = Gallery::all();
-    return view('carousel')->with("gals", $gallery);
+    return view('carousel');
 })->name('carousel');
 Route::get('/impressum', function () {
     return view('impressum');
