@@ -26,4 +26,10 @@ class GalleryFactory extends Factory
             'image' => 'blog/small_kid.JPG'
         ];
     }
+
+    /* $factory->state(Gallery::class, 'model' , */
+    /*     [ */
+    /*         'title' => 'all about fashion', */
+    /*         'image' => 'model.JPG' */
+    /*     ]); */
 }
