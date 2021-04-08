@@ -15,11 +15,22 @@
                 </button>
             </div>
             <div class="flex h-full">
-                <img
-                    class="m-auto max-h-96"
-                    :src="currentElement.image"
-                    alt=""
-                />
+              <transition name="fade" mode="out-in">
+              <img
+                 class="m-auto max-h-96"
+                 :src="currentElement.image"
+                 v-if="currentElementIndex % 2 === 0"
+                 key=0
+                 rel="preload"
+                 />
+              <img
+                 class="m-auto max-h-96"
+                 :src="currentElement.image"
+                 v-else
+                 key=1
+                 rel="preload"
+                 />
+              </transition>
             </div>
             <div class="absolute top-40 right-0">
                 <button
@@ -75,3 +86,14 @@ export default {
     },
 };
 </script>
+<style scoped>
+.fade-enter-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>
