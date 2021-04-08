@@ -13907,6 +13907,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propGallery: {
@@ -13915,7 +13943,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      imgObj: this.propGallery
+      imgObj: this.propGallery,
+      currentElementIndex: 0
     };
   },
   computed: {
@@ -13924,6 +13953,15 @@ __webpack_require__.r(__webpack_exports__);
         ele.image = "/../storage/images/" + ele.image;
         return ele;
       });
+    },
+    currentElement: function currentElement() {
+      return this.imgObj[this.currentElementIndex];
+    },
+    reachedMaxLeft: function reachedMaxLeft() {
+      return this.currentElementIndex === 0;
+    },
+    reachedMaxRight: function reachedMaxRight() {
+      return this.currentElementIndex === this.imgObj.length - 1;
     }
   },
   created: function created() {
@@ -32067,17 +32105,57 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "box", attrs: { id: "products" } }, [
-    _c(
-      "ul",
-      { attrs: { id: "example-1" } },
-      _vm._l(_vm.imgObj, function(item) {
-        return _c("li", { key: item.id }, [
-          _c("img", { attrs: { src: item.image, alt: "" } })
-        ])
-      }),
-      0
-    )
+  return _c("div", { attrs: { id: "products" } }, [
+    _c("div", { staticClass: "relative w-full h-96" }, [
+      _c("div", { staticClass: "absolute top-40" }, [
+        _c(
+          "button",
+          {
+            attrs: { disabled: _vm.reachedMaxLeft },
+            on: {
+              click: function($event) {
+                _vm.currentElementIndex--
+              }
+            }
+          },
+          [
+            _c("img", {
+              attrs: {
+                src: "/../storage/images/assets/arrow_left_main_gallery.jpg"
+              }
+            })
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex h-full" }, [
+        _c("img", {
+          staticClass: "m-auto max-h-96",
+          attrs: { src: _vm.currentElement.image, alt: "" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "absolute top-40 right-0" }, [
+        _c(
+          "button",
+          {
+            attrs: { disabled: _vm.reachedMaxRight },
+            on: {
+              click: function($event) {
+                _vm.currentElementIndex++
+              }
+            }
+          },
+          [
+            _c("img", {
+              attrs: {
+                src: "/../storage/images/assets/arrow_right_main_gallery.jpg"
+              }
+            })
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []

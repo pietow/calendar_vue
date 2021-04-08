@@ -36,9 +36,9 @@ Route::get('/galerien', 'App\Http\Controllers\GalleryController@index')->name('g
 
 Route::get('/galerie/{id}', 'App\Http\Controllers\GalleryController@show')->name('gallery');
 
-Route::get('/galerie/carousel', function () {
-    return view('carousel');
-})->name('carousel');
+/* Route::get('/galerie/carousel', function () { */
+/*     return view('carousel'); */
+/* })->name('carousel'); */
 Route::get('/impressum', function () {
     return view('impressum');
 })->name('impressum');
