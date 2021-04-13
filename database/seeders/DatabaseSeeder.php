@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         /* User::factory(1)->create(); */
-        GalleryItem::truncate();
-        DB::table('galleries')->delete();
+        /* GalleryItem::truncate(); */
+        /* DB::table('galleries')->delete(); */
         Gallery::factory(1)->create();
         Gallery::factory(1)->create([
             'title' => 'all about fashion',

@@ -22,6 +22,7 @@ const store = new Vuex.Store(storeData)
 
 Vue.component('CalendarParent', require('./CalendarParent.vue').default);
 Vue.component('ContainerGallery', require('./components/gallery/ContainerGallery.vue').default);
+Vue.component('CarouselGallery', require('./components/gallery/CarouselGallery.vue').default);
 // Vue.component('calendar-component', require('./components/CalendarComponent.vue').default);
 
 

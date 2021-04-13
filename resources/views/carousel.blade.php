@@ -3,6 +3,9 @@
         <container-gallery
             :prop-gallery="{{ $gal->galleryItems }}"
         ></container-gallery>
+        <carousel-gallery
+            :prop-gallery="{{ $gal->galleryItems }}"
+        ></carousel-gallery>
     </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
