@@ -13939,9 +13939,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propGallery: {
@@ -13951,7 +13948,17 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       imgObj: this.propGallery,
-      currentElementIndex: 0
+      currentElementIndex: 0,
+      // styleTrafo: { "--tw-translate-x": -4640+1838-38.39+"px" },
+      // styleTrafo: { "--tw-translate-x": -1657 + 38.39 + "px" },
+      styleTrafo: {
+        "--tw-translate-x": "38.39px"
+      },
+      clickCounter: 0,
+      clickDict: {
+        0: "38.39"
+      },
+      carouselEnd: false
     };
   },
   computed: {
@@ -13972,24 +13979,58 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    widthCurrentElement: function widthCurrentElement() {
-      console.log();
-      console.log();
-      var divWidth = this.$refs.container.clientWidth;
+    arrWidth: function arrWidth() {
       var dummy = 0;
-      this.$refs.imgs.every(function (item, index) {
+      var imgWidth = [];
+      this.$refs.imgs.forEach(function (item, index) {
         dummy += item.clientWidth;
+        imgWidth[index] = dummy;
+      });
+      return imgWidth;
+    },
+    goLeft: function goLeft() {
+      if (this.clickCounter > 0) {
+        console.log(this.clickDict[this.clickCounter - 1]);
+        this.styleTrafo["--tw-translate-x"] = this.clickDict[this.clickCounter - 1] + "px";
+        this.clickCounter -= 1;
+        this.carouselEnd = false;
+      }
+    },
+    goRight: function goRight() {
+      var _this = this;
 
-        if (dummy < divWidth) {
-          console.log(dummy);
+      this.clickCounter += 1;
+      var divWidth = this.$refs.container.clientWidth;
+      var carouselWidth = this.$refs.carousel.clientWidth;
+      var maxTransl = carouselWidth - divWidth + 38.39;
+      var imgWidth = this.arrWidth();
+      var finalWidth = 0;
+      imgWidth.every(function (item, index) {
+        var clickWith = _this.clickCounter * (divWidth - 2 * 38.39); // console.log(clickWith);
+
+        if (clickWith > item) {
+          // console.log(item);
+          finalWidth = item - 38.39;
           return true;
         }
       });
+
+      if (-finalWidth < -maxTransl) {
+        this.clickDict[this.clickCounter] = -maxTransl;
+        console.log(this.clickDict[this.clickCounter]);
+        this.styleTrafo["--tw-translate-x"] = -maxTransl + "px";
+        console.log(this.clickDict);
+        this.clickcounter -= 1;
+        this.carouselEnd = true;
+      } else {
+        this.clickDict[this.clickCounter] = -finalWidth;
+        console.log(this.clickDict[this.clickCounter]);
+        this.styleTrafo["--tw-translate-x"] = -finalWidth + "px";
+      }
     }
   },
   created: function created() {
-    this.prependUrl;
-    console.log(window.innerWidth);
+    this.prependUrl; // console.log(window.innerWidth);
   }
 });
 
@@ -32448,11 +32489,7 @@ var render = function() {
         _c("div", { staticClass: "absolute z-10" }, [
           _c(
             "div",
-            {
-              staticClass: "cursor-pointer",
-              attrs: { disabled: _vm.reachedMaxLeft },
-              on: { click: _vm.widthCurrentElement }
-            },
+            { staticClass: "cursor-pointer", on: { click: _vm.goLeft } },
             [
               _c("img", {
                 staticClass: "h-24 opacity-90",
@@ -32464,7 +32501,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "absolute z-0" }, [
+        _c("div", { ref: "carousel", staticClass: "absolute z-0" }, [
           _c(
             "div",
             { staticClass: "inline-flex w-auto overflow-hidden" },
@@ -32479,8 +32516,9 @@ var render = function() {
                 },
                 [
                   _c("img", {
-                    staticClass: "h-24 flex-none transform",
-                    staticStyle: { "--tw-translate-x": "38.39px" },
+                    staticClass:
+                      "h-24 flex-none transform transition ease duration-700",
+                    style: _vm.styleTrafo,
                     attrs: { src: item.image }
                   })
                 ]
@@ -32492,15 +32530,11 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "absolute top-0 right-0 z-10" }, [
           _c(
-            "div",
+            "button",
             {
-              staticClass: "cursor-pointer",
-              attrs: { disabled: _vm.reachedMaxRight },
-              on: {
-                click: function($event) {
-                  _vm.currentElementIndex++
-                }
-              }
+              staticStyle: { outline: "none" },
+              attrs: { disabled: _vm.carouselEnd },
+              on: { click: _vm.goRight }
             },
             [
               _c("img", {
