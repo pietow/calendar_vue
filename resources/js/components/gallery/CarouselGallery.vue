@@ -14,12 +14,19 @@
                 <div class="inline-flex w-auto overflow-hidden">
                     <div
                         class="w-max"
-                        v-for="item in imgObj"
+                        v-for="(item, index) in imgObj"
                         :key="item.id"
                         ref="imgs"
                     >
                         <img
-                            class="h-24 flex-none transform transition ease duration-700"
+                            v-if="index==currentElementIndex"
+                            class="h-24 flex-none transform transition ease filter cursor-pointer border-8 border-yellow-300"
+                            :src="item.image"
+                            :style="styleTrafo"
+                        />
+                        <img
+                            v-else
+                            class="h-24 flex-none transform transition ease filter brightness-75 cursor-pointer hover:brightness-100"
                             :src="item.image"
                             :style="styleTrafo"
                         />
