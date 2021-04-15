@@ -19,7 +19,7 @@
                         ref="imgs"
                     >
                         <div
-                            v-if="index == currentElementIndex"
+                            v-if="index == currentElement.index"
                             class="flex-none transform transition ease-out duration-700 border-t-8 border-gray-100"
                             :style="styleTrafo"
                         >
@@ -35,7 +35,7 @@
 
                         <img
                             v-else
-                            @click="currentElementIndex = index"
+                            @click="currentElement.index = index"
                             class="h-24 my-2 flex-none transform transition ease-out duration-700 filter brightness-75 cursor-pointer hover:brightness-100"
                             :src="item.image"
                             :style="styleTrafo"
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import {store} from '../../store/carousel_store.js'
+
 export default {
     props: {
         propGallery: {
@@ -71,7 +73,7 @@ export default {
     data() {
         return {
             imgObj: this.propGallery,
-            currentElementIndex: 0,
+            currentElement: store.state,
             // styleTrafo: { "--tw-translate-x": -4640+1838-38.39+"px" },
             // styleTrafo: { "--tw-translate-x": -1657 + 38.39 + "px" },
             styleTrafo: { "--tw-translate-x": "38.39px" },
@@ -86,15 +88,6 @@ export default {
                 ele.image = "/../storage/images/" + ele.image;
                 return ele;
             });
-        },
-        currentElement() {
-            return this.imgObj[this.currentElementIndex];
-        },
-        reachedMaxLeft() {
-            return this.currentElementIndex === 0;
-        },
-        reachedMaxRight() {
-            return this.currentElementIndex === this.imgObj.length - 1;
         },
     },
     methods: {
@@ -153,6 +146,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 .fade-enter-active {
     transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);

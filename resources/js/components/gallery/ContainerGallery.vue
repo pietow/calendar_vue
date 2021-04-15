@@ -5,36 +5,33 @@
         <!-- <img src="/../storage/images/blog/bio.jpg" /> -->
         <div class="relative w-full h-96">
             <div class="absolute top-40">
-                <button
-                    @click="currentElementIndex--"
-                    :disabled="reachedMaxLeft"
-                >
+                <button @click="goLeft()" :disabled="reachedMaxLeft">
                     <img
                         src="/../storage/images/assets/arrow_left_main_gallery.jpg"
                     />
                 </button>
             </div>
             <div class="flex h-full">
-              <transition name="fade" mode="out-in">
-              <img
-                 class="m-auto max-h-96"
-                 :src="currentElement.image"
-                 v-if="currentElementIndex % 2 === 0"
-                 key=0
-                 rel="preload"
-                 />
-              <img
-                 class="m-auto max-h-96"
-                 :src="currentElement.image"
-                 v-else
-                 key=1
-                 rel="preload"
-                 />
-              </transition>
+                <transition name="fade" mode="out-in">
+                    <img
+                        class="m-auto max-h-96"
+                        :src="currentElement.image"
+                        v-if="currentElementIndex % 2 === 0"
+                        key="0"
+                        rel="preload"
+                    />
+                    <img
+                        class="m-auto max-h-96"
+                        :src="currentElement.image"
+                        v-else
+                        key="1"
+                        rel="preload"
+                    />
+                </transition>
             </div>
             <div class="absolute top-40 right-0">
                 <button
-                    @click="currentElementIndex++"
+                    @click="goRight()"
                     :disabled="reachedMaxRight"
                 >
                     <img
@@ -52,6 +49,8 @@
 </template>
 
 <script>
+import { store } from "../../store/carousel_store.js";
+
 export default {
     props: {
         propGallery: {
@@ -61,8 +60,18 @@ export default {
     data() {
         return {
             imgObj: this.propGallery,
-            currentElementIndex: 0,
+            currentElementIndex: store.state.index,
         };
+    },
+    methods: {
+        goLeft() {
+            store.state.index--;
+            this.currentElementIndex = store.state.index;
+        },
+        goRight() {
+            store.state.index++;
+            this.currentElementIndex = store.state.index;
+        },
     },
     computed: {
         prependUrl() {
@@ -88,12 +97,12 @@ export default {
 </script>
 <style scoped>
 .fade-enter-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+    opacity: 0;
 }
 </style>

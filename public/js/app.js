@@ -13893,6 +13893,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/carousel_store.js */ "./resources/js/store/carousel_store.js");
 //
 //
 //
@@ -13956,6 +13957,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propGallery: {
@@ -13965,7 +13967,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       imgObj: this.propGallery,
-      currentElementIndex: 0,
+      currentElement: _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state,
       // styleTrafo: { "--tw-translate-x": -4640+1838-38.39+"px" },
       // styleTrafo: { "--tw-translate-x": -1657 + 38.39 + "px" },
       styleTrafo: {
@@ -13984,15 +13986,6 @@ __webpack_require__.r(__webpack_exports__);
         ele.image = "/../storage/images/" + ele.image;
         return ele;
       });
-    },
-    currentElement: function currentElement() {
-      return this.imgObj[this.currentElementIndex];
-    },
-    reachedMaxLeft: function reachedMaxLeft() {
-      return this.currentElementIndex === 0;
-    },
-    reachedMaxRight: function reachedMaxRight() {
-      return this.currentElementIndex === this.imgObj.length - 1;
     }
   },
   methods: {
@@ -14064,6 +14057,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/carousel_store.js */ "./resources/js/store/carousel_store.js");
 //
 //
 //
@@ -14114,9 +14108,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propGallery: {
@@ -14126,8 +14118,18 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       imgObj: this.propGallery,
-      currentElementIndex: 0
+      currentElementIndex: _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index
     };
+  },
+  methods: {
+    goLeft: function goLeft() {
+      _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index--;
+      this.currentElementIndex = _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index;
+    },
+    goRight: function goRight() {
+      _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index++;
+      this.currentElementIndex = _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index;
+    }
   },
   computed: {
     prependUrl: function prependUrl() {
@@ -14224,6 +14226,26 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/store/carousel_store.js":
+/*!**********************************************!*\
+  !*** ./resources/js/store/carousel_store.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "store": () => /* binding */ store
+/* harmony export */ });
+
+var store = {
+  state: {
+    index: 0
+  }
+};
 
 /***/ }),
 
@@ -14337,7 +14359,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-enter-active[data-v-55bba119] {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.fade-leave-active[data-v-55bba119] {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.fade-enter[data-v-55bba119], .fade-leave-to[data-v-55bba119] /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-enter-active[data-v-55bba119] {\n    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);\n}\n.fade-leave-active[data-v-55bba119] {\n    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);\n}\n.fade-enter[data-v-55bba119], .fade-leave-to[data-v-55bba119] /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -32580,7 +32602,7 @@ var render = function() {
                   staticClass: "w-max"
                 },
                 [
-                  index == _vm.currentElementIndex
+                  index == _vm.currentElement.index
                     ? _c(
                         "div",
                         {
@@ -32613,7 +32635,7 @@ var render = function() {
                         attrs: { src: item.image },
                         on: {
                           click: function($event) {
-                            _vm.currentElementIndex = index
+                            _vm.currentElement.index = index
                           }
                         }
                       })
@@ -32678,7 +32700,7 @@ var render = function() {
             attrs: { disabled: _vm.reachedMaxLeft },
             on: {
               click: function($event) {
-                _vm.currentElementIndex--
+                return _vm.goLeft()
               }
             }
           },
@@ -32720,7 +32742,7 @@ var render = function() {
             attrs: { disabled: _vm.reachedMaxRight },
             on: {
               click: function($event) {
-                _vm.currentElementIndex++
+                return _vm.goRight()
               }
             }
           },
