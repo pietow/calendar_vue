@@ -13946,6 +13946,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propGallery: {
@@ -32540,14 +32550,14 @@ var render = function() {
     "div",
     { ref: "container", staticClass: "pt-20", attrs: { id: "products" } },
     [
-      _c("div", { staticClass: "relative w-full overflow-x" }, [
+      _c("div", { staticClass: "relative w-full " }, [
         _c("div", { staticClass: "absolute z-10" }, [
           _c(
             "div",
             { staticClass: "cursor-pointer", on: { click: _vm.goLeft } },
             [
               _c("img", {
-                staticClass: "h-24 opacity-90",
+                staticClass: "h-24 opacity-90 my-2",
                 attrs: {
                   src: "/../storage/images/assets/arrow_left_gallery.jpg"
                 }
@@ -32571,17 +32581,41 @@ var render = function() {
                 },
                 [
                   index == _vm.currentElementIndex
-                    ? _c("img", {
-                        staticClass:
-                          "h-24 flex-none transform transition ease filter cursor-pointer border-8 border-yellow-300",
-                        style: _vm.styleTrafo,
-                        attrs: { src: item.image }
-                      })
+                    ? _c(
+                        "div",
+                        {
+                          staticClass:
+                            "flex-none transform transition ease-out duration-700 border-t-8 border-gray-100",
+                          style: _vm.styleTrafo
+                        },
+                        [
+                          _c("img", {
+                            staticClass:
+                              "h-24 filter cursor-pointer border-8 border-secondary",
+                            attrs: { src: item.image }
+                          }),
+                          _vm._v(" "),
+                          _c("span", {
+                            staticClass:
+                              "absolute -top-2 w-1/2 h-1/2 -ml-0.5 z-20",
+                            staticStyle: {
+                              background:
+                                "rgba(0, 0, 0, 0) url(/../storage/images/assets/arrow-image-frame.png) no-repeat scroll 0 0",
+                              left: "calc(50% - 13px)"
+                            }
+                          })
+                        ]
+                      )
                     : _c("img", {
                         staticClass:
-                          "h-24 flex-none transform transition ease filter brightness-75 cursor-pointer hover:brightness-100",
+                          "h-24 my-2 flex-none transform transition ease-out duration-700 filter brightness-75 cursor-pointer hover:brightness-100",
                         style: _vm.styleTrafo,
-                        attrs: { src: item.image }
+                        attrs: { src: item.image },
+                        on: {
+                          click: function($event) {
+                            _vm.currentElementIndex = index
+                          }
+                        }
                       })
                 ]
               )
@@ -32600,7 +32634,7 @@ var render = function() {
             },
             [
               _c("img", {
-                staticClass: "h-24 opacity-90",
+                staticClass: "h-24 my-2 opacity-90",
                 attrs: {
                   src: "/../storage/images/assets/arrow_right_gallery.jpg"
                 }

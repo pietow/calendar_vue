@@ -1,10 +1,10 @@
 <template>
     <div id="products" class="pt-20" ref="container">
-        <div class="relative w-full overflow-x">
+        <div class="relative w-full ">
             <div class="absolute z-10">
                 <div class="cursor-pointer" @click="goLeft">
                     <img
-                        class="h-24 opacity-90"
+                        class="h-24 opacity-90 my-2"
                         src="/../storage/images/assets/arrow_left_gallery.jpg"
                     />
                 </div>
@@ -18,15 +18,25 @@
                         :key="item.id"
                         ref="imgs"
                     >
-                        <img
-                            v-if="index==currentElementIndex"
-                            class="h-24 flex-none transform transition ease filter cursor-pointer border-8 border-yellow-300"
-                            :src="item.image"
+                        <div
+                            v-if="index == currentElementIndex"
+                            class="flex-none transform transition ease-out duration-700 border-t-8 border-gray-100"
                             :style="styleTrafo"
-                        />
+                        >
+                            <img
+                                class="h-24 filter cursor-pointer border-8 border-secondary"
+                                :src="item.image"
+                            />
+                            <span
+                                style="background: rgba(0, 0, 0, 0) url(/../storage/images/assets/arrow-image-frame.png) no-repeat scroll 0 0; left:calc(50% - 13px)"
+                                class="absolute -top-2 w-1/2 h-1/2 -ml-0.5 z-20"
+                            ></span>
+                        </div>
+
                         <img
                             v-else
-                            class="h-24 flex-none transform transition ease filter brightness-75 cursor-pointer hover:brightness-100"
+                            @click="currentElementIndex = index"
+                            class="h-24 my-2 flex-none transform transition ease-out duration-700 filter brightness-75 cursor-pointer hover:brightness-100"
                             :src="item.image"
                             :style="styleTrafo"
                         />
@@ -42,7 +52,7 @@
                     style="outline:none"
                 >
                     <img
-                        class="h-24 opacity-90"
+                        class="h-24 my-2 opacity-90"
                         src="/../storage/images/assets/arrow_right_gallery.jpg"
                     />
                 </button>

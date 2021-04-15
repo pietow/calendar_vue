@@ -8,6 +8,13 @@ module.exports = {
     ],
 
     theme: {
+        borderColor: (theme) => ({
+            ...theme("colors"),
+            DEFAULT: theme("colors.gray.300", "currentColor"),
+            primary: "#3490dc",
+            secondary: "#dba63c",
+            danger: "#e3342f",
+        }),
         flex: {
             full: "1 0 100%",
         },
@@ -23,7 +30,7 @@ module.exports = {
             transitionTimingFunction: {
                 "in-expo": "cubic-bezier(0.95, 0.05, 0.795, 0.035)",
                 "out-expo": "cubic-bezier(0.19, 1, 0.22, 1)",
-                "ease": "ease",
+                ease: "ease",
             },
         },
     },
@@ -31,7 +38,7 @@ module.exports = {
     variants: {
         extend: {
             opacity: ["disabled"],
-            brightness: ['hover', 'focus'],
+            brightness: ["hover", "focus"],
         },
     },
 
