@@ -1,5 +1,5 @@
 <template>
-    <div id="products" class="pt-20" ref="container">
+    <div id="products" class="pt-20 mb-12" ref="container">
         <div class="relative w-full ">
             <div class="absolute z-10">
                 <div class="cursor-pointer" @click="goLeft">
@@ -74,8 +74,6 @@ export default {
         return {
             imgObj: this.propGallery,
             currentElement: store.state,
-            // styleTrafo: { "--tw-translate-x": -4640+1838-38.39+"px" },
-            // styleTrafo: { "--tw-translate-x": -1657 + 38.39 + "px" },
             styleTrafo: { "--tw-translate-x": "38.39px" },
             clickCounter: 0,
             clickDict: { 0: "38.39" },

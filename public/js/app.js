@@ -13968,8 +13968,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       imgObj: this.propGallery,
       currentElement: _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state,
-      // styleTrafo: { "--tw-translate-x": -4640+1838-38.39+"px" },
-      // styleTrafo: { "--tw-translate-x": -1657 + 38.39 + "px" },
       styleTrafo: {
         "--tw-translate-x": "38.39px"
       },
@@ -32584,7 +32582,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { ref: "container", staticClass: "pt-20", attrs: { id: "products" } },
+    { ref: "container", staticClass: "pt-20 mb-12", attrs: { id: "products" } },
     [
       _c("div", { staticClass: "relative w-full " }, [
         _c("div", { staticClass: "absolute z-10" }, [
