@@ -16,7 +16,7 @@
                     <img
                         class="m-auto max-h-96"
                         :src="currentElement.image"
-                        v-if="currentElementIndex % 2 === 0"
+                        v-if="currentElementIndex.index % 2 === 0"
                         key="0"
                         rel="preload"
                     />
@@ -60,17 +60,17 @@ export default {
     data() {
         return {
             imgObj: this.propGallery,
-            currentElementIndex: store.state.index,
+            currentElementIndex: store.state,
         };
     },
     methods: {
         goLeft() {
             store.state.index--;
-            this.currentElementIndex = store.state.index;
+            // this.currentElementIndex = store.state.index;
         },
         goRight() {
             store.state.index++;
-            this.currentElementIndex = store.state.index;
+            // this.currentElementIndex = store.state.index;
         },
     },
     computed: {
@@ -81,13 +81,13 @@ export default {
             });
         },
         currentElement() {
-            return this.imgObj[this.currentElementIndex];
+            return this.imgObj[this.currentElementIndex.index];
         },
         reachedMaxLeft() {
-            return this.currentElementIndex === 0;
+            return this.currentElementIndex.index === 0;
         },
         reachedMaxRight() {
-            return this.currentElementIndex === this.imgObj.length - 1;
+            return this.currentElementIndex.index === this.imgObj.length - 1;
         },
     },
     created() {

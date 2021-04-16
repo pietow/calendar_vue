@@ -13988,6 +13988,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
+  watch: {
+    "currentElement.index": function currentElementIndex(id) {
+      this.moveCarousel(id);
+    }
+  },
   methods: {
     arrWidth: function arrWidth() {
       var dummy = 0;
@@ -14000,14 +14005,29 @@ __webpack_require__.r(__webpack_exports__);
     },
     goLeft: function goLeft() {
       if (this.clickCounter > 0) {
-        console.log(this.clickDict[this.clickCounter - 1]);
         this.styleTrafo["--tw-translate-x"] = this.clickDict[this.clickCounter - 1] + "px";
         this.clickCounter -= 1;
         this.carouselEnd = false;
       }
     },
-    goRight: function goRight() {
+    moveCarousel: function moveCarousel(id) {
       var _this = this;
+
+      var divWidth = this.$refs.container.clientWidth;
+      var imgWidth = this.arrWidth()[id];
+
+      var clickWith = function clickWith(fac) {
+        return (_this.clickCounter + fac) * (divWidth - 2 * 38.39);
+      };
+
+      if (clickWith(1) < imgWidth) {
+        this.goRight();
+      } else if (clickWith(0) > imgWidth) {
+        this.goLeft();
+      }
+    },
+    goRight: function goRight() {
+      var _this2 = this;
 
       this.clickCounter += 1;
       var divWidth = this.$refs.container.clientWidth;
@@ -14016,10 +14036,9 @@ __webpack_require__.r(__webpack_exports__);
       var imgWidth = this.arrWidth();
       var finalWidth = 0;
       imgWidth.every(function (item, index) {
-        var clickWith = _this.clickCounter * (divWidth - 2 * 38.39); // console.log(clickWith);
+        var clickWith = _this2.clickCounter * (divWidth - 2 * 38.39);
 
         if (clickWith > item) {
-          // console.log(item);
           finalWidth = item - 38.39;
           return true;
         }
@@ -14027,20 +14046,17 @@ __webpack_require__.r(__webpack_exports__);
 
       if (-finalWidth < -maxTransl) {
         this.clickDict[this.clickCounter] = -maxTransl;
-        console.log(this.clickDict[this.clickCounter]);
         this.styleTrafo["--tw-translate-x"] = -maxTransl + "px";
-        console.log(this.clickDict);
         this.clickcounter -= 1;
         this.carouselEnd = true;
       } else {
         this.clickDict[this.clickCounter] = -finalWidth;
-        console.log(this.clickDict[this.clickCounter]);
         this.styleTrafo["--tw-translate-x"] = -finalWidth + "px";
       }
     }
   },
   created: function created() {
-    this.prependUrl; // console.log(window.innerWidth);
+    this.prependUrl;
   }
 });
 
@@ -14118,17 +14134,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       imgObj: this.propGallery,
-      currentElementIndex: _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index
+      currentElementIndex: _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state
     };
   },
   methods: {
     goLeft: function goLeft() {
-      _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index--;
-      this.currentElementIndex = _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index;
+      _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index--; // this.currentElementIndex = store.state.index;
     },
     goRight: function goRight() {
-      _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index++;
-      this.currentElementIndex = _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index;
+      _store_carousel_store_js__WEBPACK_IMPORTED_MODULE_0__.store.state.index++; // this.currentElementIndex = store.state.index;
     }
   },
   computed: {
@@ -14139,13 +14153,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     currentElement: function currentElement() {
-      return this.imgObj[this.currentElementIndex];
+      return this.imgObj[this.currentElementIndex.index];
     },
     reachedMaxLeft: function reachedMaxLeft() {
-      return this.currentElementIndex === 0;
+      return this.currentElementIndex.index === 0;
     },
     reachedMaxRight: function reachedMaxRight() {
-      return this.currentElementIndex === this.imgObj.length - 1;
+      return this.currentElementIndex.index === this.imgObj.length - 1;
     }
   },
   created: function created() {
@@ -32719,7 +32733,7 @@ var render = function() {
         { staticClass: "flex h-full" },
         [
           _c("transition", { attrs: { name: "fade", mode: "out-in" } }, [
-            _vm.currentElementIndex % 2 === 0
+            _vm.currentElementIndex.index % 2 === 0
               ? _c("img", {
                   key: "0",
                   staticClass: "m-auto max-h-96",

@@ -40,7 +40,7 @@
 
         </div>
         <!-- Page Content -->
-        <main>
+        <main class="overflow-x-hidden">
             {{ $slot }}
         </main>
         <div class="bg-black sm:h-12"> 

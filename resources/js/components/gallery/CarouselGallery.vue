@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import {store} from '../../store/carousel_store.js'
+import { store } from "../../store/carousel_store.js";
 
 export default {
     props: {
@@ -90,6 +90,12 @@ export default {
             });
         },
     },
+    watch: {
+        "currentElement.index": function(id) {
+            this.moveCarousel(id);
+        },
+    },
+
     methods: {
         arrWidth() {
             let dummy = 0;
@@ -102,11 +108,21 @@ export default {
         },
         goLeft() {
             if (this.clickCounter > 0) {
-                console.log(this.clickDict[this.clickCounter - 1]);
                 this.styleTrafo["--tw-translate-x"] =
                     this.clickDict[this.clickCounter - 1] + "px";
                 this.clickCounter -= 1;
                 this.carouselEnd = false;
+            }
+        },
+        moveCarousel(id) {
+            let divWidth = this.$refs.container.clientWidth;
+            let imgWidth = this.arrWidth()[id];
+            const clickWith = (fac) =>
+                (this.clickCounter + fac) * (divWidth - 2 * 38.39);
+            if (clickWith(1) < imgWidth) {
+                this.goRight();
+            } else if (clickWith(0) > imgWidth) {
+                this.goLeft();
             }
         },
         goRight() {
@@ -119,30 +135,24 @@ export default {
 
             imgWidth.every((item, index) => {
                 let clickWith = this.clickCounter * (divWidth - 2 * 38.39);
-                // console.log(clickWith);
                 if (clickWith > item) {
-                    // console.log(item);
                     finalWidth = item - 38.39;
                     return true;
                 }
             });
             if (-finalWidth < -maxTransl) {
                 this.clickDict[this.clickCounter] = -maxTransl;
-                console.log(this.clickDict[this.clickCounter]);
                 this.styleTrafo["--tw-translate-x"] = -maxTransl + "px";
-                console.log(this.clickDict);
                 this.clickcounter -= 1;
                 this.carouselEnd = true;
             } else {
                 this.clickDict[this.clickCounter] = -finalWidth;
-                console.log(this.clickDict[this.clickCounter]);
                 this.styleTrafo["--tw-translate-x"] = -finalWidth + "px";
             }
         },
     },
     created() {
         this.prependUrl;
-        // console.log(window.innerWidth);
     },
 };
 </script>
