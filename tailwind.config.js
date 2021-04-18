@@ -32,6 +32,14 @@ module.exports = {
                 "out-expo": "cubic-bezier(0.19, 1, 0.22, 1)",
                 ease: "ease",
             },
+            colors: {
+                blue: {
+                    450: "#5F99F7",
+                },
+                yellow: {
+                    550: "#DBA63C",
+                },
+            },
         },
     },
 

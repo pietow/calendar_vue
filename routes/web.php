@@ -34,7 +34,9 @@ Route::get('/article', function () {
 
 Route::get('/galerien', 'App\Http\Controllers\GalleryController@index')->name('galleries');
 
-Route::get('/galerie/{id}', 'App\Http\Controllers\GalleryController@show')->name('gallery');
+Route::get('/galerie/{id}', 'App\Http\Controllers\GalleryController@show')->name('carousel.gallery');
+
+Route::get('/galerie/{id}/grid', 'App\Http\Controllers\ListGalleryGrid')->name('grid.gallery');
 
 /* Route::get('/galerie/carousel', function () { */
 /*     return view('carousel'); */
