@@ -17,62 +17,28 @@
     </div>
     <div class="pt-5">
         <ul>
-            <li class="pb-10">
+            @foreach ($posts->slice(-4) as $post)
+            <li class="pb-5">
                 <div class="flex">
-                    <img
-                        class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20"
-                        src='{{ asset("storage/images/blog.jpg") }}'
-                    />
-                    <span
-                        class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"
-                    >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do</span
-                    >
+                    <a
+                        class="mr-3 flex-shrink-0 cursor-pointer" 
+                        href="{{ route('article', $post->id) }}">
+                        <img
+                     class="h-20 object-cover object-top w-20"
+                     src='{{ asset("storage/images/".$post->image) }}'
+                     />
+                    </a>
+                    <a 
+                        href="{{ route('article', $post->id) }}">
+                        <span
+                     class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"
+                     >
+                     {{ $post->title }}
+                        </span
+                    </a>
                 </div>
             </li>
-            <li class="pb-10">
-                <div class="flex">
-                    <img
-                        class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20"
-                        src='{{ asset("storage/images/blog.jpg") }}'
-                    />
-                    <span
-                        class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"
-                    >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do</span
-                    >
-                </div>
-            </li>
-            <li class="pb-10">
-                <div class="flex">
-                    <img
-                        class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20"
-                        src='{{ asset("storage/images/blog.jpg") }}'
-                    />
-                    <span
-                        class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"
-                    >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do</span
-                    >
-                </div>
-            </li>
-            <li class="pb-10">
-                <div class="flex">
-                    <img
-                        class="mr-3 flex-shrink-0 cursor-pointer h-20 object-cover object-top w-20"
-                        src='{{ asset("storage/images/blog.jpg") }}'
-                    />
-                    <span
-                        class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"
-                    >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do</span
-                    >
-                </div>
-            </li>
+            @endforeach
         </ul>
     </div>
 </aside>

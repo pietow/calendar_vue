@@ -23,7 +23,7 @@ class PostItemFactory extends Factory
     {
         return [
             /* 'post_id' => $id, */
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->text(1000),
             'image' => 'blog/screem.jpg'
         ];
     }

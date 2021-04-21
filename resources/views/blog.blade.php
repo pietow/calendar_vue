@@ -16,81 +16,32 @@
             <div class="overflow-hidden">
                 <div class="flex flex-col md:flex-row p-6"> 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        @foreach ($posts as $post)
+                        
                         <div class="bg-white" style="height:30rem;">
-                            <img class="cursor-pointer h-1/2 object-cover object-top w-full" src='{{ asset("storage/images/blog.jpg") }}'>
+                            <a href="{{ route('article', $post->id) }}">
+                                <img class="cursor-pointer h-1/2 object-cover object-top w-full" src='{{ asset("storage/images/".$post->image) }}'>
+                            </a>
                             <div class="p-3 ">
-                                <div class="text-gray-400 tracking-wide uppercase text-xs">{{date("d. M Y")}}</div>
-                                <div class="text-xl font-title font-medium font-title capitalize hover:text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</div>
-                                <div class="text-gray-600 text-justify pt-2 text-sm"> {{ substr("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
-
-                                    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   
-
-                                    Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
-
-                                    Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer",0,250) }} 
-                                    <span class="text-blue-400 cursor-pointer hover:underline">
-                                        mehr(...)
-                                    </span>
+                                {{-- F statt M schreibt den vollen Monatsnamen --}}
+                                <div class="text-gray-400 tracking-wide uppercase text-xs">{{\Carbon\Carbon::parse($post->updated_at)->locale('de')->format('j. M, Y')}}</div> 
+                                <a href="{{ route('article', $post->id) }}">
+                                    <div class="text-xl font-title font-medium font-title capitalize hover:text-blue-400 cursor-pointer">{{ $post->title }}</div>
+                                </a>
+                                <div class="text-gray-600 text-justify pt-2 text-sm"> {{ substr($post->PostItems()->first()->description,0,450) }} 
+                                    <a href="{{ route('article', $post->id) }}">
+                                        <span class="text-blue-400 cursor-pointer hover:underline">
+                                            mehr(...)
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-white" style="height:30rem;">
-                            <img class="cursor-pointer h-1/2 object-cover object-top w-full" src='{{ asset("storage/images/blog-2.jpg") }}'>
-                            <div class="p-3 ">
-                                <div class="text-gray-400 tracking-wide uppercase text-xs">{{date("d. M Y")}}</div>
-                                <div class="text-xl font-title font-medium font-title capitalize hover:text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</div>
-                                <div class="text-gray-600 text-justify pt-2 text-sm"> {{ substr("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
 
-                                    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   
-
-                                    Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
-
-                                    Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer",0,250) }} 
-                                    <span class="text-blue-400 cursor-pointer hover:underline">
-                                        mehr(...)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white" style="height:30rem;">
-                            <img class="cursor-pointer h-1/2 object-cover object-top w-full" src='{{ asset("storage/images/blog.jpg") }}'>
-                            <div class="p-3 ">
-                                <div class="text-gray-400 tracking-wide uppercase text-xs">{{date("d. M Y")}}</div>
-                                <div class="text-xl font-title font-medium font-title capitalize hover:text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</div>
-                                <div class="text-gray-600 text-justify pt-2 text-sm"> {{ substr("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
-
-                                    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   
-
-                                    Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
-
-                                    Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer",0,250) }} 
-                                    <span class="text-blue-400 cursor-pointer hover:underline">
-                                        mehr(...)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white" style="height:30rem;">
-                            <img class="cursor-pointer h-1/2 object-cover object-top w-full" src='{{ asset("storage/images/blog.jpg") }}'>
-                            <div class="p-3 ">
-                                <div class="text-gray-400 tracking-wide uppercase text-xs">{{date("d. M Y")}}</div>
-                                <div class="text-xl font-title font-medium font-title capitalize hover:text-blue-400 cursor-pointer"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</div>
-                                <div class="text-gray-600 text-justify pt-2 text-sm"> {{ substr("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
-
-                                    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   
-
-                                    Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   
-
-                                    Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer",0,250) }} 
-                                    <span class="text-blue-400 cursor-pointer hover:underline">
-                                        mehr(...)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
 
                     </div> 
-                    <x-blog.aside />
+                    <x-blog.aside :posts="$posts"/>
                 </div>
             </div>
         </div>

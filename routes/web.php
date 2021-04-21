@@ -25,12 +25,10 @@ Route::get('/main', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
-Route::get('/article', function () {
-    return view('article');
-})->name('article');
+
+Route::get('/blog', 'App\Http\Controllers\PostController@index')->name('blog');
+
+Route::get('/article/{id}', 'App\Http\Controllers\PostController@show')->name('article');
 
 Route::get('/galerien', 'App\Http\Controllers\GalleryController@index')->name('galleries');
 
