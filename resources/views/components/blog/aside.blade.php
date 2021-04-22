@@ -34,7 +34,7 @@
                      class="-mt-1 text-sm font-title font-title text-blue-400 cursor-pointer"
                      >
                      {{ $post->title }}
-                        </span
+                        </span>
                     </a>
                 </div>
             </li>
