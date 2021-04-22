@@ -28,7 +28,7 @@
                     style="background-image:url({{ $link ?? '' }});">
                     <x-blog.navigation />
                 @else
-                    <div x-data="{ open: false }" class="h-20 bg-black"
+                    <div x-data="{ open: false }" class="bg-black" :class="{'h-20': !open}" 
                         <x-blog.navigation />
                     @endif
 
@@ -44,13 +44,14 @@
                     <main class="overflow-x-hidden">
                     {{ $slot }}
                     </main>
-                    <div class="absolute bg-black sm:h-12 w-full bottom-0"> 
+                    <div class="absolute bg-black w-full bottom-0"> 
                         <div class="max-w-7xl mx-auto text-center p-6 text-xs uppercase "> 
                             <span class=" inline-block pb-1.5 sm:float-left text-gray-400 tracking-wide pr-10">© Copyright Charly J. – Theater Lifestyle</span>
                             <span class="inline-block sm:float-right text-gray-300 pr-10"><a href="{{ route('impressum') }}" class="hover:underline">Impressum</a> / Datenschutzerklärung</span>
                         </div>
                     </div>
                 </div>
+        </div>
     {{ $script ?? '' }}
     </body>
 </html>
