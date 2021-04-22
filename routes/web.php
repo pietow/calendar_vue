@@ -36,9 +36,6 @@ Route::get('/galerie/{id}', 'App\Http\Controllers\GalleryController@show')->name
 
 Route::get('/galerie/{id}/grid', 'App\Http\Controllers\ListGalleryGrid')->name('grid.gallery');
 
-/* Route::get('/galerie/carousel', function () { */
-/*     return view('carousel'); */
-/* })->name('carousel'); */
 Route::get('/impressum', function () {
     return view('impressum');
 })->name('impressum');
@@ -60,5 +57,9 @@ Route::get('/calendar', function () {
 Route::get('/cms', function () {
     return view('dashboard.cms');
 })->middleware(['auth'])->name('cms.blog');
+
+Route::get('/cms/posts', 'App\Http\Controllers\CmsPostController@index')->middleware(['auth'])->name('cms.blog');
+Route::delete('/cms/posts/{id}', 'App\Http\Controllers\CmsPostController@destroy')->middleware(['auth'])->name('cms.blog.delete');
+
 
 require __DIR__.'/auth.php';
