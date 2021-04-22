@@ -57,4 +57,8 @@ Route::get('/calendar', function () {
     return view('dashboard.calendar');
 })->middleware(['auth'])->name('calendar');
 
+Route::get('/cms', function () {
+    return view('dashboard.cms');
+})->middleware(['auth'])->name('cms.blog');
+
 require __DIR__.'/auth.php';
