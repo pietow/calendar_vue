@@ -41,10 +41,10 @@ Route::get('/impressum', function () {
 })->name('impressum');
 
 
-Route::get('/test', function () {
-    dd(User::first()->events);
-    return User::all();
-});
+/* Route::get('/test', function () { */
+/*     dd(User::first()->events); */
+/*     return User::all(); */
+/* }); */
 
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
@@ -58,8 +58,20 @@ Route::get('/cms', function () {
     return view('dashboard.cms');
 })->middleware(['auth'])->name('cms.blog');
 
-Route::get('/cms/posts', 'App\Http\Controllers\CmsPostController@index')->middleware(['auth'])->name('cms.blog');
-Route::delete('/cms/posts/{id}', 'App\Http\Controllers\CmsPostController@destroy')->middleware(['auth'])->name('cms.blog.delete');
+/* Route::get('/cms/posts', 'App\Http\Controllers\CmsPostController@index')->middleware(['auth'])->name('cms.blog'); */
+/* Route::match(['delete'], '/cms/posts/{id}', 'App\Http\Controllers\CmsPostController@destroy')->middleware(['auth'])->name('cms.blog.delete'); */
 
+Route::middleware('auth')->group(function () {
+    Route::Resource('cms/posts', 'App\Http\Controllers\CmsPostController');
+});
+Route::middleware('auth')->group(function () {
+    Route::Resource('cms/postItems', 'App\Http\Controllers\CmsPostItemController');
+});
+Route::middleware('auth')->group(function () {
+    Route::Resource('cms/galleries', 'App\Http\Controllers\CmsGalleryController');
+});
+Route::middleware('auth')->group(function () {
+    Route::Resource('cms/galleryItems', 'App\Http\Controllers\CmsGalleryItemController');
+});
 
 require __DIR__.'/auth.php';

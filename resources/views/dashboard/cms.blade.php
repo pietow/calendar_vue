@@ -25,7 +25,7 @@
                                     <th
                                         class="pl-2 py-2 text-blue-250 text-left text-sm"
                                     >
-                                        Posts
+                                        <a href="{{ route('posts.index') }}">Posts</a>
                                     </th>
 
                                     <td
@@ -36,7 +36,7 @@
                                                 class="ml-auto pr-2"
                                                 src="{{asset('storage/images/assets/add.svg')}}"
                                             />
-                                            <a href="/catalog/author/add/"
+                                            <a href="{{ route('posts.create') }}"
                                                 >Add</a
                                             >
                                         </div>
@@ -62,7 +62,7 @@
                                     <th
                                         class="pl-2 py-2 text-blue-250 text-left text-sm"
                                     >
-                                        Postelemente
+                                        <a href="{{ route('postItems.index') }}">Postelemente</a>
                                     </th>
 
                                     <td
@@ -111,7 +111,8 @@
                                     <th
                                         class="pl-2 py-2 text-blue-250 text-left text-sm"
                                     >
-                                        Hauptgallerien
+                                        
+                                        <a href="{{ route('galleries.index') }}">Hauptgalerie</a>
                                     </th>
 
                                     <td
@@ -148,7 +149,8 @@
                                     <th
                                         class="pl-2 py-2 text-blue-250 text-left text-sm"
                                     >
-                                        Gallerie
+                                        
+                                        <a href="{{ route('galleryItems.index') }}">Gallerie</a>
                                     </th>
 
                                     <td

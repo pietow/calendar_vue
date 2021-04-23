@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
+use App\Models\PostItem;
 
-class CmsPostController extends Controller
+class CmsPostItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,8 @@ class CmsPostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        /* dd(array_keys(Post::first()->toArray())); */
-        return view('dashboard.cms-index-posts')->with("posts", $posts);
+        $postItems = PostItem::all();
+        return view('dashboard.cms-index-postItems', compact('postItems'));
     }
 
     /**
@@ -26,12 +25,7 @@ class CmsPostController extends Controller
      */
     public function create()
     {
-        $posts = Post::all();
-        $attr = collect(array_keys($posts->first()->toArray()));
-        $attr = $attr->filter(function ($value, $key) {
-            return $value != 'id' & $value != 'created_at' & $value != 'updated_at';
-        });
-        return view('dashboard.cms-create-posts', compact("attr"));
+        //
     }
 
     /**
@@ -87,7 +81,7 @@ class CmsPostController extends Controller
      */
     public function destroy($id)
     {
-        Post::destroy($id);
-        return redirect()->route('posts.index');
+        PostItem::destroy($id);
+        return redirect()->route('postItems.index');
     }
 }
