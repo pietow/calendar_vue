@@ -4,7 +4,7 @@
     @csrf
     <div class="form-row field-first_name border-gray-200 w-96">
         @foreach ($attr as $a)
-        <div class="py-2.5 border-b flex">
+        <div class="pb-5 pt-4 border-b flex">
             <label class="font-bold text-sm pr-16 leading-7" for="{{ $a }}">{{$a}}:</label>
 
             <input
@@ -17,5 +17,8 @@
             />
         </div>
         @endforeach
+        <div class="flex pt-5">
+            <button class="ml-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit" value="Submit">Submit</button>
+        </div>
     </div>
 </form>

@@ -42,7 +42,15 @@ class CmsPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'image' => 'required',
+        ]);
+
+        $newPost = Post::create($request->only([
+            'title',
+            'image',
+        ]));
     }
 
     /**
