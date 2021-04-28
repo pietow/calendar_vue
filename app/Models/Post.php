@@ -9,7 +9,7 @@ use App\Models\PostItem;
 class Post extends Model
 {
     use HasFactory;
-    protected $guarded = ['title', 'image'];
+    protected $fillable = ['title', 'image'];
 
     public function PostItems()
     {

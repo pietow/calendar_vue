@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Str;
 
 class CmsPostController extends Controller
 {
@@ -42,15 +43,21 @@ class CmsPostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
+        $validated = $request->validate([
+            'title' => 'required|unique:posts|max:255',
             'image' => 'required',
         ]);
 
-        $newPost = Post::create($request->only([
-            'title',
-            'image',
-        ]));
+        /* $path = $request->file('image')->store('images'); */
+        $path = $request->file("image")->store('public/images/blog');
+        $path = Str::of($path)->split('/[\/]+/')->slice(-2)->join('/');
+        $title = $request->title;
+
+        $newPost = Post::create([
+            'title' => $title,
+            'image' => $path,
+        ]);
+        return redirect()->route('posts.create')->with('success', 'File has successfully uploaded!');
     }
 
     /**

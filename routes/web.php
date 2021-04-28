@@ -64,6 +64,7 @@ Route::get('/cms', function () {
 Route::middleware('auth')->group(function () {
     Route::Resource('cms/posts', 'App\Http\Controllers\CmsPostController');
 });
+/* Route::match(['get', 'post'], 'cms/posts', "App\Http\Controllers\CmsPostController@store")->name('post.store'); */
 Route::middleware('auth')->group(function () {
     Route::Resource('cms/postItems', 'App\Http\Controllers\CmsPostItemController');
 });

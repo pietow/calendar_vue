@@ -11,6 +11,9 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     {{-- <x-cms.index-table :items="$posts" :attr="collect(array_keys($posts->first()->toArray()))" :routeName="'posts.destroy'"></x-cms.index-table> --}}
                     <x-cms.create-parent :attr="$attr"></x-cms>
+
+
+
                 </div>
             </div>
         </div>
