@@ -58,6 +58,9 @@
                     </div>
                 @endforeach
 
+                <div class="px-1.5 w-full bg-blue-250 text-white leading-10 rounded h-10">Upload mehrer Bilder</div>
+                <input type="file" name="upload[]" multiple class="pt-5">
+
                 {{-- <template x-for="item in text" :key="item"> --}}
                 {{--     <div  class="pb-5 pl-1.5 pt-4 border-b grid grid-cols-2 gap-4" --}}
                 {{--         > --}}

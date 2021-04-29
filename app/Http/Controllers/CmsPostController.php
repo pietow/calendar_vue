@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use App\Models\PostItem;
+use App\Classes\saveFile;
 
 class CmsPostController extends Controller
 {
@@ -43,14 +44,18 @@ class CmsPostController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'image' => 'required',
-            'description' => 'required',
-        ]);
+        /* $validated = $request->validate([ */
+        /*     'title' => 'required|max:255', */
+        /*     'image' => 'required', */
+        /*     'child-image' => 'required', */
+        /*     'description' => 'required', */
+        /* ]); */
 
-        $path = $request->file("image")->store('public/images/blog');
-        $path = Str::of($path)->split('/[\/]+/')->slice(-2)->join('/');
+
+        $saverObj = new SaveFile(); //hier morgen weiter!!!!!!!!!!!
+        $path = $saverObj->store($request->file("image"));
+        /* $path = $request->file("image")->store('public/images/blog'); */
+        /* $path = Str::of($path)->split('/[\/]+/')->slice(-2)->join('/'); */
         $title = $request->title;
 
         $childPath = $request->file("child-image")->store('public/images/blog');
@@ -67,6 +72,15 @@ class CmsPostController extends Controller
             'description' => $description,
             'image' => $childPath,
         ]);
+        foreach ($request->upload as $image) {
+            $childPath = $image->store('public/images/blog');
+            $childPath = Str::of($childPath)->split('/[\/]+/')->slice(-2)->join('/');
+            $newPostItem = PostItem::create([
+                'post_id' => $newPost->id,
+                'image' => $childPath,
+            ]);
+              
+        }
         return redirect()->route('posts.create')->with('success', 'File has successfully uploaded!');
     }
 
