@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Str;
+use App\Models\PostItem;
 
 class CmsPostController extends Controller
 {
@@ -16,7 +17,6 @@ class CmsPostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        /* dd(array_keys(Post::first()->toArray())); */
         return view('dashboard.cms-index-posts')->with("posts", $posts);
     }
 
@@ -28,11 +28,11 @@ class CmsPostController extends Controller
     public function create()
     {
         $posts = Post::all();
-        $attr = collect(array_keys($posts->first()->toArray()));
-        $attr = $attr->filter(function ($value, $key) {
-            return $value != 'id' & $value != 'created_at' & $value != 'updated_at';
-        });
-        return view('dashboard.cms-create-posts', compact("attr"));
+        $postItems = PostItem::all();
+        $attr = $posts->first()->attr;
+        $childAttr = $postItems->first()->attr;
+
+        return view('dashboard.cms-create-posts', compact("attr", "childAttr"));
     }
 
     /**
@@ -44,18 +44,28 @@ class CmsPostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|unique:posts|max:255',
+            'title' => 'required|max:255',
             'image' => 'required',
+            'description' => 'required',
         ]);
 
-        /* $path = $request->file('image')->store('images'); */
         $path = $request->file("image")->store('public/images/blog');
         $path = Str::of($path)->split('/[\/]+/')->slice(-2)->join('/');
         $title = $request->title;
 
+        $childPath = $request->file("child-image")->store('public/images/blog');
+        $childPath = Str::of($childPath)->split('/[\/]+/')->slice(-2)->join('/');
+        $description = $request->description;
+
+
         $newPost = Post::create([
             'title' => $title,
             'image' => $path,
+        ]);
+        $newPostItem = PostItem::create([
+            'post_id' => $newPost->id,
+            'description' => $description,
+            'image' => $childPath,
         ]);
         return redirect()->route('posts.create')->with('success', 'File has successfully uploaded!');
     }

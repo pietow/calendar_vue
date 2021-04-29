@@ -19,7 +19,7 @@ class CreatePostItemsTable extends Migration
                 ->references('id')
                 ->on('posts')
                 ->onDelete('cascade');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('image')->nullable();
             $table->timestamps();
         });

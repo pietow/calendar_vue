@@ -15,4 +15,18 @@ class Post extends Model
     {
         return $this->hasMany(PostItem::class);
     }
+
+    /**
+     * get filter array of attributes
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function getAttrAttribute()
+    {
+        $attr = collect(array_keys($this->attributes));
+        $attr = $attr->filter(function ($value, $key) {
+            return $value != 'id' & $value != 'created_at' & $value != 'updated_at';
+        });
+        return $attr;
+    }
 }
