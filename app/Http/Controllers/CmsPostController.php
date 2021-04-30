@@ -100,7 +100,11 @@ class CmsPostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $postItems = new PostItem();
+        $attr = $post->attr;
+        $childAttr = $postItems->attr;
+        return view('dashboard.cms-edit-posts', compact("attr", "childAttr", "post"));
     }
 
     /**

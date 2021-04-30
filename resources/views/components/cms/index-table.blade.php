@@ -34,13 +34,22 @@
                     >
                         <div class="flex h-7 pr-5">
                             <img
-                                class="ml-auto pr-2"
+                             class="ml-auto h-5"
+                             src="{{asset('storage/images/assets/change.svg')}}"
+                             />
+                            <a
+                             href="{{ route('posts.edit', $item->id) }}"
+                             class="pl-1.5 pr-10"
+                             >Change</a
+                             >
+                            <img
+                                class="h-6 pr-2"
                                 src="{{asset('storage/images/assets/delete.png')}}"
                             />
                             <form action="{{ route($routeName, $item->id) }}" method="POST">
                             @method('DELETE')
                              @csrf
-                            <input class="bg-white cursor-pointer" type="submit" value="Löschen">
+                            <input class="leading-7 bg-white cursor-pointer" type="submit" value="Löschen">
                             </form>
                         </div>
                     </td>
