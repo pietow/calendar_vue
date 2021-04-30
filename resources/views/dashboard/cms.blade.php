@@ -51,8 +51,7 @@
                                                 src="{{asset('storage/images/assets/change.svg')}}"
                                             />
                                         <a
-                                            href="/catalog/author/"
-                                            class="changelink"
+                                            href="{{ route('posts.index') }}"
                                             >Change</a
                                         >
                                         </div>
@@ -68,15 +67,15 @@
                                     <td
                                         class="pl-2 text-blue-250 text-sm text-right"
                                     >
-                                        <div class="flex">
-                                            <img
-                                                class="ml-auto pr-2"
-                                                src="{{asset('storage/images/assets/add.svg')}}"
-                                            />
-                                            <a href="/catalog/author/add/"
-                                                >Add</a
-                                            >
-                                        </div>
+                                        {{-- <div class="flex"> --}}
+                                        {{--     <img --}}
+                                        {{--         class="ml-auto pr-2" --}}
+                                        {{--         src="{{asset('storage/images/assets/add.svg')}}" --}}
+                                        {{--     /> --}}
+                                        {{--     <a href="/catalog/author/add/" --}}
+                                        {{--         >Add</a --}}
+                                        {{--     > --}}
+                                        {{-- </div> --}}
                                     </td>
 
                                     <td
@@ -88,8 +87,7 @@
                                                 src="{{asset('storage/images/assets/change.svg')}}"
                                             />
                                         <a
-                                            href="/catalog/author/"
-                                            class="changelink"
+                                            href="{{ route('postItems.index') }}"
                                             >Change</a
                                         >
                                         </div>
@@ -123,7 +121,7 @@
                                                 class="ml-auto pr-2"
                                                 src="{{asset('storage/images/assets/add.svg')}}"
                                             />
-                                            <a href="/catalog/author/add/"
+                                            <a href="{{ route('galleries.create') }}"
                                                 >Add</a
                                             >
                                         </div>
@@ -138,7 +136,7 @@
                                                 src="{{asset('storage/images/assets/change.svg')}}"
                                             />
                                         <a
-                                            href="/catalog/author/"
+                                            href="{{ route('galleries.index') }}"
                                             class="changelink"
                                             >Change</a
                                         >
@@ -156,15 +154,15 @@
                                     <td
                                         class="pl-2 text-blue-250 text-sm text-right"
                                     >
-                                        <div class="flex">
-                                            <img
-                                                class="ml-auto pr-2"
-                                                src="{{asset('storage/images/assets/add.svg')}}"
-                                            />
-                                            <a href="/catalog/author/add/"
-                                                >Add</a
-                                            >
-                                        </div>
+                                        {{-- <div class="flex"> --}}
+                                        {{--     <img --}}
+                                        {{--         class="ml-auto pr-2" --}}
+                                        {{--         src="{{asset('storage/images/assets/add.svg')}}" --}}
+                                        {{--     /> --}}
+                                        {{--     <a href="/catalog/author/add/" --}}
+                                        {{--         >Add</a --}}
+                                        {{--     > --}}
+                                        {{-- </div> --}}
                                     </td>
 
                                     <td
@@ -176,7 +174,7 @@
                                                 src="{{asset('storage/images/assets/change.svg')}}"
                                             />
                                         <a
-                                            href="/catalog/author/"
+                                            href="{{ route('galleryItems.index') }}"
                                             class="changelink"
                                             >Change</a
                                         >

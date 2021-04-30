@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Posts') }}
+            {{ __('Gallerien') }}
         </h2>
     </x-slot>
 
@@ -10,9 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     {{-- <x-cms.index-table :items="$posts" :attr="collect(array_keys($posts->first()->toArray()))" :routeName="'posts.destroy'"></x-cms.index-table> --}}
-                    <x-cms.create-parent :attr="$attr" :childAttr="$childAttr" :routeName="'posts.store'" :entity="'post'"></x-cms>
-
-
+                    <x-cms.create-parent :attr="$attr" :childAttr="$childAttr" :routeName="'galleries.store'" :entity="'Galerie'"></x-cms>
 
                 </div>
             </div>

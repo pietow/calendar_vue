@@ -9,9 +9,20 @@ use App\Models\GalleryItem;
 class Gallery extends Model
 {
     use HasFactory;
+    protected $fillable = ['title', 'image'];
 
     public function galleryItems()
     {
         return $this->hasMany(GalleryItem::class);
+    }
+
+    /**
+     * get fillable attributes
+     *
+     * @return array
+     */
+    public function getAttrAttribute()
+    {
+        return $this->fillable;
     }
 }

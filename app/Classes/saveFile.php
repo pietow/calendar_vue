@@ -6,9 +6,9 @@ use Illuminate\Support\Str;
 
 class saveFile
 {
-    public function __construct($storage_path)
+    public function __construct($image)
     {
-        $this->storage_path = $storage_path;
+        $this->image = $image;
     }
 
     /**
@@ -17,9 +17,9 @@ class saveFile
      * @param mixed $image
      * @returns changed path
      */
-    public function store($image)
+    public function store($storage_path)
     {
-        $path = $image->store($storage_path);
+        $path = $this->image->store($storage_path);
         return Str::of($path)->split('/[\/]+/')->slice(-2)->join('/');
     }
 }

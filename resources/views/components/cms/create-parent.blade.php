@@ -1,5 +1,5 @@
 <div class="py-5 uppercase text-gray-400 -mx-1.5 font-light">
-    Post hinzufügen
+    {{ $entity }} hinzufügen
 </div>
         @if ($errors->any())
         <div class="pt-5">
@@ -11,7 +11,7 @@
         </div>
         @endif
 
-<form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route($routeName) }}" method="post" enctype="multipart/form-data">
     @csrf
     @if ($message = Session::get('success'))
     <div class="text-green-500 -mx-1.5">
@@ -41,19 +41,26 @@
     </div>
         
     <div class="">
-        <div class="px-1.5 w-full bg-blue-250 text-white leading-10 rounded h-10">Postelemente</div>
+        <div class="px-1.5 w-full bg-blue-250 text-white leading-10 rounded h-10">{{$entity}}elemente</div>
             <div x-data="{text: [0]}" >
                 @foreach ($childAttr as $a)
-                    <div  class="pb-5 pl-1.5 pt-4 border-b grid grid-cols-2 gap-4"
-                        >
-                        <label class="font-bold capitalize text-sm leading-7" for="{{ $a }}"
-                            >{{$a}}:</label
+                    <div  class=""
                         >
                         @if($a == 'image'  )
-                            <input type="file" name="child-{{$a}}" id="child.{{$a}}">
+                            <div class="pb-5 pl-1.5 pt-4 border-b grid grid-cols-2 gap-4">
+                                <label class="font-bold capitalize text-sm leading-7" for="{{ $a }}"
+                                    >{{$a}}:</label
+                                >
+                                <input type="file" name="child-{{$a}}" id="child.{{$a}}">
+                            </div>
                         @elseif($a == 'description')
-                            <textarea 
-                                class="rounded" id="{{$a}}" name="{{$a}}" rows="10" cols="30"></textarea>
+                            <div class="pb-5 pl-1.5 pt-4 border-b grid grid-cols-2 gap-4">
+                                <label class="font-bold capitalize text-sm leading-7" for="{{ $a }}"
+                                    >{{$a}}:</label
+                                >
+                                <textarea 
+                                    class="rounded" id="{{$a}}" name="{{$a}}" rows="10" cols="30"></textarea>
+                            </div>
                         @endif
                     </div>
                 @endforeach

@@ -17,10 +17,11 @@ class PostItem extends Model
      */
     public function getAttrAttribute()
     {
-        $attr = collect(array_keys($this->attributes));
-        $attr = $attr->filter(function ($value, $key) {
-            return $value != 'id' & $value != 'created_at' & $value != 'updated_at' & $value != 'post_id';
-        });
-        return $attr;
+        /* $attr = collect(array_keys($this->attributes)); */
+        /* $attr = $attr->filter(function ($value, $key) { */
+        /*     return $value != 'id' & $value != 'created_at' & $value != 'updated_at' & $value != 'post_id'; */
+        /* }); */
+        /* return $attr; */
+        return $this->fillable;
     }
 }

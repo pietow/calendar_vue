@@ -17,16 +17,12 @@ class Post extends Model
     }
 
     /**
-     * get filter array of attributes
+     * get fillable attributes
      *
-     * @return Illuminate\Support\Collection
+     * @return array
      */
     public function getAttrAttribute()
     {
-        $attr = collect(array_keys($this->attributes));
-        $attr = $attr->filter(function ($value, $key) {
-            return $value != 'id' & $value != 'created_at' & $value != 'updated_at';
-        });
-        return $attr;
+        return $this->fillable;
     }
 }
