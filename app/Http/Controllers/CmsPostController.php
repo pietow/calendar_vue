@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\PostItem;
 use App\Classes\saveFile;
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CmsPostController extends Controller
 {
@@ -116,7 +117,63 @@ class CmsPostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        #########################################
+        $title = $request->title;
+        $upPost = Post::find($id);
+        $upPost->title = $title;
+        $upPost->save();
+        if($request->hasFile('image') === true) {
+            $saverObj = new saveFile($request->file("image")); 
+            
+            $upPost->image = $saverObj->store('public/images/blog'); 
+
+            $deletePath = '/images/'.$upPost->getOriginal('image');
+            Storage::disk('public')->delete($deletePath);
+
+            $upPost->save();
+        }
+        ##############################################
+
+        #############################################
+        $parameter = collect($request->all());
+        $descriptions = $parameter->filter(function ($value, $key) {
+            return Str::contains($key, 'description-');
+        });
+        $imgs = $parameter->filter(function ($value, $key) {
+            return Str::contains($key, 'image-');
+        });
+
+        //get the indices of PostItem
+        $i1 = $descriptions->map(function ($value, $key) {
+            return Str::of($key)->split('/[a-zA-Z-]+/')->last();
+        });
+        $i2 = $imgs->map(function ($value, $key) {
+            return Str::of($key)->split('/[a-zA-Z-]+/')->last();
+        });
+        #################################################
+
+        ##############################################
+        $indices = $i1->merge($i2)->flip()->keys();
+
+        foreach ( $indices  as  $childId ) {
+        /* dd($request->hasFile('image-'.$childId)); */
+            /* dump($request['description-'.$childId]); */
+            $upPost->PostItems()->find($childId)->update(['description' => $request['description-'.$childId]]);
+            if($request->hasFile('image-'.$childId) === true) {
+                $saverObj = new saveFile($request->file("image-".$childId)); 
+                $path = $saverObj->store('public/images/blog');
+                $deletePath = '/images/'.$upPost->PostItems()->find($childId)->image ;
+                Storage::disk('public')->delete($deletePath);
+
+                $upPost->PostItems()->find($childId)->update(['image' => $path]);
+            }
+            
+              
+        }
+        #########################################################
+
+        return redirect()->route('posts.edit', $id)->with('success', 'File has successfully uploaded!');
+        
     }
 
     /**

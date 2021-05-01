@@ -2,6 +2,21 @@
     {{ $entity }} editieren
 </div>
 
+
+{{-- <div x-data="imageViewer()" x-init="imageUrl = '{{asset("../storage/images/".$model->image)}}'"> --}}
+{{--   <div class="mb-2"> --}}
+{{--     <!-- Show the image --> --}}
+{{--       <img :src="imageUrl" --}} 
+{{--            class="object-cover rounded border border-gray-200" --}} 
+{{--            style="width: 100px; height: 100px;" --}}
+{{--       > --}}
+{{--     <!-- Image file selector --> --}}
+{{--     <input class="mt-2" type="file" @change="fileChosen"> --}}
+    
+{{--   </div> --}}
+{{-- </div> --}}
+
+
 <form action="{{ route($routeName, $model->id) }}" method="post" enctype="multipart/form-data">
     @method('PUT')
     @csrf
@@ -17,7 +32,12 @@
                 >{{$a}}:</label
             >
         @if($a == 'image'  )
-              <input type="file" name="{{$a}}" id="{{$a}}">
+            {{-- <div class="pr-5"> --}}
+            {{--     <img class="h-7 w-9 object-cover rounded-full" src="{{asset('../storage/images/'.$model->image)}}" alt=""> --}}
+            {{-- </div> --}}
+            {{-- <input type="file" name="{{$a}}" id="{{$a}}"> --}}
+            <x-cms.image-viewer :path="$model->image" :name="$a">
+            </x-cms.image-viewer>
         @else
             <input
                 type="text"
@@ -30,11 +50,11 @@
         </div>
         @endforeach
     </div>
-    <img class="h-10" src="{{asset('../storage/images/'.$model->image)}}" alt="">
         
     <div class="">
         <div class="px-1.5 w-full bg-blue-250 text-white leading-10 rounded h-10">{{$entity}}elemente</div>
             <div x-data="{text: [0]}" >
+        @foreach ($childmodel as $child)
                 @foreach ($childAttr as $a)
                     <div  class=""
                         >
@@ -43,7 +63,9 @@
                                 <label class="font-bold capitalize text-sm leading-7" for="{{ $a }}"
                                     >{{$a}}:</label
                                 >
-                                <input type="file" name="child-{{$a}}" id="child.{{$a}}">
+                                {{-- <input type="file" name="childimage-{{$loop->parent->index}}" id="child.{{$loop->parent->index}}"> --}}
+                                <x-cms.image-viewer :path="$child->image" :name="$a.'-'.$child->id">
+                                </x-cms.image-viewer>
                             </div>
                         @elseif($a == 'description')
                             <div class="pb-5 pl-1.5 pt-4 border-b grid grid-cols-2 gap-4">
@@ -51,11 +73,12 @@
                                     >{{$a}}:</label
                                 >
                                 <textarea 
-                                                                                      class="rounded" id="{{$a}}" name="{{$a}}" rows="10" cols="30">{{$childmodel->first()->description}}</textarea>
+                                                                                      class="rounded" id="{{$a.'-'.$child->id}}" name="{{$a.'-'.$child->id}}" rows="10" cols="30">{{$child->description}}</textarea>
                             </div>
                         @endif
                     </div>
                 @endforeach
+        @endforeach
 
                 <div class="px-1.5 w-full bg-blue-250 text-white leading-10 rounded h-10">Upload mehrer Bilder</div>
                 <input type="file" name="upload[]" multiple class="pt-5">
@@ -76,4 +99,18 @@
 </form>
 
 
+{{-- <script> --}}
+{{-- function imageViewer(){ --}}
+{{--   return{ --}}
+{{--     imageUrl:"", --}}
+{{--       fileChosen(event) { --}}
+{{--           if(!event.target.files[0]) return --}}
 
+{{--           let file = event.target.files[0]; --}}
+{{--           let reader = new FileReader(); --}}
+{{--           reader.readAsDataURL(file) --}}
+{{--           reader.onload = () => this.imageUrl = reader.result --}}
+{{--         } --}}
+{{--   } --}}
+{{-- } --}}
+{{-- </script> --}}
