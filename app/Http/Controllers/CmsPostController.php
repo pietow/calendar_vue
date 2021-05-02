@@ -120,17 +120,14 @@ class CmsPostController extends Controller
         #########################################
         $title = $request->title;
         $upPost = Post::find($id);
-        $upPost->title = $title;
-        $upPost->save();
+        $upPost->update(['title' => $title]);
         if($request->hasFile('image') === true) {
             $saverObj = new saveFile($request->file("image")); 
-            
-            $upPost->image = $saverObj->store('public/images/blog'); 
-
+            $path = $saverObj->store('public/images/blog'); 
             $deletePath = '/images/'.$upPost->getOriginal('image');
             Storage::disk('public')->delete($deletePath);
+            $upPost->update(['image' => $path]);
 
-            $upPost->save();
         }
         ##############################################
 
@@ -150,10 +147,10 @@ class CmsPostController extends Controller
         $i2 = $imgs->map(function ($value, $key) {
             return Str::of($key)->split('/[a-zA-Z-]+/')->last();
         });
+        $indices = $i1->merge($i2)->flip()->keys();
         #################################################
 
         ##############################################
-        $indices = $i1->merge($i2)->flip()->keys();
 
         foreach ( $indices  as  $childId ) {
         /* dd($request->hasFile('image-'.$childId)); */
