@@ -9,9 +9,13 @@ use App\Models\PostItem;
 use App\Classes\saveFile;
 use App\Http\Requests\StorePostRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Repositories\PostRepository;
 
 class CmsPostController extends Controller
 {
+    public function __construct(PostRepository $postRepository){
+        $this->PostRepository = $postRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -117,53 +121,7 @@ class CmsPostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        #########################################
-        $title = $request->title;
-        $upPost = Post::find($id);
-        $upPost->update(['title' => $title]);
-        if($request->hasFile('image') === true) {
-            $saverObj = new saveFile($request->file("image")); 
-            $path = $saverObj->store('public/images/blog'); 
-            $upPost->update(['image' => $path]);
-
-        }
-        ##############################################
-
-        #############################################
-        $parameter = collect($request->all());
-        $descriptions = $parameter->filter(function ($value, $key) {
-            return Str::contains($key, 'description-');
-        });
-        $imgs = $parameter->filter(function ($value, $key) {
-            return Str::contains($key, 'image-');
-        });
-
-        //get the indices of PostItem
-        $i1 = $descriptions->map(function ($value, $key) {
-            return Str::of($key)->split('/[a-zA-Z-]+/')->last();
-        });
-        $i2 = $imgs->map(function ($value, $key) {
-            return Str::of($key)->split('/[a-zA-Z-]+/')->last();
-        });
-        $indices = $i1->merge($i2)->flip()->keys();
-        #################################################
-
-        ##############################################
-
-        foreach ( $indices  as  $childId ) {
-        /* dd($request->hasFile('image-'.$childId)); */
-            /* dump($request['description-'.$childId]); */
-            $upPost->PostItems()->find($childId)->update(['description' => $request['description-'.$childId]]);
-            if($request->hasFile('image-'.$childId) === true) {
-                $saverObj = new saveFile($request->file("image-".$childId)); 
-                $path = $saverObj->store('public/images/blog');
-
-                $upPost->PostItems()->find($childId)->update(['image' => $path]);
-            }
-            
-              
-        }
-        #########################################################
+        $this->PostRepository->updateNewPost($request, $id);
 
         return redirect()->route('posts.edit', $id)->with('success', 'File has successfully uploaded!');
         
