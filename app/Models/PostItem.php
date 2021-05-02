@@ -4,12 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class PostItem extends Model
 {
     use HasFactory;
     protected $fillable = ['post_id','description', 'image'];
 
+    public static function boot() {
+
+        parent::boot();
+
+        static::updating(function($item) {
+            if($item->isDirty('image')){
+                $deletePath = '/images/'.$item->getOriginal('image');
+                $del = Storage::disk('public')->delete($deletePath);
+                return true;
+            }
+        });
+
+    }
     /**
      * get filter array of attributes
      *

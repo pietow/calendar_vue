@@ -124,8 +124,6 @@ class CmsPostController extends Controller
         if($request->hasFile('image') === true) {
             $saverObj = new saveFile($request->file("image")); 
             $path = $saverObj->store('public/images/blog'); 
-            $deletePath = '/images/'.$upPost->getOriginal('image');
-            Storage::disk('public')->delete($deletePath);
             $upPost->update(['image' => $path]);
 
         }
@@ -159,8 +157,6 @@ class CmsPostController extends Controller
             if($request->hasFile('image-'.$childId) === true) {
                 $saverObj = new saveFile($request->file("image-".$childId)); 
                 $path = $saverObj->store('public/images/blog');
-                $deletePath = '/images/'.$upPost->PostItems()->find($childId)->image ;
-                Storage::disk('public')->delete($deletePath);
 
                 $upPost->PostItems()->find($childId)->update(['image' => $path]);
             }
