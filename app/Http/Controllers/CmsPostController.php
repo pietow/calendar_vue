@@ -9,12 +9,15 @@ use App\Models\PostItem;
 use App\Classes\saveFile;
 use App\Http\Requests\StorePostRequest;
 use Illuminate\Support\Facades\Storage;
-use App\Repositories\PostRepository;
+use App\Repositories\PostInterface;
 
 class CmsPostController extends Controller
 {
-    public function __construct(PostRepository $postRepository){
-        $this->PostRepository = $postRepository;
+    //A protected variable to hold the Repository
+    protected $post;
+
+    public function __construct(PostInterface $post){
+        $this->post = $post;
     }
     /**
      * Display a listing of the resource.
@@ -121,7 +124,9 @@ class CmsPostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->PostRepository->updateNewPost($request, $id);
+        $this->post->update($request, $id);
+        $this->post->updateChildren($request, $id);
+        $this->post->multiUpload($request, $id);
 
         return redirect()->route('posts.edit', $id)->with('success', 'File has successfully uploaded!');
         
