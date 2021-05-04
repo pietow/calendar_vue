@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\Post;
 use App\Classes\saveFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Repositories\CmsInterface;
+use App\Models\Gallery;
+use App\Repositories\GalleryInterface;
 
-class PostRepository implements CmsInterface
+class GalleryRepository implements GalleryInterface
 {
     private $indices;
 
@@ -19,7 +19,7 @@ class PostRepository implements CmsInterface
      */
     public function index()
     {
-        return Post::all();
+        return Gallery::all();
     }
 
     /**
@@ -28,7 +28,7 @@ class PostRepository implements CmsInterface
      */
     public function attr()
     {
-        $posts = new Post();
+        $posts = new Gallery();
         return $posts->attr;
     }
 
@@ -39,7 +39,7 @@ class PostRepository implements CmsInterface
 
     public function childAttr()
     {
-        $posts = new Post();
+        $posts = new Gallery();
         return $posts->childAttr;
     }
 
@@ -54,8 +54,7 @@ class PostRepository implements CmsInterface
         $saverObj = new saveFile($request->file("image")); 
         $path = $saverObj->store('public/images/blog');
         $title = $request->title;
-        return Post::create([
-            'title' => $title,
+        return Gallery::create([
             'image' => $path,
         ]);
     }
@@ -70,11 +69,9 @@ class PostRepository implements CmsInterface
     {
         $saverObj = new saveFile($request->file("child-image")); 
         $childPath = $saverObj->store('public/images/blog');
-        $description = $request->description;
 
-        $post = Post::find($id);
-        $post->PostItems()->create([
-            'description' => $description,
+        $post = Gallery::find($id);
+        $post->GalleryItems()->create([
             'image' => $childPath,
         ]);
     
@@ -88,7 +85,7 @@ class PostRepository implements CmsInterface
      */
     public function find($id)
     {
-        return Post::find($id);
+        return Gallery::find($id);
     }
 
     /**
@@ -100,7 +97,7 @@ class PostRepository implements CmsInterface
     public function update(Request $request, $id)
     {
         $title = $request->title;
-        $upPost = Post::find($id);
+        $upPost = Gallery::find($id);
         $upPost->update(['title' => $title]);
         if($request->hasFile('image') === true) {
             $saverObj = new saveFile($request->file("image")); 
@@ -119,11 +116,10 @@ class PostRepository implements CmsInterface
     {
         $this->indices = $this->getIndices($request);
         foreach ( $this->indices  as  $childId ) {
-            Post::find($id)->PostItems()->find($childId)->update(['description' => $request['description-'.$childId]]);
             if($request->hasFile('image-'.$childId) === true) {
                 $saverObj = new saveFile($request->file("image-".$childId)); 
                 $path = $saverObj->store('public/images/blog');
-                Post::find($id)->PostItems()->find($childId)->update(['image' => $path]);
+                Gallery::find($id)->GalleryItems()->find($childId)->update(['image' => $path]);
             }
         }
     }
@@ -152,7 +148,7 @@ class PostRepository implements CmsInterface
             foreach ($request->upload as $image) {
                 $saverObj = new saveFile($image); 
                 $childPath = $saverObj->store('public/images/blog');
-                Post::find($id)->PostItems()->create([
+                Gallery::find($id)->PostItems()->create([
                     'image' => $childPath,
                 ]);
             }
@@ -168,7 +164,7 @@ class PostRepository implements CmsInterface
      */
     public function destroy($id)
     {
-        Post::destroy($id);
+        Gallery::destroy($id);
     }
 
 }

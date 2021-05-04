@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\CmsInterface;
-use App\Repositories\PostRepository;
+use App\Repositories\GalleryRepository;
+use App\Repositories\GalleryInterface;
 
-class PostServiceProvider extends ServiceProvider
+class GalleryServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -15,7 +15,7 @@ class PostServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CmsInterface::class, PostRepository::class);
+        $this->app->bind(GalleryInterface::class, GalleryRepository::class);
     }
 
     /**

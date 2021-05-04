@@ -23,6 +23,13 @@ class PostItem extends Model
             }
         });
 
+        static::deleting(function($item) {
+            $deletePath = '/images/'.$item->getOriginal('image');
+            $del = Storage::disk('public')->delete($deletePath);
+            return true;
+        });
+
+
     }
     /**
      * get filter array of attributes

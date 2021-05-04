@@ -24,6 +24,17 @@ class Post extends Model
             }
         });
 
+        static::deleting(function($item) {
+            $deletePath = '/images/'.$item->getOriginal('image');
+            $del = Storage::disk('public')->delete($deletePath);
+            foreach ( $item->PostItems()->get()  as $child ) {
+                $deletePath = '/images/'.$child->image;
+                $del = Storage::disk('public')->delete($deletePath);
+                  
+            }
+            return true;
+        });
+
     }
     
 

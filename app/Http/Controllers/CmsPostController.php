@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Classes\saveFile;
 use App\Http\Requests\StorePostRequest;
-use Illuminate\Support\Facades\Storage;
-use App\Repositories\PostInterface;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Repositories\CmsInterface;
 
 class CmsPostController extends Controller
 {
     //A protected variable to hold the Repository
     protected $post;
 
-    public function __construct(PostInterface $post){
+    public function __construct(CmsInterface $post){
         $this->post = $post;
     }
     /**

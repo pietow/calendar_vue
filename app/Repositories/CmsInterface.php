@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Http\Request;
 
-interface PostInterface {
+interface CmsInterface {
     public function index();
     public function attr();
     public function childAttr();
