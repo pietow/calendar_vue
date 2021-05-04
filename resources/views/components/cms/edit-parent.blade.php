@@ -3,6 +3,15 @@
 </div>
 
 
+@if ($errors->any())
+<div class="pt-5">
+    <ul class="text-red-600">
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 {{-- <div x-data="imageViewer()" x-init="imageUrl = '{{asset("../storage/images/".$model->image)}}'"> --}}
 {{--   <div class="mb-2"> --}}
 {{--     <!-- Show the image --> --}}

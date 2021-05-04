@@ -41,4 +41,15 @@ class Post extends Model
     {
         return $this->fillable;
     }
+
+    /**
+     * get fillable attributes of related
+     *
+     * @return array
+     */
+    public function getChildAttrAttribute()
+    {
+        return $this->postItems()->getRelated()->attr; /* see https://laravel.com/api/8.x/Illuminate/Database/Eloquent/Relations/HasMany.html*/
+
+    }
 }

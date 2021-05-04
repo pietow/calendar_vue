@@ -12,7 +12,43 @@ class PostRepository implements PostInterface
 {
     private $indices;
 
+    /**
+     * Listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return Post::all();
+    }
 
+    /**
+     * Attributes for the form for creating a new resource.
+     *
+     */
+    public function attr()
+    {
+        $posts = new Post();
+        return $posts->attr;
+    }
+
+    /**
+     * Attributes for the form for creating a new resource.
+     *
+     */
+
+    public function childAttr()
+    {
+        $posts = new Post();
+        return $posts->childAttr;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     */
     public function store(Request $request)
     {
         $saverObj = new saveFile($request->file("image")); 
@@ -24,6 +60,12 @@ class PostRepository implements PostInterface
         ]);
     }
 
+    /**
+     * Stores children of specific resource in storage
+     *
+     * @param Illuminate\Http\Request $request
+     * @param int $id
+     */
     public function storeChild(Request $request, $id)
     {
         $saverObj = new saveFile($request->file("child-image")); 
@@ -38,6 +80,17 @@ class PostRepository implements PostInterface
     
         
     }
+
+    /**
+     * Show the specified resource for editing form
+     *
+     * @param  int  $id
+     */
+    public function find($id)
+    {
+        return Post::find($id);
+    }
+
     /**
      * updates Post model
      *
@@ -105,6 +158,17 @@ class PostRepository implements PostInterface
             }
         }
         
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        Post::destroy($id);
     }
 
 }

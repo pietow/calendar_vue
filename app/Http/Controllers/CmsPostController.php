@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
 use Illuminate\Support\Str;
-use App\Models\PostItem;
 use App\Classes\saveFile;
 use App\Http\Requests\StorePostRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\PostInterface;
+use App\Http\Requests\UpdatePostRequest;
 
 class CmsPostController extends Controller
 {
@@ -26,7 +25,7 @@ class CmsPostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = $this->post->index();
         return view('dashboard.cms-index-posts')->with("posts", $posts);
     }
 
@@ -37,11 +36,8 @@ class CmsPostController extends Controller
      */
     public function create()
     {
-        $posts = new Post();
-        $postItems = new PostItem();
-        $attr = $posts->attr;
-
-        $childAttr = $postItems->attr;
+        $attr = $this->post->Attr();
+        $childAttr = $this->post->ChildAttr();
 
         return view('dashboard.cms-create-posts', compact("attr", "childAttr"));
     }
@@ -81,10 +77,10 @@ class CmsPostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::findOrFail($id);
-        $postItems = new PostItem();
-        $attr = $post->attr;
-        $childAttr = $postItems->attr;
+        $post = $this->post->find($id);
+        $attr = $this->post->attr();
+        $childAttr = $this->post->childAttr();
+
         return view('dashboard.cms-edit-posts', compact("attr", "childAttr", "post"));
     }
 
@@ -95,7 +91,7 @@ class CmsPostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $id)
     {
         $this->post->update($request, $id);
         $this->post->updateChildren($request, $id);
@@ -113,7 +109,7 @@ class CmsPostController extends Controller
      */
     public function destroy($id)
     {
-        Post::destroy($id);
+        $this->post->destroy($id);
         return redirect()->route('posts.index');
     }
 }
