@@ -13,6 +13,31 @@ class PostRepository implements PostInterface
     private $indices;
 
 
+    public function store(Request $request)
+    {
+        $saverObj = new saveFile($request->file("image")); 
+        $path = $saverObj->store('public/images/blog');
+        $title = $request->title;
+        return Post::create([
+            'title' => $title,
+            'image' => $path,
+        ]);
+    }
+
+    public function storeChild(Request $request, $id)
+    {
+        $saverObj = new saveFile($request->file("child-image")); 
+        $childPath = $saverObj->store('public/images/blog');
+        $description = $request->description;
+
+        $post = Post::find($id);
+        $post->PostItems()->create([
+            'description' => $description,
+            'image' => $childPath,
+        ]);
+    
+        
+    }
     /**
      * updates Post model
      *

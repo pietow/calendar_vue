@@ -55,36 +55,9 @@ class CmsPostController extends Controller
     public function store(StorePostRequest $request)
     {
 
-        $saverObj = new saveFile($request->file("image")); 
-        $path = $saverObj->store('public/images/blog');
-        $title = $request->title;
-
-        $saverObj = new saveFile($request->file("child-image")); 
-        $childPath = $saverObj->store('public/images/blog');
-        $description = $request->description;
-
-
-        $newPost = Post::create([
-            'title' => $title,
-            'image' => $path,
-        ]);
-        $newPostItem = PostItem::create([
-            'post_id' => $newPost->id,
-            'description' => $description,
-            'image' => $childPath,
-        ]);
-
-        
-        if($request->hasFile('upload') === true) {
-            foreach ($request->upload as $image) {
-                $saverObj = new saveFile($image); 
-                $childPath = $saverObj->store('public/images/blog');
-                $newPostItem = PostItem::create([
-                    'post_id' => $newPost->id,
-                    'image' => $childPath,
-                ]);
-            }
-        }
+        $id = $this->post->store($request)->id;
+        $this->post->storeChild($request, $id);
+        $this->post->multiUpload($request, $id);
 
         return redirect()->route('posts.create')->with('success', 'File has successfully uploaded!');
     }
