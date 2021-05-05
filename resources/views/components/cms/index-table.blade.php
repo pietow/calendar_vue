@@ -33,15 +33,19 @@
                         class="pl-2 text-blue-250 text-sm "
                     >
                         <div class="flex h-7 pr-5">
+                            @if($editName == 'None'  )
+                            @else
                             <img
                              class="ml-auto h-5"
                              src="{{asset('storage/images/assets/change.svg')}}"
                              />
                             <a
-                             href="{{ route('posts.edit', $item->id) }}"
+                             href="{{ route($editName, $item->id) }}"
                              class="pl-1.5 pr-10"
                              >Change</a
                              >
+                            @endif
+
                             <img
                                 class="h-6 pr-2"
                                 src="{{asset('storage/images/assets/delete.png')}}"

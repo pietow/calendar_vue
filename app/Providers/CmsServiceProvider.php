@@ -9,7 +9,7 @@ use App\Http\Controllers\CmsPostController;
 use App\Http\Controllers\CmsGalleryController;
 use App\Repositories\GalleryRepository;
 
-class PostServiceProvider extends ServiceProvider
+class CmsServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

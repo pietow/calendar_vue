@@ -12,18 +12,6 @@
     </ul>
 </div>
 @endif
-{{-- <div x-data="imageViewer()" x-init="imageUrl = '{{asset("../storage/images/".$model->image)}}'"> --}}
-{{--   <div class="mb-2"> --}}
-{{--     <!-- Show the image --> --}}
-{{--       <img :src="imageUrl" --}} 
-{{--            class="object-cover rounded border border-gray-200" --}} 
-{{--            style="width: 100px; height: 100px;" --}}
-{{--       > --}}
-{{--     <!-- Image file selector --> --}}
-{{--     <input class="mt-2" type="file" @change="fileChosen"> --}}
-    
-{{--   </div> --}}
-{{-- </div> --}}
 
 
 <form action="{{ route($routeName, $model->id) }}" method="post" enctype="multipart/form-data">
@@ -41,10 +29,6 @@
                 >{{$a}}:</label
             >
         @if($a == 'image'  )
-            {{-- <div class="pr-5"> --}}
-            {{--     <img class="h-7 w-9 object-cover rounded-full" src="{{asset('../storage/images/'.$model->image)}}" alt=""> --}}
-            {{-- </div> --}}
-            {{-- <input type="file" name="{{$a}}" id="{{$a}}"> --}}
             <x-cms.image-viewer :path="$model->image" :name="$a">
             </x-cms.image-viewer>
         @else

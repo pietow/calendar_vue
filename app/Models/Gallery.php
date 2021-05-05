@@ -53,6 +53,6 @@ class Gallery extends Model
 
     public function getChildAttrAttribute()
     {
-        return $this->postItems()->getRelated()->attr; 
+        return $this->GalleryItems()->getRelated()->attr; 
     }
 }
