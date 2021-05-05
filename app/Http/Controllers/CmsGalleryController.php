@@ -17,8 +17,8 @@ class CmsGalleryController extends Controller
     //A protected variable to hold the Repository
     protected $post;
 
-    public function __construct(CmsInterface $post){
-        $this->post = $post;
+    public function __construct(CmsInterface $gallery){
+        $this->gallery = $gallery;
     }
     /**
      * Display a listing of the resource.
@@ -27,8 +27,8 @@ class CmsGalleryController extends Controller
      */
     public function index()
     {
-        $posts = $this->post->index();
-        return view('dashboard.cms-index-galleries')->with("galleries", $posts);
+        $galleries = $this->gallery->index();
+        return view('dashboard.cms-index-galleries', compact("galleries"));
     }
 
     /**
@@ -38,8 +38,8 @@ class CmsGalleryController extends Controller
      */
     public function create()
     {
-        $attr = $this->post->Attr();
-        $childAttr = $this->post->ChildAttr();
+        $attr = $this->gallery->Attr();
+        $childAttr = $this->gallery->ChildAttr();
 
         return view('dashboard.cms-create-galleries', compact("attr", "childAttr"));
     }
@@ -53,9 +53,9 @@ class CmsGalleryController extends Controller
     public function store(StoreGalleryRequest $request)
     {
 
-        $id = $this->post->store($request)->id;
-        $this->post->storeChild($request, $id);
-        $this->post->multiUpload($request, $id);
+        $id = $this->gallery->store($request)->id;
+        $this->gallery->storeChild($request, $id);
+        $this->gallery->multiUpload($request, $id);
 
         return redirect()->route('galleries.create')->with('success', 'File has successfully uploaded!');
     }
@@ -79,9 +79,9 @@ class CmsGalleryController extends Controller
      */
     public function edit($id)
     {
-        $gallery = $this->post->find($id);
-        $attr = $this->post->attr();
-        $childAttr = $this->post->childAttr();
+        $gallery = $this->gallery->find($id);
+        $attr = $this->gallery->attr();
+        $childAttr = $this->gallery->childAttr();
 
         return view('dashboard.cms-edit-galleries', compact("attr", "childAttr", "gallery"));
     }
@@ -95,9 +95,9 @@ class CmsGalleryController extends Controller
      */
     public function update(UpdateGalleryRequest $request, $id)
     {
-        $this->post->update($request, $id);
-        $this->post->updateChildren($request, $id);
-        $this->post->multiUpload($request, $id);
+        $this->gallery->update($request, $id);
+        $this->gallery->updateChildren($request, $id);
+        $this->gallery->multiUpload($request, $id);
 
         return redirect()->route('galleries.edit', $id)->with('success', 'File has successfully uploaded!');
         
@@ -111,7 +111,7 @@ class CmsGalleryController extends Controller
      */
     public function destroy($id)
     {
-        $this->post->destroy($id);
+        $this->gallery->destroy($id);
         return redirect()->route('galleries.index');
     }
 }
