@@ -15,11 +15,11 @@ use App\Models\Gallery;
 |
 */
 
-Route::get('/', function () {
+Route::get('/admin', function () {
     return view('dashboard.welcome');
 });
 
-Route::get('/main', function () {
+Route::get('/', function () {
     return view('main');
 })->name('main');
 Route::get('/about', function () {
@@ -40,12 +40,6 @@ Route::get('/impressum', function () {
     return view('impressum');
 })->name('impressum');
 
-
-/* Route::get('/test', function () { */
-/*     dd(User::first()->events); */
-/*     return User::all(); */
-/* }); */
-
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 })->middleware(['auth'])->name('dashboard');
@@ -58,13 +52,9 @@ Route::get('/cms', function () {
     return view('dashboard.cms');
 })->middleware(['auth'])->name('cms.blog');
 
-/* Route::get('/cms/posts', 'App\Http\Controllers\CmsPostController@index')->middleware(['auth'])->name('cms.blog'); */
-/* Route::match(['delete'], '/cms/posts/{id}', 'App\Http\Controllers\CmsPostController@destroy')->middleware(['auth'])->name('cms.blog.delete'); */
-
 Route::middleware('auth')->group(function () {
     Route::Resource('cms/posts', 'App\Http\Controllers\CmsPostController');
 });
-/* Route::match(['get', 'post'], 'cms/posts', "App\Http\Controllers\CmsPostController@store")->name('post.store'); */
 Route::middleware('auth')->group(function () {
     Route::Resource('cms/postItems', 'App\Http\Controllers\CmsPostItemController');
 });
