@@ -15,7 +15,7 @@ class GalleryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(GalleryInterface::class, GalleryRepository::class);
+        /* $this->app->bind(GalleryInterface::class, GalleryRepository::class); */
     }
 
     /**

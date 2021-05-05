@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\CmsInterface;
 use App\Repositories\PostRepository;
+use App\Http\Controllers\CmsPostController;
+use App\Http\Controllers\CmsGalleryController;
+use App\Repositories\GalleryRepository;
 
 class PostServiceProvider extends ServiceProvider
 {
@@ -15,7 +18,17 @@ class PostServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CmsInterface::class, PostRepository::class);
+        /* $this->app->bind(CmsInterface::class, PostRepository::class); */
+        $this->app->when(CmsPostController::class)
+          ->needs(CmsInterface::class)
+          ->give(function () {
+              return new PostRepository;
+          });
+        $this->app->when(CmsGalleryController::class)
+          ->needs(CmsInterface::class)
+          ->give(function () {
+              return new GalleryRepository;
+          });
     }
 
     /**

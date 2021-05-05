@@ -6,9 +6,9 @@ use App\Classes\saveFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Gallery;
-use App\Repositories\GalleryInterface;
+use App\Repositories\CmsInterface;
 
-class GalleryRepository implements GalleryInterface
+class GalleryRepository implements CmsInterface
 {
     private $indices;
 
@@ -55,6 +55,7 @@ class GalleryRepository implements GalleryInterface
         $path = $saverObj->store('public/images/blog');
         $title = $request->title;
         return Gallery::create([
+            'title' => $title,
             'image' => $path,
         ]);
     }
@@ -148,7 +149,7 @@ class GalleryRepository implements GalleryInterface
             foreach ($request->upload as $image) {
                 $saverObj = new saveFile($image); 
                 $childPath = $saverObj->store('public/images/blog');
-                Gallery::find($id)->PostItems()->create([
+                Gallery::find($id)->GalleryItems()->create([
                     'image' => $childPath,
                 ]);
             }

@@ -3,13 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Gallery;
-use App\Models\GalleryItem;
-use App\Http\Requests\StoreGalleryRequest;
+use Illuminate\Support\Str;
 use App\Classes\saveFile;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Repositories\CmsInterface;
+use App\Http\Requests\StoreGalleryRequest;
+use App\Http\Requests\UpdateGalleryRequest;
 
 class CmsGalleryController extends Controller
 {
+    //A protected variable to hold the Repository
+    protected $post;
+
+    public function __construct(CmsInterface $post){
+        $this->post = $post;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +27,8 @@ class CmsGalleryController extends Controller
      */
     public function index()
     {
-        $galleries = Gallery::all();
-        return view('dashboard.cms-index-galleries', compact('galleries'));
+        $posts = $this->post->index();
+        return view('dashboard.cms-index-galleries')->with("galleries", $posts);
     }
 
     /**
@@ -28,11 +38,9 @@ class CmsGalleryController extends Controller
      */
     public function create()
     {
-        $galleries = new Gallery();
-        $galleryItems = new GalleryItem();
-        $attr = $galleries->attr;
-        $childAttr = $galleryItems->attr;
-        
+        $attr = $this->post->Attr();
+        $childAttr = $this->post->ChildAttr();
+
         return view('dashboard.cms-create-galleries', compact("attr", "childAttr"));
     }
 
@@ -44,36 +52,12 @@ class CmsGalleryController extends Controller
      */
     public function store(StoreGalleryRequest $request)
     {
-        $saverObj = new saveFile($request->file("image")); 
-        $path = $saverObj->store('public/images/blog');
-        $title = $request->title;
 
-        $saverObj = new saveFile($request->file("child-image")); 
-        $childPath = $saverObj->store('public/images/blog');
+        $id = $this->post->store($request)->id;
+        $this->post->storeChild($request, $id);
+        $this->post->multiUpload($request, $id);
 
-        $newGallery = Gallery::create([
-            'title' => $title,
-            'image' => $path,
-        ]);
-        $newGalleryItem = GalleryItem::create([
-            'gallery_id' => $newGallery->id,
-            'image' => $childPath,
-        ]);
-
-
-        if($request->hasFile('upload') === true) {
-            foreach ($request->upload as $image) {
-                $saverObj = new saveFile($image); 
-                $childPath = $saverObj->store('public/images/blog');
-                $newGalleryItem = GalleryItem::create([
-                    'gallery_id' => $newGallery->id,
-                    'image' => $childPath,
-                ]);
-            }
-        }
-
-        return redirect()->route('posts.create')->with('success', 'File has successfully uploaded!');
-
+        return redirect()->route('galleries.create')->with('success', 'File has successfully uploaded!');
     }
 
     /**
@@ -95,7 +79,11 @@ class CmsGalleryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $gallery = $this->post->find($id);
+        $attr = $this->post->attr();
+        $childAttr = $this->post->childAttr();
+
+        return view('dashboard.cms-edit-galleries', compact("attr", "childAttr", "gallery"));
     }
 
     /**
@@ -105,9 +93,14 @@ class CmsGalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGalleryRequest $request, $id)
     {
-        //
+        $this->post->update($request, $id);
+        $this->post->updateChildren($request, $id);
+        $this->post->multiUpload($request, $id);
+
+        return redirect()->route('galleries.edit', $id)->with('success', 'File has successfully uploaded!');
+        
     }
 
     /**
@@ -118,7 +111,7 @@ class CmsGalleryController extends Controller
      */
     public function destroy($id)
     {
-        Gallery::destroy($id);
+        $this->post->destroy($id);
         return redirect()->route('galleries.index');
     }
 }
