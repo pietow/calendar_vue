@@ -15,6 +15,7 @@ use App\Models\Gallery;
 |
 */
 
+
 Route::get('/admin', function () {
     return view('dashboard.welcome');
 });
